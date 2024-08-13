@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "format": "prettier src --write",
     "test": "ng test"
   },
   "private": true,
@@ -18,9 +19,15 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "@taiga-ui/cdk": "^4.0.1",
+    "@taiga-ui/core": "^4.0.1",
+    "@taiga-ui/event-plugins": "^4.0.2",
+    "@taiga-ui/icons": "^4.0.1",
+    "@taiga-ui/kit": "^4.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "{cdk,core,kit,icons}": "link:@taiga-ui/{cdk,core,kit,icons}"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.4",
