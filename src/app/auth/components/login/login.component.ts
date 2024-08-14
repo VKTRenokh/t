@@ -50,7 +50,7 @@ export class LoginComponent {
 
   public onSubmit() {
     const data = this.loginForm.getRawValue();
-    this.auth.signup(data.email, data.password).subscribe({
+    this.auth.login(data.email, data.password).subscribe({
       error: a => console.log('a', a),
       next: b => console.log('b', b),
     });

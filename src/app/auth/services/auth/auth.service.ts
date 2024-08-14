@@ -13,4 +13,11 @@ export class AuthService {
       password,
     });
   }
+
+  public login(email: string, password: string) {
+    return this.http.post('/api/signin', {
+      email,
+      password,
+    });
+  }
 }
