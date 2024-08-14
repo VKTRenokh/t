@@ -1,5 +1,9 @@
 <div class="tui-container login-form-wrapper">
-  <form [formGroup]="loginForm" class="tui-form">
+  <form
+    [formGroup]="loginForm"
+    class="tui-form"
+    (ngSubmit)="onSubmit()"
+  >
     <h3
       class="tui-form__header tui-form__header_margin-top_none"
     >
@@ -43,6 +47,7 @@
             tuiButton
             type="submit"
             class="tui-form__button"
+            [disabled]="loginForm.invalid"
           >
             Submit
           </button>
