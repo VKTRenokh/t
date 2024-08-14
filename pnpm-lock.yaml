@@ -56,6 +56,9 @@ importers:
       '@taiga-ui/kit':
         specifier: ^4.0.1
         version: 4.0.1(bwvckqtktx5fxgsh4asonyigq4)
+      '@taiga-ui/styles':
+        specifier: ^4.1.0
+        version: 4.1.0(@taiga-ui/cdk@4.0.1(55iuanho665y5kozgrsrofrvba))(@taiga-ui/core@4.0.1(zr7opyxdxdoruyafmnl3p54vs4))(tslib@2.6.3)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.1
@@ -1681,6 +1684,13 @@ packages:
     peerDependencies:
       '@angular/core': '>=16.0.0'
       '@angular/platform-browser': '>=16.0.0'
+
+  '@taiga-ui/styles@4.1.0':
+    resolution: {integrity: sha512-nNL7lnHjvBqiMtaAPTrr3Ba+nXMH9hrGQtjb/n1r/uetyjpCgdLWwvoxUg8gcP3SqW5zcH++iaOkA+QK0RHwOQ==}
+    peerDependencies:
+      '@taiga-ui/cdk': ^4.1.0
+      '@taiga-ui/core': ^4.1.0
+      tslib: ^2.6.3
 
   '@ts-morph/common@0.24.0':
     resolution: {integrity: sha512-c1xMmNHWpNselmpIqursHeOHHBTIsJLbB+NuovbTTRCNiTLEr/U9dbJ8qy0jd/O2x5pc3seWuOUN5R2IoOTp8A==}
@@ -6533,6 +6543,12 @@ snapshots:
     dependencies:
       '@angular/core': 18.1.4(rxjs@7.8.1)(zone.js@0.14.10)
       '@angular/platform-browser': 18.1.4(@angular/animations@18.1.4(@angular/core@18.1.4(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.1.4(@angular/core@18.1.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.1.4(rxjs@7.8.1)(zone.js@0.14.10))
+      tslib: 2.6.3
+
+  '@taiga-ui/styles@4.1.0(@taiga-ui/cdk@4.0.1(55iuanho665y5kozgrsrofrvba))(@taiga-ui/core@4.0.1(zr7opyxdxdoruyafmnl3p54vs4))(tslib@2.6.3)':
+    dependencies:
+      '@taiga-ui/cdk': 4.0.1(55iuanho665y5kozgrsrofrvba)
+      '@taiga-ui/core': 4.0.1(zr7opyxdxdoruyafmnl3p54vs4)
       tslib: 2.6.3
 
   '@ts-morph/common@0.24.0':
