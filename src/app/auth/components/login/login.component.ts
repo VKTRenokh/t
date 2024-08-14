@@ -31,6 +31,9 @@ export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
 
   public loginForm = this.formBuilder.group({
-    email: this.formBuilder.control('', [Validators.email]),
+    email: this.formBuilder.control('', [
+      Validators.required,
+      Validators.email,
+    ]),
   });
 }
