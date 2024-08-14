@@ -13,6 +13,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 const minPasswordLength = 8;
 
@@ -34,6 +35,7 @@ const minPasswordLength = 8;
 export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
+  private auth = inject(AuthService);
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
@@ -47,6 +49,10 @@ export class LoginComponent {
   });
 
   public onSubmit() {
-    this.router.navigate(['/']);
+    const data = this.loginForm.getRawValue();
+    this.auth.signup(data.email, data.password).subscribe({
+      error: a => console.log('a', a),
+      next: b => console.log('b', b),
+    });
   }
 }
