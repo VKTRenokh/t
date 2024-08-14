@@ -21,7 +21,31 @@
           <tui-error
             formControlName="email"
             [error]="[] | tuiFieldError | async"
-          ></tui-error>
+          />
+        </div>
+        <div class="tui-form__row">
+          <tui-input formControlName="password">
+            Password
+            <input
+              type="text"
+              formControlName="password"
+              tuiTextfieldLegacy
+            />
+            <span class="tui-required"></span>
+          </tui-input>
+          <tui-error
+            formControlName="password"
+            [error]="[] | tuiFieldError | async"
+          />
+        </div>
+        <div class="tui-form__row">
+          <button
+            tuiButton
+            type="submit"
+            class="tui-form__button"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

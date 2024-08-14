@@ -8,10 +8,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiError } from '@taiga-ui/core';
+import { TuiButton, TuiError } from '@taiga-ui/core';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
+
+const minPasswordLength = 8;
 
 @Component({
   selector: 'tra-login',
@@ -21,6 +23,7 @@ import { AsyncPipe } from '@angular/common';
     TuiInputModule,
     TuiError,
     TuiFieldErrorPipe,
+    TuiButton,
     AsyncPipe,
   ],
   templateUrl: './login.component.html',
@@ -34,6 +37,10 @@ export class LoginComponent {
     email: this.formBuilder.control('', [
       Validators.required,
       Validators.email,
+    ]),
+    password: this.formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(minPasswordLength),
     ]),
   });
 }
