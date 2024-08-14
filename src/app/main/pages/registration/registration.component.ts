@@ -25,6 +25,8 @@ import {
   TuiInputModule,
   TuiInputPasswordModule,
 } from '@taiga-ui/legacy';
+import { isPasswordsMatch } from '../../../validators/password/isPasswordsMatch.validators';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
 
 @Component({
   selector: 'tra-registration',
@@ -42,10 +44,18 @@ import {
     TuiFieldErrorPipe,
     AsyncPipe,
   ],
-
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        mustMatch: 'Password doesnt much',
+        email: 'Email is invalid',
+      },
+    },
+  ],
 })
 export class RegistrationComponent {
   private formGroup = inject(FormBuilder);
@@ -57,9 +67,23 @@ export class RegistrationComponent {
   ];
 
   protected registrationForm =
-    this.formGroup.nonNullable.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      passwordRepeat: ['', [Validators.required]],
-    });
+    this.formGroup.nonNullable.group(
+      {
+        email: [
+          '',
+          [Validators.required, Validators.email],
+        ],
+        password: [
+          '',
+          [Validators.required, Validators.minLength(8)],
+        ],
+        passwordRepeat: ['', [Validators.required]],
+      },
+      {
+        validators: isPasswordsMatch(
+          'password',
+          'passwordRepeat',
+        ),
+      },
+    );
 }
