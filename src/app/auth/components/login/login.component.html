@@ -28,7 +28,7 @@
           />
         </div>
         <div class="tui-form__row">
-          <tui-input formControlName="password">
+          <tui-input-password formControlName="password">
             Password
             <input
               type="text"
@@ -36,7 +36,7 @@
               tuiTextfieldLegacy
             />
             <span class="tui-required"></span>
-          </tui-input>
+          </tui-input-password>
           <tui-error
             formControlName="password"
             [error]="[] | tuiFieldError | async"

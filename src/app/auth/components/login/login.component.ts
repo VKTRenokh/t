@@ -9,7 +9,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiButton, TuiError } from '@taiga-ui/core';
-import { TuiInputModule } from '@taiga-ui/legacy';
+import {
+  TuiInputModule,
+  TuiInputPasswordModule,
+} from '@taiga-ui/legacy';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -26,6 +29,7 @@ const minPasswordLength = 8;
     TuiError,
     TuiFieldErrorPipe,
     TuiButton,
+    TuiInputPasswordModule,
     AsyncPipe,
   ],
   templateUrl: './login.component.html',
