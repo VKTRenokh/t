@@ -11,11 +11,8 @@ export const guestGuard: CanActivateFn = () => {
   return inject<Store<AppState>>(Store)
     .select(selectIsAuthorized)
     .pipe(
-      map(isAuthroized => {
-        if (isAuthroized) {
-          return router.createUrlTree(['/']);
-        }
-        return true;
-      }),
+      map(isAuthroized =>
+        isAuthroized ? router.createUrlTree(['/']) : true,
+      ),
     );
 };
