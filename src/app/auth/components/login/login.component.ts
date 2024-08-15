@@ -11,6 +11,7 @@ import {
 import {
   TuiButton,
   TuiError,
+  TuiLink,
   TuiLoader,
 } from '@taiga-ui/core';
 import {
@@ -30,7 +31,7 @@ import {
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { filter, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 const minPasswordLength = 8;
 
@@ -45,6 +46,8 @@ const minPasswordLength = 8;
     TuiButton,
     TuiInputPasswordModule,
     TuiLoader,
+    TuiLink,
+    RouterLink,
     AsyncPipe,
   ],
   templateUrl: './login.component.html',

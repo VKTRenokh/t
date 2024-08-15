@@ -45,20 +45,23 @@
         </div>
         <div class="tui-form__row">
           <tui-error [error]="error$ | async" />
-          <tui-loader
-            class="loader"
-            [overlay]="true"
-            [showLoader]="isLoading ?? false"
-          >
-            <button
-              tuiButton
-              type="submit"
-              class="tui-form__button"
-              [disabled]="loginForm.invalid"
+          <div class="tui-form__buttons">
+            <tui-loader
+              class="tui-form__loader"
+              [overlay]="true"
+              [showLoader]="isLoading ?? false"
             >
-              Submit
-            </button>
-          </tui-loader>
+              <button
+                tuiButton
+                type="submit"
+                class="tui-form__button"
+                [disabled]="loginForm.invalid"
+              >
+                Submit
+              </button>
+            </tui-loader>
+            <a tuiLink routerLink="/signup">Signup</a>
+          </div>
         </div>
       </div>
     </div>
