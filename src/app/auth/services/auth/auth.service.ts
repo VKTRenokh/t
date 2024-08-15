@@ -9,11 +9,6 @@ import { Login } from '../../models/login.model';
 export class AuthService {
   private http = inject(HttpClient);
 
-  // NOTE: for testing purpose only
-  constructor() {
-    this.signup('vitya@email.com', '12345678').subscribe();
-  }
-
   public signup(email: string, password: string) {
     return this.http.post('/api/signup', {
       email,
@@ -28,9 +23,7 @@ export class AuthService {
     });
   }
 
-  public profile(token: string) {
-    return this.http.get<Profile>('/api/profile', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  public profile() {
+    return this.http.get<Profile>('/api/profile');
   }
 }

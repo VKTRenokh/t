@@ -27,7 +27,9 @@ export class AuthEffects {
         this.authService
           .login(data.email, data.password)
           .pipe(
-            tap(response => this.saveToken(response.token)),
+            tap(response => {
+              this.saveToken(response.token);
+            }),
             map(response =>
               AuthActions.loginSuccess(response),
             ),

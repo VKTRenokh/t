@@ -6,13 +6,12 @@ import { tokenKey } from '../../../shared/constants/token-key.constant';
 export const authInterceptor: HttpInterceptorFn = (
   req,
   next,
-) => {
-  const newReq = req.clone();
-  const token = inject(StorageService).get(tokenKey);
-
-  if (token) {
-    newReq.headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  return next(newReq);
-};
+) =>
+  next(
+    req.clone({
+      headers: req.headers.append(
+        'Authorization',
+        `Bearer ${inject(StorageService).get(tokenKey)}`,
+      ),
+    }),
+  );
