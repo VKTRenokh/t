@@ -8,7 +8,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiButton, TuiError } from '@taiga-ui/core';
+import {
+  TuiButton,
+  TuiError,
+  TuiLoader,
+} from '@taiga-ui/core';
 import {
   TuiInputModule,
   TuiInputPasswordModule,
@@ -32,6 +36,7 @@ const minPasswordLength = 8;
     TuiFieldErrorPipe,
     TuiButton,
     TuiInputPasswordModule,
+    TuiLoader,
     AsyncPipe,
   ],
   templateUrl: './login.component.html',
@@ -41,7 +46,7 @@ const minPasswordLength = 8;
 export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
-  public isLoading = this.store.select(selectIsLoading);
+  public isLoading$ = this.store.select(selectIsLoading);
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
