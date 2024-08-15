@@ -55,4 +55,8 @@
       </div>
     </div>
   </form>
+
+  @if (isLoading | async) {
+    <p>loading</p>
+  }
 </div>
