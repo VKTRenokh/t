@@ -21,4 +21,8 @@ export class StorageService {
   get(key: string) {
     return this.storage.getItem(key);
   }
+
+  set(key: string, value: string) {
+    this.storage.setItem(key, value);
+  }
 }
