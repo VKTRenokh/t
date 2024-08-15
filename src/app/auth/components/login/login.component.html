@@ -44,6 +44,7 @@
           />
         </div>
         <div class="tui-form__row">
+          <tui-error [error]="error$ | async" />
           <tui-loader
             class="loader"
             [overlay]="true"

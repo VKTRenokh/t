@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from '../actions/auth.action';
+import { ApiError } from '../../shared/models/api-error.model';
 
 export interface AuthState {
-  // FIX: fix this
-  error?: unknown;
+  error?: ApiError;
   loading: boolean;
 }
 
@@ -18,5 +18,10 @@ export const authReducer = createReducer(
   on(AuthActions.loginSuccess, state => ({
     ...state,
     loading: false,
+  })),
+  on(AuthActions.loginFailure, (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.error,
   })),
 );

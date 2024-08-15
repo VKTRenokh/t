@@ -8,3 +8,8 @@ export const selectIsLoading = createSelector(
   selectFeature,
   auth => auth.loading,
 );
+
+export const selectError = createSelector(
+  selectFeature,
+  auth => auth.error,
+);

@@ -6,7 +6,7 @@ import {
 } from '@ngrx/effects';
 import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
-import { exhaustMap, map, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
 
@@ -27,11 +27,16 @@ export class AuthEffects {
         this.authService
           .login(data.email, data.password)
           .pipe(
-            tap(response => {
-              this.saveToken(response.token);
-            }),
+            tap(response => this.saveToken(response.token)),
             map(response =>
               AuthActions.loginSuccess(response),
+            ),
+            catchError(response =>
+              of(
+                AuthActions.loginFailure({
+                  error: response.error,
+                }),
+              ),
             ),
           ),
       ),

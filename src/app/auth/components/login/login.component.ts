@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  signal,
 } from '@angular/core';
 import {
   NonNullableFormBuilder,
@@ -22,7 +23,12 @@ import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 import { AuthActions } from '../../../state/actions/auth.action';
-import { selectIsLoading } from '../../../state/selectors/auth.selector';
+import {
+  selectError,
+  selectIsLoading,
+} from '../../../state/selectors/auth.selector';
+import { isNotNullable } from '../../../shared/utils/is-not-nullables';
+import { filter, map } from 'rxjs';
 
 const minPasswordLength = 8;
 
@@ -47,6 +53,14 @@ export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
   public isLoading$ = this.store.select(selectIsLoading);
+  public error$ = this.store.select(selectError).pipe(
+    filter(isNotNullable),
+    map(error => error.message),
+  );
+
+  constructor() {
+    this.error$.subscribe(console.log);
+  }
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
