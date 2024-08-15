@@ -8,8 +8,7 @@ import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
 import { exhaustMap, map, tap } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
-
-const tokenKey = '_authorization';
+import { tokenKey } from '../../shared/constants/token-key.constant';
 
 @Injectable()
 export class AuthEffects {
