@@ -29,6 +29,8 @@ import {
 } from '../../../state/selectors/auth.selector';
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { filter, map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 const minPasswordLength = 8;
 
@@ -52,11 +54,25 @@ const minPasswordLength = 8;
 export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
+  private router = inject(Router);
+
   public isLoading$ = this.store.select(selectIsLoading);
   public error$ = this.store.select(selectError).pipe(
     filter(isNotNullable),
     map(error => error.message),
   );
+
+  constructor() {
+    this.store
+      .select(selectIsAuthorized)
+      .pipe(
+        filter(isAuthorized => isAuthorized),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.router.navigate(['/']);
+      });
+  }
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
