@@ -18,6 +18,7 @@ import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 import { AuthActions } from '../../../state/actions/auth.action';
+import { selectIsLoading } from '../../../state/selectors/auth.selector';
 
 const minPasswordLength = 8;
 
@@ -40,7 +41,7 @@ const minPasswordLength = 8;
 export class LoginComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
-  public isLoading = this.store.select('auth', 'loading');
+  public isLoading = this.store.select(selectIsLoading);
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
