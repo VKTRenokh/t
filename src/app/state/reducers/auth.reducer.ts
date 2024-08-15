@@ -5,9 +5,13 @@ import { ApiError } from '../../shared/models/api-error.model';
 export interface AuthState {
   error?: ApiError;
   loading: boolean;
+  isAuthorized: boolean;
 }
 
-export const initialState: AuthState = { loading: false };
+export const initialState: AuthState = {
+  loading: false,
+  isAuthorized: false,
+};
 
 export const authReducer = createReducer(
   initialState,
@@ -18,6 +22,7 @@ export const authReducer = createReducer(
   on(AuthActions.loginSuccess, state => ({
     ...state,
     loading: false,
+    isAuthorized: true,
   })),
   on(AuthActions.loginFailure, (state, action) => ({
     ...state,

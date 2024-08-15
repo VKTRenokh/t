@@ -3,10 +3,18 @@ import {
   Actions,
   createEffect,
   ofType,
+  ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
 import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  exhaustMap,
+  map,
+  of,
+  tap,
+} from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
 
@@ -15,6 +23,10 @@ export class AuthEffects {
   private actions = inject(Actions);
   private authService = inject(AuthService);
   private storageService = inject(StorageService);
+
+  private getToken() {
+    return this.storageService.get(tokenKey);
+  }
 
   private saveToken(token: string) {
     this.storageService.set(tokenKey, token);
@@ -40,6 +52,19 @@ export class AuthEffects {
             ),
           ),
       ),
+    ),
+  );
+
+  public initEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(ROOT_EFFECTS_INIT),
+      exhaustMap(() => {
+        const token = this.getToken();
+        if (!token) {
+          return EMPTY;
+        }
+        return of(AuthActions.loginSuccess({ token }));
+      }),
     ),
   );
 }

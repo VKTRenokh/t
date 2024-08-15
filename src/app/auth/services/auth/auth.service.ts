@@ -9,6 +9,10 @@ import { Login } from '../../models/login.model';
 export class AuthService {
   private http = inject(HttpClient);
 
+  constructor() {
+    this.signup('ritya@email.com', '12345678').subscribe();
+  }
+
   public signup(email: string, password: string) {
     return this.http.post('/api/signup', {
       email,

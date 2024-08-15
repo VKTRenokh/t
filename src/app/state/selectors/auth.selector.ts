@@ -13,3 +13,8 @@ export const selectError = createSelector(
   selectFeature,
   auth => auth.error,
 );
+
+export const selectIsAuthorized = createSelector(
+  selectFeature,
+  auth => auth.isAuthorized,
+);

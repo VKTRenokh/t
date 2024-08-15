@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  signal,
 } from '@angular/core';
 import {
   NonNullableFormBuilder,
@@ -25,6 +24,7 @@ import { AppState } from '../../../state/app.state';
 import { AuthActions } from '../../../state/actions/auth.action';
 import {
   selectError,
+  selectIsAuthorized,
   selectIsLoading,
 } from '../../../state/selectors/auth.selector';
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
@@ -57,10 +57,6 @@ export class LoginComponent {
     filter(isNotNullable),
     map(error => error.message),
   );
-
-  constructor() {
-    this.error$.subscribe(console.log);
-  }
 
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
