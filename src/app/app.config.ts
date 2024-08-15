@@ -17,8 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore(),
-    provideEffects(),
     provideHttpClient(),
     provideStore({ auth: authReducer }),
     provideEffects(AuthEffects),
