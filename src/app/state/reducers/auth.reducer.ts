@@ -29,4 +29,8 @@ export const authReducer = createReducer(
     loading: false,
     error: action.error,
   })),
+  on(AuthActions.resetError, state => ({
+    ...state,
+    error: undefined,
+  })),
 );

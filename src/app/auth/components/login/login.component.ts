@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
 } from '@angular/core';
 import {
   NonNullableFormBuilder,
@@ -54,7 +55,7 @@ const minPasswordLength = 8;
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   private formBuilder = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
   private router = inject(Router);
@@ -92,5 +93,9 @@ export class LoginComponent {
     const data = this.loginForm.getRawValue();
 
     this.store.dispatch(AuthActions.login(data));
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch(AuthActions.resetError());
   }
 }
