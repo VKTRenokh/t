@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from '../actions/auth.action';
 
 export interface AuthState {
-  token?: string;
   // FIX: fix this
   error?: unknown;
   loading: boolean;
@@ -16,9 +15,8 @@ export const authReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(AuthActions.loginSuccess, (state, action) => ({
+  on(AuthActions.loginSuccess, state => ({
     ...state,
     loading: false,
-    token: action.token,
   })),
 );

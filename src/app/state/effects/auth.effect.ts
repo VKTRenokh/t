@@ -6,12 +6,20 @@ import {
 } from '@ngrx/effects';
 import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
-import { exhaustMap, map } from 'rxjs';
+import { exhaustMap, map, tap } from 'rxjs';
+import { StorageService } from '../../core/services/storage/storage.service';
+
+const tokenKey = '_authorization';
 
 @Injectable()
 export class AuthEffects {
   private actions = inject(Actions);
   private authService = inject(AuthService);
+  private storageService = inject(StorageService);
+
+  private saveToken(token: string) {
+    this.storageService.set(tokenKey, token);
+  }
 
   public loginEffect = createEffect(() =>
     this.actions.pipe(
@@ -20,6 +28,7 @@ export class AuthEffects {
         this.authService
           .login(data.email, data.password)
           .pipe(
+            tap(response => this.saveToken(response.token)),
             map(response =>
               AuthActions.loginSuccess(response),
             ),
