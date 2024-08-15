@@ -9,6 +9,7 @@ import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideHttpClient } from '@angular/common/http';
+import { authReducer } from './state/reducers/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideEffects(),
     provideHttpClient(),
+    provideStore({ auth: authReducer }),
   ],
 };
