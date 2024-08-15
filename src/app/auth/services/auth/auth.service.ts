@@ -9,7 +9,7 @@ import { Login } from '../../models/login.model';
 export class AuthService {
   private http = inject(HttpClient);
 
-  // TODO: for testing purpose only
+  // NOTE: for testing purpose only
   constructor() {
     this.signup('vitya@email.com', '12345678').subscribe();
   }
