@@ -1,8 +1,12 @@
-<div>
-  <form [formGroup]="registrationForm" action="">
+<div class="tui-container form-wrapper">
+  <h1>Registration</h1>
+  <form
+    [formGroup]="registrationForm"
+    (ngSubmit)="onSubmit()"
+    class="tui-form"
+  >
     @if (default | tuiEmails; as emails) {
-      <label tuiLabel>
-        Email
+      <div class="tui-space_bottom-1">
         <tui-input
           formControlName="email"
           [(ngModel)]="default"
@@ -18,11 +22,10 @@
           formControlName="email"
           [error]="[] | tuiFieldError | async"
         />
-      </label>
+      </div>
     }
 
-    <label tuiLabel>
-      Password
+    <div class="tui-space_bottom-5">
       <tui-input-password
         tuiTextfieldSize="s"
         formControlName="password"
@@ -34,10 +37,9 @@
         formControlName="password"
         [error]="[] | tuiFieldError | async"
       />
-    </label>
+    </div>
 
-    <label tuiLabel>
-      Repeat Password
+    <div class="tui-space_bottom-1">
       <tui-input-password
         tuiTextfieldSize="s"
         formControlName="passwordRepeat"
@@ -49,11 +51,11 @@
         formControlName="passwordRepeat"
         [error]="[] | tuiFieldError | async"
       />
-    </label>
+    </div>
 
-    <div>
+    <div class="tui-form__buttons">
       <button type="submit" tuiButton>Register</button>
-      <button tuiButton>Sign In</button>
+      <button tuiButton appearance="flat">Sign In</button>
     </div>
   </form>
 </div>
