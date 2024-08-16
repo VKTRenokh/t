@@ -1,0 +1,11 @@
+<header class="header-content-wrapper">
+  <nav tuiNavigationNav [style.position]="'sticky'">
+    <tui-tabs tuiFade>
+      <button tuiTab (click)="toHome()">Home</button>
+      <button tuiTab (click)="toProfile()">Profile</button>
+      @if (!isLoggedIn()) {
+        <button tuiTab (click)="toLogin()">Login</button>
+      }
+    </tui-tabs>
+  </nav>
+</header>
