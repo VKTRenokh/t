@@ -7,11 +7,15 @@ export const jestConfig: Config = {
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
   ],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.html$',
-    },
+  transform: {
+    '^.+\\.(ts|js|html|svg)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+        useESM: true,
+      },
+    ],
   },
 };
 
