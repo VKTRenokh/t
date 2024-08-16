@@ -1,0 +1,12 @@
+.tui-form {
+  &__loader {
+    display: flex;
+    width: fit-content;
+    margin: 1rem 0;
+  }
+
+  &__buttons {
+    align-items: center;
+    gap: 10px;
+  }
+}
