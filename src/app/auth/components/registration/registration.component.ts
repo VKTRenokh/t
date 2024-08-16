@@ -28,7 +28,6 @@ import {
   TuiInputModule,
   TuiInputPasswordModule,
 } from '@taiga-ui/legacy';
-import { isPasswordsMatch } from '../../../validators/password/isPasswordsMatch.validators';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -42,6 +41,7 @@ import {
 import { filter, map } from 'rxjs';
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isPasswordsMatch } from '../../../validators/password/is-passwords-match.validators';
 
 @Component({
   selector: 'tra-registration',
