@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
-import { AppState } from '../../../state/app.state';
-import { selectIsAuthorized } from '../../../state/selectors/auth.selector';
+import { AppState } from '../../state/app.state';
+import { selectIsAuthorized } from '../../state/selectors/auth.selector';
 
 @Component({
   selector: 'tra-header',
@@ -19,9 +19,11 @@ export class HeaderComponent {
   public isLoggedIn = signal(false);
 
   constructor() {
-    this.store.select(selectIsAuthorized).subscribe(
-      isAuthorized => this.isLoggedIn.set(isAuthorized)
-    );
+    this.store
+      .select(selectIsAuthorized)
+      .subscribe(isAuthorized =>
+        this.isLoggedIn.set(isAuthorized),
+      );
   }
 
   toHome(): void {
