@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest/guest.guard.js';
-import { NotFoundComponent } from './pages/not-found/not-found.component.js';
-import { HomeComponent } from './pages/home/home.component.js';
-import { ProfileComponent } from './pages/profile/profile.component.js';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadComponent: () =>
+      import('./components/home/home.component.js').then(
+        M => M.HomeComponent,
+      ),
   },
   {
     path: 'login',
@@ -29,7 +29,16 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    loadComponent: () =>
+      import(
+        './components/profile/profile.component.js'
+      ).then(M => M.ProfileComponent),
   },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: '**',
+    loadComponent: () =>
+      import(
+        './components/not-found/not-found.component.js'
+      ).then(M => M.NotFoundComponent),
+  },
 ];
