@@ -1,9 +1,9 @@
 import { AbstractControl } from '@angular/forms';
 
-export function isPasswordsMatch(
+export const isPasswordsMatch = (
   password: string,
   passwordReapeat: string,
-) {
+) => {
   return (group: AbstractControl) => {
     const control = group.get(password);
     const matchControl = group.get(passwordReapeat);
@@ -22,4 +22,4 @@ export function isPasswordsMatch(
     }
     return null;
   };
-}
+};

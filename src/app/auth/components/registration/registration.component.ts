@@ -5,8 +5,8 @@ import {
   inject,
 } from '@angular/core';
 import {
-  FormBuilder,
   FormsModule,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -58,7 +58,7 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
   ],
 })
 export class RegistrationComponent {
-  private formGroup = inject(FormBuilder);
+  private formGroup = inject(NonNullableFormBuilder);
   protected default = '';
   protected readonly emails = [
     'google.com',
@@ -66,24 +66,23 @@ export class RegistrationComponent {
     'taiga-ui.dev',
   ];
 
-  protected registrationForm =
-    this.formGroup.nonNullable.group(
-      {
-        email: [
-          '',
-          [Validators.required, Validators.email],
-        ],
-        password: [
-          '',
-          [Validators.required, Validators.minLength(8)],
-        ],
-        passwordRepeat: ['', [Validators.required]],
-      },
-      {
-        validators: isPasswordsMatch(
-          'password',
-          'passwordRepeat',
-        ),
-      },
-    );
+  protected registrationForm = this.formGroup.group(
+    {
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(8)],
+      ],
+      passwordRepeat: ['', [Validators.required]],
+    },
+    {
+      validators: isPasswordsMatch(
+        'password',
+        'passwordRepeat',
+      ),
+    },
+  );
+  protected onSubmit() {
+    return;
+  }
 }
