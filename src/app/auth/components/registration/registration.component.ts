@@ -79,16 +79,10 @@ export class RegistrationComponent implements OnDestroy {
   private formGroup = inject(NonNullableFormBuilder);
   private store: Store<AppState> = inject(Store);
   private router = inject(Router);
-  private isRegistered$ = this.store.select(
-    selectIsRegistered,
-  );
   protected isLoading$ = this.store.select(selectIsLoading);
   protected error$ = this.store.select(selectError).pipe(
     filter(isNotNullable),
-    map(error => {
-      console.log(error.message);
-      return error.message;
-    }),
+    map(error => error.message),
   );
   protected default = '';
   protected readonly emails = [

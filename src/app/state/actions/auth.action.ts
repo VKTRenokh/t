@@ -10,13 +10,12 @@ export const AuthActions = createActionGroup({
   events: {
     login: props<{ email: string; password: string }>(),
     loginSuccess: props<{ token: string }>(),
-    loginFailure: props<{ error: ApiError }>(),
+    failure: props<{ error: ApiError }>(),
     registration: props<{
       email: string;
       password: string;
     }>(),
     registrationSuccess: emptyProps(),
-    registrationFailure: props<{ error: ApiError }>(),
 
     resetError: emptyProps(),
   },

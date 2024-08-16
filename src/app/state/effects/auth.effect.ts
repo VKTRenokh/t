@@ -45,7 +45,7 @@ export class AuthEffects {
             ),
             catchError(response =>
               of(
-                AuthActions.loginFailure({
+                AuthActions.failure({
                   error: response.error,
                 }),
               ),
@@ -65,7 +65,7 @@ export class AuthEffects {
             map(() => AuthActions.registrationSuccess()),
             catchError(response =>
               of(
-                AuthActions.registrationFailure({
+                AuthActions.failure({
                   error: response.error,
                 }),
               ),
