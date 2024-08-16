@@ -6,11 +6,13 @@ export interface AuthState {
   error?: ApiError;
   loading: boolean;
   isAuthorized: boolean;
+  isRegistered: boolean;
 }
 
 export const initialState: AuthState = {
   loading: false,
   isAuthorized: false,
+  isRegistered: false,
 };
 
 export const authReducer = createReducer(
@@ -29,6 +31,23 @@ export const authReducer = createReducer(
     loading: false,
     error: action.error,
   })),
+
+  on(AuthActions.registration, state => ({
+    ...state,
+    loading: true,
+  })),
+  on(AuthActions.registrationSuccess, state => ({
+    ...state,
+    loading: false,
+    isRegistered: true,
+  })),
+  on(AuthActions.registrationFailure, (state, action) => ({
+    ...state,
+    loading: false,
+    isRegistered: false,
+    error: action.error,
+  })),
+
   on(AuthActions.resetError, state => ({
     ...state,
     error: undefined,

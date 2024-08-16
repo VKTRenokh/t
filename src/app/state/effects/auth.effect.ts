@@ -55,6 +55,26 @@ export class AuthEffects {
     ),
   );
 
+  public ragistrationEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.registration),
+      exhaustMap(data =>
+        this.authService
+          .signup(data.email, data.password)
+          .pipe(
+            map(() => AuthActions.registrationSuccess()),
+            catchError(response =>
+              of(
+                AuthActions.registrationFailure({
+                  error: response.error,
+                }),
+              ),
+            ),
+          ),
+      ),
+    ),
+  );
+
   public initEffect = createEffect(() =>
     this.actions.pipe(
       ofType(ROOT_EFFECTS_INIT),

@@ -18,3 +18,8 @@ export const selectIsAuthorized = createSelector(
   selectFeature,
   auth => auth.isAuthorized,
 );
+
+export const selectIsRegistered = createSelector(
+  selectFeature,
+  auth => auth.isRegistered,
+);
