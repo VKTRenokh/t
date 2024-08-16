@@ -33,6 +33,7 @@ import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { filter, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
+import { emailValidator } from '../../validators/email/email.validator';
 
 const minPasswordLength = 8;
 
@@ -81,7 +82,7 @@ export class LoginComponent implements OnDestroy {
   public loginForm = this.formBuilder.group({
     email: this.formBuilder.control('', [
       Validators.required,
-      Validators.email,
+      emailValidator,
     ]),
     password: this.formBuilder.control('', [
       Validators.required,
