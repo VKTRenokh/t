@@ -12,7 +12,7 @@ import { interval, takeWhile, tap, finalize } from 'rxjs';
 })
 export class NotFoundComponent {
   private router = inject(Router);
-  counter = 5;
+  public counter = 5;
 
   constructor() {
     interval(1000)
