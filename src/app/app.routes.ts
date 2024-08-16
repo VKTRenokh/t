@@ -18,5 +18,6 @@ export const routes: Routes = [
         './auth/components/registration/registration.component.js'
       ).then(M => M.RegistrationComponent),
     pathMatch: 'full',
+    canMatch: [guestGuard],
   },
 ];

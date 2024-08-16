@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
 } from '@angular/core';
 import {
   FormsModule,
@@ -14,6 +15,8 @@ import {
   TuiButton,
   TuiError,
   TuiLabel,
+  TuiLink,
+  TuiLoader,
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapper,
@@ -27,6 +30,18 @@ import {
 } from '@taiga-ui/legacy';
 import { isPasswordsMatch } from '../../../validators/password/isPasswordsMatch.validators';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
+import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../state/app.state';
+import { AuthActions } from '../../../state/actions/auth.action';
+import {
+  selectError,
+  selectIsLoading,
+  selectIsRegistered,
+} from '../../../state/selectors/auth.selector';
+import { filter, map } from 'rxjs';
+import { isNotNullable } from '../../../shared/utils/is-not-nullables';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tra-registration',
@@ -39,6 +54,9 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
     ReactiveFormsModule,
     FormsModule,
     TuiButton,
+    TuiLink,
+    TuiLoader,
+    RouterLink,
     TuiLabel,
     TuiError,
     TuiFieldErrorPipe,
@@ -57,8 +75,21 @@ import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit/tokens';
     },
   ],
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnDestroy {
   private formGroup = inject(NonNullableFormBuilder);
+  private store: Store<AppState> = inject(Store);
+  private router = inject(Router);
+  private isRegistered$ = this.store.select(
+    selectIsRegistered,
+  );
+  protected isLoading$ = this.store.select(selectIsLoading);
+  protected error$ = this.store.select(selectError).pipe(
+    filter(isNotNullable),
+    map(error => {
+      console.log(error.message);
+      return error.message;
+    }),
+  );
   protected default = '';
   protected readonly emails = [
     'google.com',
@@ -82,7 +113,25 @@ export class RegistrationComponent {
       ),
     },
   );
+
+  constructor() {
+    this.store
+      .select(selectIsRegistered)
+      .pipe(
+        filter(isRegistered => isRegistered),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+  }
+
   protected onSubmit() {
-    return;
+    const data = this.registrationForm.getRawValue();
+    this.store.dispatch(AuthActions.registration(data));
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch(AuthActions.resetError());
   }
 }
