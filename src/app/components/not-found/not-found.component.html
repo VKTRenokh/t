@@ -1,5 +1,3 @@
-@let size = size$ | async;
-
 <tui-block-status class="not-found-block">
   <img
     alt="not found"
@@ -10,14 +8,12 @@
 
   <h4 class="not-found-title">Sorry, page doesn't exist</h4>
 
-  @if (size) {
-    <button
-      appearance="secondary"
-      tuiButton
-      [size]="size"
-      (click)="goHome()"
-    >
-      Go to homepage
-    </button>
-  }
+  <button
+    appearance="secondary"
+    tuiButton
+    size="m"
+    (click)="goHome()"
+  >
+    Go to homepage
+  </button>
 </tui-block-status>
