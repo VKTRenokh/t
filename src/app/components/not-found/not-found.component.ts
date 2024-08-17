@@ -1,4 +1,3 @@
-import { NgIf, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +10,7 @@ import { TuiBlockStatus } from '@taiga-ui/layout';
 @Component({
   selector: 'tra-not-found',
   standalone: true,
-  imports: [NgIf, AsyncPipe, TuiBlockStatus, TuiButton],
+  imports: [TuiBlockStatus, TuiButton],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
