@@ -18,11 +18,11 @@ export const BROWSER_STORAGE = new InjectionToken<Storage>(
 export class StorageService {
   private storage = inject(BROWSER_STORAGE);
 
-  get(key: string) {
+  public get(key: string) {
     return this.storage.getItem(key);
   }
 
-  set(key: string, value: string) {
+  public set(key: string, value: string) {
     this.storage.setItem(key, value);
   }
 }
