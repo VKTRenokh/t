@@ -85,11 +85,6 @@ export class RegistrationComponent implements OnDestroy {
     map(error => error.message),
   );
   protected default = '';
-  protected readonly emails = [
-    'google.com',
-    'github.com',
-    'taiga-ui.dev',
-  ];
 
   protected registrationForm = this.formGroup.group(
     {
@@ -107,6 +102,10 @@ export class RegistrationComponent implements OnDestroy {
       ),
     },
   );
+
+  public get email() {
+    return this.registrationForm.controls.email;
+  }
 
   constructor() {
     this.store
