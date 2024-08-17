@@ -6,7 +6,7 @@ import {
 import { Router } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
-import { AuthFacade } from '../../state/facades/auth.facade';
+import { AuthFacade } from '../../../state/facades/auth.facade';
 
 @Component({
   selector: 'tra-header',

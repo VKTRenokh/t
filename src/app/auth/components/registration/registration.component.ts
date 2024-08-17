@@ -41,7 +41,7 @@ import {
 import { filter, map } from 'rxjs';
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { isPasswordsMatch } from '../../../validators/password/is-passwords-match.validators';
+import { isPasswordsMatch } from '../../validators/password/is-passwords-match.validators';
 
 @Component({
   selector: 'tra-registration',
