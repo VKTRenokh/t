@@ -1,0 +1,19 @@
+<tui-block-status class="not-found-block">
+  <img
+    alt="not found"
+    src="./images/not-found.svg"
+    tuiSlot="top"
+    class="image"
+  />
+
+  <h4 class="not-found-title">Sorry, page doesn't exist</h4>
+
+  <button
+    appearance="secondary"
+    tuiButton
+    size="m"
+    (click)="goHome()"
+  >
+    Go to homepage
+  </button>
+</tui-block-status>
