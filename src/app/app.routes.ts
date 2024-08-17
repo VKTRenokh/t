@@ -5,9 +5,9 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/home/home.component.js').then(
-        M => M.HomeComponent,
-      ),
+      import(
+        './search/components/search-page/search-page.component.js'
+      ).then(M => M.SearchPageComponent),
   },
   {
     path: 'login',
