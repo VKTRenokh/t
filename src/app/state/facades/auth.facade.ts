@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AppState } from '../app.state';
 import { selectIsAuthorized } from '../selectors/auth.selector';
+import { initialState } from '../reducers/auth.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,6 @@ export class AuthFacade {
 
   public isLoggedIn = toSignal(
     this.store.select(selectIsAuthorized),
-    { initialValue: false },
+    { initialValue: initialState.isAuthorized },
   );
 }
