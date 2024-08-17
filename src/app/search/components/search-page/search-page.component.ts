@@ -7,7 +7,7 @@ import {
   FormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk/date-time';
+import { TuiDay } from '@taiga-ui/cdk/date-time';
 import { TuiInputDateTimeModule } from '@taiga-ui/legacy';
 
 @Component({
@@ -24,7 +24,7 @@ export class SearchPageComponent {
   public form = this.formBuilder.group({
     date: this.formBuilder.control([
       this.getNextTuiDay(),
-      TuiTime.currentLocal(),
+      null,
     ]),
   });
 
