@@ -1,29 +1,38 @@
-import { Component, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgIf, AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { interval, takeWhile, tap, finalize } from 'rxjs';
+import {
+  TuiBreakpointService,
+  TuiButton,
+  TuiSizeL,
+} from '@taiga-ui/core';
+import { TuiBlockStatus } from '@taiga-ui/layout';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'tra-not-found',
   standalone: true,
-  imports: [],
+  imports: [NgIf, AsyncPipe, TuiBlockStatus, TuiButton],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent {
+  protected readonly breakpointService = inject(
+    TuiBreakpointService,
+  );
   private router = inject(Router);
-  public counter = 5;
 
-  constructor() {
-    interval(1000)
-      .pipe(
-        takeWhile(() => this.counter > 0),
-        tap(() => {
-          this.counter -= 1;
-        }),
-        finalize(() => this.router.navigate(['/'])),
-        takeUntilDestroyed(),
-      )
-      .subscribe();
+  protected size$: Observable<TuiSizeL> =
+    this.breakpointService.pipe(
+      map(key => (key === 'mobile' ? 'm' : 'l')),
+    );
+
+  public goHome() {
+    this.router.navigate(['/']);
   }
 }

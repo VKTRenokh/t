@@ -1,12 +1,23 @@
-<div class="not-found-wrapper">
+@let size = size$ | async;
+
+<tui-block-status class="not-found-block">
   <img
-    class="not-found-logo"
-    src="404.svg"
-    alt="Page not found"
+    alt="not found"
+    src="./images/not-found.svg"
+    tuiSlot="top"
+    class="image"
   />
-  <span>Sorry, page doesn't exist.</span>
-</div>
-<p>
-  Redirecting to the home page in {{ counter }}
-  {{ counter === 1 ? 'second' : 'seconds' }}...
-</p>
+
+  <h4 class="not-found-title">Sorry, page doesn't exist</h4>
+
+  @if (size) {
+    <button
+      appearance="secondary"
+      tuiButton
+      [size]="size"
+      (click)="goHome()"
+    >
+      Go to homepage
+    </button>
+  }
+</tui-block-status>

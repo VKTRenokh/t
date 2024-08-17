@@ -1,30 +1,6 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  text-align: center;
-  font-family: Arial, sans-serif;
+.not-found-block {
+  margin-top: 2rem;
 }
-.not-found-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-.not-found-logo {
-  max-width: 200px;
-  height: auto;
-}
-span {
-  color: #4a4a4a;
-  font-size: 1.5rem;
-  font-weight: 600;
-  max-width: 300px;
-}
-p {
-  color: #6a6a6a;
-  font-size: 1rem;
+.not-found-title {
+  margin-bottom: 3rem;
 }
