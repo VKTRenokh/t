@@ -3,6 +3,13 @@ import { guestGuard } from './core/guards/guest/guest.guard.js';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadComponent: () =>
+      import('./components/home/home.component.js').then(
+        M => M.HomeComponent,
+      ),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import(
@@ -10,5 +17,19 @@ export const routes: Routes = [
       ).then(M => M.LoginComponent),
     pathMatch: 'full',
     canMatch: [guestGuard],
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import(
+        './components/profile/profile.component.js'
+      ).then(M => M.ProfileComponent),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import(
+        './components/not-found/not-found.component.js'
+      ).then(M => M.NotFoundComponent),
   },
 ];
