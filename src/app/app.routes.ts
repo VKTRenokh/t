@@ -3,7 +3,13 @@ import { guestGuard } from './core/guards/guest/guest.guard.js';
 
 export const routes: Routes = [
   {
+    redirectTo: 'search',
+    pathMatch: 'full',
     path: '',
+  },
+  {
+    path: 'search',
+    pathMatch: 'full',
     loadComponent: () =>
       import(
         './search/components/search-page/search-page.component.js'
