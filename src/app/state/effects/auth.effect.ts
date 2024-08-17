@@ -45,7 +45,27 @@ export class AuthEffects {
             ),
             catchError(response =>
               of(
-                AuthActions.loginFailure({
+                AuthActions.failure({
+                  error: response.error,
+                }),
+              ),
+            ),
+          ),
+      ),
+    ),
+  );
+
+  public ragistrationEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.registration),
+      exhaustMap(data =>
+        this.authService
+          .signup(data.email, data.password)
+          .pipe(
+            map(() => AuthActions.registrationSuccess()),
+            catchError(response =>
+              of(
+                AuthActions.failure({
                   error: response.error,
                 }),
               ),

@@ -1,0 +1,15 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.tui-form {
+  &__loader {
+    display: flex;
+    width: fit-content;
+    margin: 1rem 0;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

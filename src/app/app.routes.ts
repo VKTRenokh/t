@@ -11,4 +11,13 @@ export const routes: Routes = [
     pathMatch: 'full',
     canMatch: [guestGuard],
   },
+  {
+    path: 'registration',
+    loadComponent: () =>
+      import(
+        './auth/components/registration/registration.component.js'
+      ).then(M => M.RegistrationComponent),
+    pathMatch: 'full',
+    canMatch: [guestGuard],
+  },
 ];
