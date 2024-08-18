@@ -28,6 +28,13 @@
       <tui-input-date-time formControlName="date"
         >Choose a date</tui-input-date-time
       >
+      <button
+        tuiButton
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        <tui-icon icon="@tui.search" />
+      </button>
     </div>
   </form>
 </div>
