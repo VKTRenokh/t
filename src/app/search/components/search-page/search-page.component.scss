@@ -4,5 +4,11 @@
   &__row {
     display: flex;
     gap: 10px;
+    width: 100%;
+
+    tui-input,
+    tui-input-date-time {
+      width: 100%;
+    }
   }
 }
