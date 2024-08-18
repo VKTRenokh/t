@@ -6,29 +6,31 @@
     (ngSubmit)="submit()"
   >
     <div class="tui-form__row">
-      <tui-input formControlName="from">
-        From city
-        <input
-          type="text"
-          formControlName="from"
-          class="tui-form__input"
-          tuiTextfieldLegacy
+      <div class="tui-form__row_cities">
+        <tui-input formControlName="from">
+          From city
+          <input
+            type="text"
+            formControlName="from"
+            class="tui-form__input"
+            tuiTextfieldLegacy
+          />
+        </tui-input>
+        <tui-icon
+          icon="@tui.arrow-left-right"
+          color="grey"
+          class="tui-form__row_arrows"
         />
-      </tui-input>
-      <tui-icon
-        icon="@tui.arrow-left-right"
-        color="grey"
-        class="tui-form__row_arrows"
-      />
-      <tui-input formControlName="to">
-        To city
-        <input
-          type="text"
-          class="tui-form__input"
-          formControlName="to"
-          tuiTextfieldLegacy
-        />
-      </tui-input>
+        <tui-input formControlName="to">
+          To city
+          <input
+            type="text"
+            class="tui-form__input"
+            formControlName="to"
+            tuiTextfieldLegacy
+          />
+        </tui-input>
+      </div>
       <tui-input-date-time formControlName="date"
         >Choose a date</tui-input-date-time
       >
