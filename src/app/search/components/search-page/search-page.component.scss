@@ -3,12 +3,17 @@
 
   &__row {
     display: flex;
+    align-items: center;
     gap: 10px;
     width: 100%;
 
     tui-input,
     tui-input-date-time {
       width: 100%;
+    }
+
+    &_arrows {
+      color: var(--tui-text-tertiary);
     }
   }
 }

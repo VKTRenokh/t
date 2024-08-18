@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk/date-time';
+import { TuiIcon } from '@taiga-ui/core';
 import {
   TuiInputDateTimeModule,
   TuiInputModule,
@@ -21,6 +22,7 @@ import {
     ReactiveFormsModule,
     TuiInputDateTimeModule,
     TuiInputModule,
+    TuiIcon,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
