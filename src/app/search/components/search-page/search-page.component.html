@@ -1,6 +1,10 @@
 <div class="tui-container tui-space_top-5">
   <h3>Search routes</h3>
-  <form [formGroup]="form" class="tui-form">
+  <form
+    [formGroup]="form"
+    class="tui-form"
+    (ngSubmit)="submit()"
+  >
     <div class="tui-form__row">
       <tui-input formControlName="from">
         From city
@@ -12,7 +16,7 @@
         />
       </tui-input>
       <tui-icon
-        icon="@tui.git-compare-arrows"
+        icon="@tui.arrow-left-right"
         color="grey"
         class="tui-form__row_arrows"
       />

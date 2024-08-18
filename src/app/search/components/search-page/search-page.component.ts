@@ -51,4 +51,8 @@ export class SearchPageComponent {
       TuiDay.currentLocal().day + 1,
     );
   }
+
+  public submit() {
+    console.log('Submit');
+  }
 }
