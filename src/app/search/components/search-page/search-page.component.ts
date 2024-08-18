@@ -8,12 +8,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiDay } from '@taiga-ui/cdk/date-time';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk/date-time';
 import { TuiButton, TuiIcon } from '@taiga-ui/core';
 import {
   TuiInputDateTimeModule,
   TuiInputModule,
 } from '@taiga-ui/legacy';
+import { timeValidator } from '../../validators/time/time.validator';
 
 @Component({
   selector: 'tra-search-page',
@@ -38,8 +39,8 @@ export class SearchPageComponent {
     ]),
     to: this.formBuilder.control('', [Validators.required]),
     date: this.formBuilder.control(
-      [this.getNextTuiDay(), null],
-      [Validators.required],
+      [this.getNextTuiDay(), TuiTime.currentLocal()],
+      [Validators.required, timeValidator],
     ),
   });
 
