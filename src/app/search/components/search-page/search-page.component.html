@@ -1,0 +1,47 @@
+<div class="tui-container tui-space_top-5">
+  <h3>Search routes</h3>
+  <form
+    [formGroup]="form"
+    class="tui-form"
+    (ngSubmit)="submit()"
+  >
+    <div class="tui-form__row">
+      <div class="tui-form__row_cities">
+        <tui-input formControlName="from">
+          From city
+          <input
+            type="text"
+            formControlName="from"
+            class="tui-form__input"
+            tuiTextfieldLegacy
+          />
+        </tui-input>
+        <tui-icon
+          icon="@tui.arrow-left-right"
+          color="grey"
+          class="tui-form__row_arrows"
+        />
+        <tui-input formControlName="to">
+          To city
+          <input
+            type="text"
+            class="tui-form__input"
+            formControlName="to"
+            tuiTextfieldLegacy
+          />
+        </tui-input>
+      </div>
+      <tui-input-date-time formControlName="date"
+        >Choose a date</tui-input-date-time
+      >
+      <button
+        tuiButton
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        <tui-icon icon="@tui.search" />
+        Search
+      </button>
+    </div>
+  </form>
+</div>
