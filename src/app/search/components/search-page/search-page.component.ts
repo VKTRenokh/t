@@ -14,7 +14,7 @@ import {
   TuiInputDateTimeModule,
   TuiInputModule,
 } from '@taiga-ui/legacy';
-import { timeValidator } from '../../validators/time/time.validator';
+import { futureDateValidator } from '../../validators/future-date/future-date.validator';
 
 @Component({
   selector: 'tra-search-page',
@@ -40,7 +40,7 @@ export class SearchPageComponent {
     to: this.formBuilder.control('', [Validators.required]),
     date: this.formBuilder.control(
       [this.getNextTuiDay(), TuiTime.currentLocal()],
-      [Validators.required, timeValidator],
+      [Validators.required, futureDateValidator],
     ),
   });
 
