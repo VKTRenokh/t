@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Profile } from '../../models/profile.model';
 import { Login } from '../../models/login.model';
 
 @Injectable({
@@ -21,9 +20,5 @@ export class AuthService {
       email,
       password,
     });
-  }
-
-  public profile() {
-    return this.http.get<Profile>('/api/profile');
   }
 }
