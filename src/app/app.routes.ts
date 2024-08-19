@@ -48,10 +48,15 @@ export const routes: Routes = [
     path: 'admin',
     pathMatch: 'full',
     canMatch: [managerGuard],
-    loadComponent: () =>
-      import(
-        './stations/components/stations-page/stations-page.component.js'
-      ).then(M => M.StationsPageComponent),
+    children: [
+      {
+        path: 'stations',
+        loadComponent: () =>
+          import(
+            './stations/components/stations-page/stations-page.component.js'
+          ).then(M => M.StationsPageComponent),
+      },
+    ],
   },
   {
     path: '**',
