@@ -19,6 +19,8 @@ import { StationsEffects } from './state/effects/stations.effect';
 import { ProfileEffects } from './state/effects/profile.effect';
 import { profileReducer } from './state/reducers/profile.reducer';
 import { stationsReducer } from './state/reducers/stations.reducer';
+import { userReducer } from './state/reducers/user.reducer';
+import { UserEffects } from './state/effects/user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,11 +31,13 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       profile: profileReducer,
+      user: userReducer,
       stations: stationsReducer,
     }),
     provideEffects(
       AuthEffects,
       ProfileEffects,
+      UserEffects,
       StationsEffects,
     ),
   ],
