@@ -1,7 +1,8 @@
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ApplicationConfig,
-  provideZoneChangeDetection, isDevMode,
+  provideZoneChangeDetection,
+  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -27,6 +28,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({ auth: authReducer, user: userReducer }),
     provideEffects(AuthEffects, UserEffects),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
-],
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+    }),
+  ],
 };
