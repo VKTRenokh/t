@@ -45,8 +45,8 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
-    path: 'admin',
     pathMatch: 'full',
+    path: 'manager',
     canMatch: [managerGuard],
     children: [
       {
