@@ -1,7 +1,7 @@
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ApplicationConfig,
-  provideZoneChangeDetection,
+  provideZoneChangeDetection, isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -17,6 +17,7 @@ import { AuthEffects } from './state/effects/auth.effect';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { userReducer } from './state/reducers/user.reducer';
 import { UserEffects } from './state/effects/user.effect';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({ auth: authReducer, user: userReducer }),
     provideEffects(AuthEffects, UserEffects),
-  ],
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+],
 };
