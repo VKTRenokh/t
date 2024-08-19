@@ -17,6 +17,8 @@ import { AuthEffects } from './state/effects/auth.effect';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { stationsReducer } from './state/reducers/stations.reducer';
 import { StationsEffects } from './state/effects/stations.effect';
+import { userReducer } from './state/reducers/user.reducer';
+import { UserEffects } from './state/effects/user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,8 +28,13 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({
       auth: authReducer,
+      user: userReducer,
       stations: stationsReducer,
     }),
-    provideEffects(AuthEffects, StationsEffects),
+    provideEffects(
+      AuthEffects,
+      UserEffects,
+      StationsEffects,
+    ),
   ],
 };
