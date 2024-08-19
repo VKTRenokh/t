@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest/guest.guard.js';
+import { managerGuard } from './core/guards/manager/manager.guard.js';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,15 @@ export const routes: Routes = [
       ).then(M => M.RegistrationComponent),
     pathMatch: 'full',
     canMatch: [guestGuard],
+  },
+  {
+    path: 'admin',
+    pathMatch: 'full',
+    canMatch: [managerGuard],
+    loadComponent: () =>
+      import(
+        './stations/components/stations-page/stations-page.component.js'
+      ).then(M => M.StationsPageComponent),
   },
   {
     path: '**',
