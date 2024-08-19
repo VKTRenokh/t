@@ -15,6 +15,8 @@ import {
 import { authReducer } from './state/reducers/auth.reducer';
 import { AuthEffects } from './state/effects/auth.effect';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
+import { userReducer } from './state/reducers/user.reducer';
+import { UserEffects } from './state/effects/user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideStore({ auth: authReducer }),
-    provideEffects(AuthEffects),
+    provideStore({ auth: authReducer, user: userReducer }),
+    provideEffects(AuthEffects, UserEffects),
   ],
 };
