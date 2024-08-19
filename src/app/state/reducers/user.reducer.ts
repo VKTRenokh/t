@@ -1,15 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
 import { UserActions } from '../actions/user.action';
 import { ApiError } from '../../shared/models/api-error.model';
+import { Profile } from '../../core/models/profile/profile.model';
 
 interface UserState {
   error?: ApiError;
-  user: null;
+  user?: Profile;
   loading: boolean;
 }
 
 export const initialState: UserState = {
-  user: null,
   loading: false,
 };
 
