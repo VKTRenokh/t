@@ -2,6 +2,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ApplicationConfig,
   provideZoneChangeDetection,
+  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -19,6 +20,7 @@ import { stationsReducer } from './state/reducers/stations.reducer';
 import { StationsEffects } from './state/effects/stations.effect';
 import { userReducer } from './state/reducers/user.reducer';
 import { UserEffects } from './state/effects/user.effect';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,5 +38,9 @@ export const appConfig: ApplicationConfig = {
       UserEffects,
       StationsEffects,
     ),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+    }),
   ],
 };
