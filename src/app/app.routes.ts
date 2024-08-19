@@ -35,8 +35,7 @@ export const routes: Routes = [
     canMatch: [guestGuard],
   },
   {
-    path: 'admin',
-    pathMatch: 'full',
+    path: 'manager',
     canMatch: [managerGuard],
     children: [
       {
