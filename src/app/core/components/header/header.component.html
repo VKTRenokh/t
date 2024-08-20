@@ -4,11 +4,23 @@
       <button tuiTab routerLink="/search" routerLinkActive>
         Home
       </button>
-      <button tuiTab routerLink="/profile" routerLinkActive>
-        Profile
-      </button>
+      @if (isLoggedIn()) {
+        <button
+          tuiTab
+          routerLink="/profile"
+          routerLinkActive
+        >
+          Profile
+        </button>
+      }
+
       @if (!isLoggedIn()) {
-        <button tuiTab routerLink="/login" routerLinkActive>
+        <button
+          tuiTab
+          routerLink="/login"
+          routerLinkActive
+          style="margin-left: auto"
+        >
           Login
         </button>
       }
