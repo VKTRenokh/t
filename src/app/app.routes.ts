@@ -37,7 +37,7 @@ export const routes: Routes = [
   },
   {
     path: 'manager',
-    canActivate: [managerGuard],
+    canMatch: [managerGuard],
     children: [
       {
         path: 'stations',
