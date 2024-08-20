@@ -9,14 +9,15 @@
       <div class="tui-form__row_cities">
         <tui-input formControlName="from">
           From city
-          @if (townsArr) {
+          @if (townsFromArr) {
             <ng-template tuiDataList>
-              <tui-data-list-wrapper [items]="townsArr" />
+              <tui-data-list-wrapper
+                [items]="townsFromArr"
+              />
             </ng-template>
           }
           <input
-            [ngModel]="inputValue | async"
-            (ngModelChange)="inputValue.next($event)"
+            (ngModelChange)="inputFromValue.next($event)"
             type="text"
             formControlName="from"
             class="tui-form__input"
@@ -30,10 +31,16 @@
         />
         <tui-input formControlName="to">
           To city
+          @if (townsToArr) {
+            <ng-template tuiDataList>
+              <tui-data-list-wrapper [items]="townsToArr" />
+            </ng-template>
+          }
           <input
             type="text"
             class="tui-form__input"
             formControlName="to"
+            (ngModelChange)="inputToValue.next($event)"
             tuiTextfieldLegacy
           />
         </tui-input>

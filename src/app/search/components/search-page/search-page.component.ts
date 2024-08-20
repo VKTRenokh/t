@@ -23,6 +23,7 @@ import { TuiDataListWrapper } from '@taiga-ui/kit';
 import { GeocodingHttpService } from '../../services/geocoding-http.service';
 import { Subject } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { Result } from '../../../core/models/geocoding-response';
 
 @Component({
   selector: 'tra-search-page',
@@ -46,8 +47,10 @@ export class SearchPageComponent {
   protected geocodingHttpService = inject(
     GeocodingHttpService,
   );
-  protected inputValue = new Subject<string>();
-  protected townsArr: string[] = [];
+  protected inputFromValue = new Subject<string>();
+  protected inputToValue = new Subject<string>();
+  protected townsFromArr: string[] = [];
+  protected townsToArr: string[] = [];
   public form = this.formBuilder.group({
     from: this.formBuilder.control('', [
       Validators.required,
@@ -60,27 +63,43 @@ export class SearchPageComponent {
   });
 
   constructor() {
-    this.inputValue.subscribe(town => {
+    this.inputFromValue.subscribe(town => {
       this.geocodingHttpService
         .getTowns(town)
         .subscribe(item => {
-          this.townsArr = [];
-          for (const element of item.results) {
-            const city = element.components.city
-              ? element.components.city
-              : '';
-            const state = element.components.state
-              ? element.components.state
-              : '';
-            const country = element.components.country
-              ? element.components.country
-              : '';
-
-            const fullCity = `${city} ${state} ${country}`;
-            this.townsArr.push(fullCity);
-          }
+          this.townsFromArr = this.getCitiesNames(
+            item.results,
+          );
         });
     });
+    this.inputToValue.subscribe(town => {
+      this.geocodingHttpService
+        .getTowns(town)
+        .subscribe(item => {
+          this.townsToArr = this.getCitiesNames(
+            item.results,
+          );
+        });
+    });
+  }
+
+  private getCitiesNames(results: Result[]): string[] {
+    const townArray = [];
+    for (const element of results) {
+      const city = element.components.city
+        ? element.components.city
+        : '';
+      const state = element.components.state
+        ? element.components.state
+        : '';
+      const country = element.components.country
+        ? element.components.country
+        : '';
+
+      const fullCity = `${city} ${state} ${country}`;
+      townArray.push(fullCity);
+    }
+    return townArray;
   }
 
   public getNextTuiDay() {
