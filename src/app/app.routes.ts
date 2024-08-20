@@ -49,10 +49,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     path: 'manager',
     canMatch: [managerGuard],
+    resolve: { profile: profileResolver },
     children: [
       {
         path: 'stations',
-        resolve: { profile: profileResolver },
         loadComponent: () =>
           import(
             './stations/components/stations-page/stations-page.component.js'
