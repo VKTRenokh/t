@@ -20,4 +20,13 @@ export const stationsReducer = createReducer(
       userStations: stations,
     }),
   ),
+  on(
+    StationsActions.deleteStationSuccess,
+    (state, { id }) => ({
+      ...state,
+      userStations: state.userStations.filter(
+        station => station.id !== id,
+      ),
+    }),
+  ),
 );

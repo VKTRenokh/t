@@ -10,5 +10,7 @@ export const StationsActions = createActionGroup({
   events: {
     getStations: emptyProps(),
     getStationsSuccess: props<{ stations: Station[] }>(),
+    deleteStation: props<{ id: number }>(),
+    deleteStationSuccess: props<{ id: number }>(),
   },
 });

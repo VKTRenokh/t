@@ -29,4 +29,19 @@ export class StationsEffects {
       ),
     ),
   );
+
+  public deleteStationEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(StationsActions.deleteStation),
+      exhaustMap(data =>
+        this.stationsService.deleteStation(data.id).pipe(
+          map(() =>
+            StationsActions.deleteStationSuccess({
+              id: data.id,
+            }),
+          ),
+        ),
+      ),
+    ),
+  );
 }
