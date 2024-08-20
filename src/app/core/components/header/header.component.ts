@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
-import { AuthFacade } from '../../services/auth-facade.service';
+import { AuthFacade } from '../../../core/services/auth-facade.service';
 
 @Component({
   selector: 'tra-header',
@@ -27,5 +27,6 @@ import { AuthFacade } from '../../services/auth-facade.service';
 })
 export class HeaderComponent {
   private authFacade = inject(AuthFacade);
+
   public isLoggedIn = this.authFacade.isLoggedIn;
 }
