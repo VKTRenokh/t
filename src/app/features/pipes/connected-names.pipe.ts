@@ -5,6 +5,7 @@ import { StationsFacade } from '../../state/facades/stations.facade';
 @Pipe({
   name: 'connectedNames',
   standalone: true,
+  pure: false,
 })
 export class ConnectedNamesPipe implements PipeTransform {
   private stationsFacade = inject(StationsFacade);

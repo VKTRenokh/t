@@ -3,8 +3,10 @@
     <div class="station__container">
       <h1>{{ stationProps.city }}</h1>
       <div class="coordinates">
-        <span>{{ stationProps.latitude }}</span>
-        <span>{{ stationProps.latitude }}</span>
+        <span
+          >{{ stationProps.latitude }},
+          {{ stationProps.latitude }}</span
+        >
       </div>
       <div class="connections">
         @if (stationProps.connectedTo.length) {}
