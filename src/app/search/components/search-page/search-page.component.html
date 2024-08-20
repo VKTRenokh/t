@@ -9,7 +9,14 @@
       <div class="tui-form__row_cities">
         <tui-input formControlName="from">
           From city
+          @if (townsArr) {
+            <ng-template tuiDataList>
+              <tui-data-list-wrapper [items]="townsArr" />
+            </ng-template>
+          }
           <input
+            [ngModel]="inputValue | async"
+            (ngModelChange)="inputValue.next($event)"
             type="text"
             formControlName="from"
             class="tui-form__input"
