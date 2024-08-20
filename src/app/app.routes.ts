@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest/guest.guard.js';
+import { authGuard } from './core/guards/auth/auth.guard.js';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,15 @@ export const routes: Routes = [
       ).then(M => M.RegistrationComponent),
     pathMatch: 'full',
     canMatch: [guestGuard],
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import(
+        './profile/components/profile.component.js'
+      ).then(M => M.ProfileComponent),
+    pathMatch: 'full',
+    canMatch: [authGuard],
   },
   {
     path: '**',
