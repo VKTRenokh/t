@@ -1,3 +1,5 @@
+@let isAdmin = isAdmin$ | async;
+
 <header class="header-content-wrapper">
   <nav tuiNavigationNav [style.position]="'sticky'">
     <tui-tabs tuiFade>
@@ -19,13 +21,15 @@
         </a>
       }
       <!-- TODO: add conditional rendering -->
-      <a
-        tuiTab
-        routerLink="/manager/stations"
-        routerLinkActive
-      >
-        Stations
-      </a>
+      @if (isAdmin) {
+        <a
+          tuiTab
+          routerLink="/manager/stations"
+          routerLinkActive
+        >
+          Stations
+        </a>
+      }
     </tui-tabs>
   </nav>
 </header>
