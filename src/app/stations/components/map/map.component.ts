@@ -5,7 +5,15 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { tileLayer, map as createMap } from 'leaflet';
+import {
+  tileLayer,
+  map as createMap,
+  Map,
+  LeafletMouseEvent,
+  marker,
+} from 'leaflet';
+import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
+import { fromEvent, tap } from 'rxjs';
 
 @Component({
   selector: 'tra-map',
@@ -16,19 +24,29 @@ import { tileLayer, map as createMap } from 'leaflet';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements AfterViewInit {
-  @ViewChild('map') public map!: ElementRef;
+  @ViewChild('map') public mapRef!: ElementRef;
+  private map: Map | null = null;
+
+  public onClick(event: LeafletMouseEvent) {
+    if (!this.map) {
+      return;
+    }
+
+    marker(getLatAndLng(event)).addTo(this.map);
+  }
 
   public ngAfterViewInit(): void {
-    console.log(this.map);
-    const map = createMap(this.map.nativeElement);
+    this.map = createMap(this.mapRef.nativeElement);
     tileLayer(
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       },
-    ).addTo(map);
+    ).addTo(this.map);
 
-    map.setView([51.505, -0.09], 13);
+    this.map.setView([51.505, -0.09], 13);
+
+    this.map.on('click', event => this.onClick(event));
   }
 }
