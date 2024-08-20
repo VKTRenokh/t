@@ -4,6 +4,7 @@ import { AppState } from '../../../state/app.state';
 import { inject } from '@angular/core';
 import { map } from 'rxjs';
 import { selectAndFilterRoleAndError } from '../../utils/select-and-filter-role-and-error.util';
+import { Roles } from '../../enums/role/role.enum';
 
 export const managerGuard: CanActivateFn = () => {
   const router = inject(Router);
@@ -11,7 +12,7 @@ export const managerGuard: CanActivateFn = () => {
 
   return selectAndFilterRoleAndError(store).pipe(
     map(({ role, error }) =>
-      role === 'manager' && !error
+      role === Roles.Manager && !error
         ? true
         : router.createUrlTree(['/']),
     ),
