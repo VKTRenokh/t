@@ -1,9 +1,14 @@
 <header class="header-content-wrapper">
   <nav tuiNavigationNav [style.position]="'sticky'">
     <tui-tabs tuiFade>
-      <button tuiTab routerLink="/search" routerLinkActive>
+      <a
+        tuiTab
+        routerLink="/search"
+        routerLinkActive
+        ariaCurrentWhenActive="location"
+      >
         Home
-      </button>
+      </a>
       @if (isLoggedIn()) {
         <button
           tuiTab
@@ -23,13 +28,14 @@
         </button>
       }
       <!-- TODO: add conditional rendering -->
-      <button
+      <a
         tuiTab
         routerLink="/manager/stations"
         routerLinkActive
+        ariaCurrentWhenActive="location"
       >
         Stations
-      </button>
+      </a>
     </tui-tabs>
   </nav>
 </header>
