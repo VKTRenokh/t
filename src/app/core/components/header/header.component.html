@@ -1,25 +1,31 @@
 <header class="header-content-wrapper">
   <nav tuiNavigationNav [style.position]="'sticky'">
     <tui-tabs tuiFade>
-      <button tuiTab routerLink="/search" routerLinkActive>
+      <a
+        tuiTab
+        routerLink="/search"
+        routerLinkActive
+        ariaCurrentWhenActive="location"
+      >
         Home
-      </button>
-      <button tuiTab routerLink="/profile" routerLinkActive>
+      </a>
+      <a tuiTab routerLink="/profile" routerLinkActive>
         Profile
-      </button>
+      </a>
       @if (!isLoggedIn()) {
-        <button tuiTab routerLink="/login" routerLinkActive>
+        <a tuiTab routerLink="/login" routerLinkActive>
           Login
-        </button>
+        </a>
       }
       <!-- TODO: add conditional rendering -->
-      <button
+      <a
         tuiTab
         routerLink="/manager/stations"
         routerLinkActive
+        ariaCurrentWhenActive="location"
       >
         Stations
-      </button>
+      </a>
     </tui-tabs>
   </nav>
 </header>
