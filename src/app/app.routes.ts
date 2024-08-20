@@ -3,11 +3,17 @@ import { guestGuard } from './core/guards/guest/guest.guard.js';
 
 export const routes: Routes = [
   {
+    redirectTo: 'search',
+    pathMatch: 'full',
     path: '',
+  },
+  {
+    path: 'search',
+    pathMatch: 'full',
     loadComponent: () =>
-      import('./components/home/home.component.js').then(
-        M => M.HomeComponent,
-      ),
+      import(
+        './search/components/search-page/search-page.component.js'
+      ).then(M => M.SearchPageComponent),
   },
   {
     path: 'login',
@@ -28,17 +34,10 @@ export const routes: Routes = [
     canMatch: [guestGuard],
   },
   {
-    path: 'profile',
-    loadComponent: () =>
-      import(
-        './components/profile/profile.component.js'
-      ).then(M => M.ProfileComponent),
-  },
-  {
     path: '**',
     loadComponent: () =>
       import(
-        './components/not-found/not-found.component.js'
+        './core/components/not-found/not-found.component.js'
       ).then(M => M.NotFoundComponent),
   },
 ];

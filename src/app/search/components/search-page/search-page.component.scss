@@ -1,0 +1,37 @@
+.tui-container {
+  width: 100%;
+  max-width: 51.5rem;
+  padding: 0;
+
+  .tui-form {
+    display: flex;
+    margin: 0 0.5rem;
+
+    &__row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+
+      &_cities {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+
+      @media screen and (max-width: 63.9625em) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      tui-input,
+      tui-input-date-time {
+        width: 100%;
+      }
+
+      &_arrows {
+        color: var(--tui-text-tertiary);
+      }
+    }
+  }
+}
