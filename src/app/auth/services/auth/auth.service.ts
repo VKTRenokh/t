@@ -23,6 +23,10 @@ export class AuthService {
     });
   }
 
+  public logout() {
+    return this.http.delete('/api/logout');
+  }
+
   public profile() {
     return this.http.get<Profile>('/api/profile');
   }

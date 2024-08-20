@@ -17,12 +17,14 @@ import {
 } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
   private actions = inject(Actions);
   private authService = inject(AuthService);
   private storageService = inject(StorageService);
+  private router = inject(Router);
 
   private getToken() {
     return this.storageService.get(tokenKey);
@@ -55,6 +57,38 @@ export class AuthEffects {
     ),
   );
 
+  public logoutEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.logout),
+      exhaustMap(() =>
+        this.authService.logout().pipe(
+          map(() => {
+            this.storageService.remove(tokenKey);
+            return AuthActions.logoutSuccess();
+          }),
+          catchError(response =>
+            of(
+              AuthActions.failure({
+                error: response.error,
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  public logoutSuccessEffect = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(AuthActions.logoutSuccess),
+        tap(() => {
+          this.router.navigate(['/search']);
+        }),
+      ),
+    { dispatch: false },
+  );
+
   public ragistrationEffect = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.registration),
@@ -80,9 +114,11 @@ export class AuthEffects {
       ofType(ROOT_EFFECTS_INIT),
       exhaustMap(() => {
         const token = this.getToken();
+
         if (!token) {
           return EMPTY;
         }
+
         return of(AuthActions.loginSuccess({ token }));
       }),
     ),
