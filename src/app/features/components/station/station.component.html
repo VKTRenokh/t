@@ -7,10 +7,11 @@
         <span>{{ stationProps.latitude }}</span>
       </div>
       <div class="connections">
+        @if (stationProps.connectedTo.length) {}
         <h2>Connected to:</h2>
-        @if (stationProps.connectedTo.length) {
-          <p>{{ stationProps.connectedTo[0].id }}</p>
-        }
+        <p>
+          {{ stationProps | connectedNames }}
+        </p>
       </div>
     </div>
     <button
@@ -18,7 +19,7 @@
       title="Delete"
       (click)="handleDelete()"
     >
-      <tui-icon icon="@tui.trash" color="grey" />
+      <tui-icon icon="@tui.trash" />
     </button>
   </div>
 }
