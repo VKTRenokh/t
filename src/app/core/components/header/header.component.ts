@@ -27,5 +27,6 @@ import { AuthFacade } from '../../../state/facades/auth.facade';
 })
 export class HeaderComponent {
   private authFacade = inject(AuthFacade);
+
   public isLoggedIn = this.authFacade.isLoggedIn;
 }
