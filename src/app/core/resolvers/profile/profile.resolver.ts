@@ -1,22 +1,12 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
-import { selectRoleAndError } from '../../../state/selectors/user.selector';
-import { filter, first, map } from 'rxjs';
-import { isNotNullable } from '../../../shared/utils/is-not-nullables';
+import { first } from 'rxjs';
 import { ResolveFn } from '@angular/router';
+import { selectAndFilterRoleAndError } from '../../utils/select-and-filter-role-and-error.util';
 
-export const profileResolver: ResolveFn<
-  string | void
-> = () => {
+export const profileResolver: ResolveFn<unknown> = () => {
   const store = inject<Store<AppState>>(Store);
 
-  return store.select(selectRoleAndError).pipe(
-    filter(
-      ({ error, role }) =>
-        isNotNullable(role) || isNotNullable(error),
-    ),
-    map(() => undefined),
-    first(),
-  );
+  return selectAndFilterRoleAndError(store).pipe(first());
 };
