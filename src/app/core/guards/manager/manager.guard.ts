@@ -3,19 +3,23 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 import { inject } from '@angular/core';
 import { selectRole } from '../../../state/selectors/user.selector';
-import { filter, map } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
+import { selectError } from '../../../state/selectors/auth.selector';
 
 export const managerGuard: CanActivateFn = () => {
   const router = inject(Router);
+  const store = inject<Store<AppState>>(Store);
 
-  return inject<Store<AppState>>(Store)
-    .select(selectRole)
-    .pipe(
-      filter(Boolean),
-      map(role =>
-        role === 'manager'
-          ? true
-          : router.createUrlTree(['/search']),
+  return store.select(selectRole).pipe(
+    switchMap(role =>
+      store.select(selectError).pipe(
+        map(error =>
+          role === 'manager' && !error
+            ? true
+            : router.parseUrl('/search'),
+        ),
+        tap(console.log),
       ),
-    );
+    ),
+  );
 };
