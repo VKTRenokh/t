@@ -10,6 +10,10 @@ import {
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
 import { AuthFacade } from '../../../state/facades/auth.facade';
+import { UserFacadeService } from '../../services/user-facade/user-facade.service';
+import { map } from 'rxjs';
+import { Roles } from '../../enums/role/role.enum';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'tra-header',
@@ -20,6 +24,7 @@ import { AuthFacade } from '../../../state/facades/auth.facade';
     TuiTabs,
     RouterLink,
     RouterLinkActive,
+    AsyncPipe,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -27,6 +32,10 @@ import { AuthFacade } from '../../../state/facades/auth.facade';
 })
 export class HeaderComponent {
   private authFacade = inject(AuthFacade);
+  private userFacade = inject(UserFacadeService);
 
   public isLoggedIn = this.authFacade.isLoggedIn;
+  public isAdmin$ = this.userFacade
+    .getRole()
+    .pipe(map(role => role === Roles.Manager));
 }
