@@ -13,3 +13,9 @@ export const selectError = createSelector(
   selectFeature,
   state => state.error,
 );
+
+export const selectRoleAndError = createSelector(
+  selectRole,
+  selectError,
+  (role, error) => ({ role, error }),
+);
