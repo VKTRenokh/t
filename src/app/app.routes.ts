@@ -37,11 +37,11 @@ export const routes: Routes = [
   },
   {
     path: 'manager',
-    canMatch: [managerGuard],
-    resolve: { profile: profileResolver },
+    canActivate: [managerGuard],
     children: [
       {
         path: 'stations',
+        resolve: { profile: profileResolver },
         loadComponent: () =>
           import(
             './stations/components/stations-page/stations-page.component.js'
