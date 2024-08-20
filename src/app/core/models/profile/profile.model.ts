@@ -1,5 +1,7 @@
+import { Roles } from '../../enums/role/role.enum';
+
 export interface Profile {
-  role: 'manager' | 'user';
+  role: Roles;
   name: string | null;
   email: string;
 }
