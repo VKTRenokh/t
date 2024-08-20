@@ -16,4 +16,10 @@ import { Station } from '../../interfaces/stations.interface';
 })
 export class StationComponent {
   @Input({ required: true }) public stationProps!: Station;
+
+  public showStation = true;
+
+  public handleDelete() {
+    this.showStation = false;
+  }
 }

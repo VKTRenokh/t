@@ -11,7 +11,7 @@ export const initialState: StationsState = {
   userStations: [],
 };
 
-export const authReducer = createReducer(
+export const stationsReducer = createReducer(
   initialState,
   on(
     StationsActions.getStationsSuccess,

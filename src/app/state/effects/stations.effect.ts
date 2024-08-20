@@ -11,7 +11,7 @@ import { StationsService } from '../../features/services/stations.service';
 import { StationsActions } from '../actions/stations.action';
 
 @Injectable()
-export class StationsEffect {
+export class StationsEffects {
   private actions = inject(Actions);
   private stationsService = inject(StationsService);
 

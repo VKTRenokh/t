@@ -2,5 +2,9 @@ export interface Station {
   city: string;
   latitude: number;
   longitude: number;
-  relations: number[];
+  connectedTo: ConnectedCity[];
+}
+export interface ConnectedCity {
+  id: number;
+  distance: number;
 }

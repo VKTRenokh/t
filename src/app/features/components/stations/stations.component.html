@@ -1,3 +1,5 @@
-@for (station of stations(); track $index) {
-  <tra-station [stationProps]="station" />
-}
+<div class="tui-container tui-space_top-5">
+  @for (station of stations(); track $index) {
+    <tra-station [stationProps]="station" />
+  }
+</div>
