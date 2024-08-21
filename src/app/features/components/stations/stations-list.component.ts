@@ -15,16 +15,21 @@ import { AppState } from '../../../state/app.state';
 import { StationsActions } from '../../../state/actions/stations.action';
 import { TuiPagination } from '@taiga-ui/kit';
 import { calculateTotalPages } from '../../utils/calculateTotalPages';
+import { TuiNotification } from '@taiga-ui/core';
 
 @Component({
   selector: 'tra-stations-list',
   standalone: true,
-  imports: [StationComponent, TuiPagination],
+  imports: [
+    StationComponent,
+    TuiPagination,
+    TuiNotification,
+  ],
   templateUrl: './stations-list.component.html',
   styleUrl: './stations-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsComponent implements OnInit {
+export class StationsListComponent implements OnInit {
   private stationsFacade = inject(StationsFacade);
 
   public stations = this.stationsFacade.stations;

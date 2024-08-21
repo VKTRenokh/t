@@ -34,6 +34,13 @@ export const routes: Routes = [
     canMatch: [guestGuard],
   },
   {
+    path: 'stations',
+    loadComponent: () =>
+      import(
+        './features/components/stations-page/stations-page.component.js'
+      ).then(M => M.StationsPageComponent),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import(

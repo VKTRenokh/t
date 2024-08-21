@@ -3,18 +3,20 @@ import {
   TestBed,
 } from '@angular/core/testing';
 
-import { StationsComponent } from './stations-list.component';
+import { StationsListComponent } from './stations-list.component';
 
 describe('StationsComponent', () => {
-  let component: StationsComponent;
-  let fixture: ComponentFixture<StationsComponent>;
+  let component: StationsListComponent;
+  let fixture: ComponentFixture<StationsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StationsComponent],
+      imports: [StationsListComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StationsComponent);
+    fixture = TestBed.createComponent(
+      StationsListComponent,
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

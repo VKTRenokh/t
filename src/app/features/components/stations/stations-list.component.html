@@ -4,7 +4,8 @@
   }
   <tui-pagination
     [length]="getTotalPages()"
-    [index]="stationsListCurrentPage"
+    [index]="currentPage"
     (indexChange)="goToPage($event)"
   ></tui-pagination>
 </div>
+<tui-notification size="l">ERROR</tui-notification>
