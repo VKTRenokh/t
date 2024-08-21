@@ -6,12 +6,12 @@ export const selectFeature = (state: AppState) =>
 
 export const selectAllStations = createSelector(
   selectFeature,
-  stations => stations.userStations,
+  stations => stations.stationsList,
 );
 
 export const selectStationsById = (id: number) =>
   createSelector(selectFeature, stations =>
-    stations.userStations.forEach(station =>
+    stations.stationsList.forEach(station =>
       station.connectedTo.find(city => city.id === id),
     ),
   );

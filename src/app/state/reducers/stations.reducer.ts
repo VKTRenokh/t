@@ -4,11 +4,11 @@ import { Station } from '../../features/interfaces/stations.interface';
 import { StationsActions } from '../actions/stations.action';
 
 export interface StationsState {
-  userStations: Station[];
+  stationsList: Station[];
 }
 
 export const initialState: StationsState = {
-  userStations: [],
+  stationsList: [],
 };
 
 export const stationsReducer = createReducer(
@@ -17,14 +17,14 @@ export const stationsReducer = createReducer(
     StationsActions.getStationsSuccess,
     (state, { stations }) => ({
       ...state,
-      userStations: stations,
+      stationsList: stations,
     }),
   ),
   on(
     StationsActions.deleteStationSuccess,
     (state, { id }) => ({
       ...state,
-      userStations: state.userStations.filter(
+      stationsList: state.stationsList.filter(
         station => station.id !== id,
       ),
     }),
