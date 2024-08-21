@@ -58,8 +58,12 @@ export class StationsPageComponent {
     city: this.formBuilder.control('', [
       Validators.required,
     ]),
-    lat: this.formBuilder.control<number | null>(null),
-    lng: this.formBuilder.control<number | null>(null),
+    lat: this.formBuilder.control<number | null>(null, [
+      Validators.required,
+    ]),
+    lng: this.formBuilder.control<number | null>(null, [
+      Validators.required,
+    ]),
   });
 
   public bindLatLng(value: Observable<number | null>) {
