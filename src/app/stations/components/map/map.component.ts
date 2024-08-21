@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  output,
   ViewChild,
 } from '@angular/core';
 import {
@@ -11,9 +12,11 @@ import {
   Map,
   LeafletMouseEvent,
   marker,
+  LatLngTuple,
+  Marker,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
-import { fromEvent, tap } from 'rxjs';
+import { LatLng } from 'leaflet';
 
 @Component({
   selector: 'tra-map',
@@ -24,15 +27,34 @@ import { fromEvent, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements AfterViewInit {
-  @ViewChild('map') public mapRef!: ElementRef;
+  @ViewChild('map') private mapRef!: ElementRef;
   private map: Map | null = null;
+  private currentMarker: Marker | null = null;
+
+  public markerChange = output<LatLng>();
 
   public onClick(event: LeafletMouseEvent) {
     if (!this.map) {
       return;
     }
 
-    marker(getLatAndLng(event)).addTo(this.map);
+    if (this.currentMarker) {
+      this.currentMarker.remove();
+    }
+
+    this.currentMarker = marker(getLatAndLng(event), {
+      draggable: true,
+    }).addTo(this.map);
+
+    this.markerChange.emit(this.currentMarker.getLatLng());
+
+    this.addMarkerOnDragListener(this.currentMarker);
+  }
+
+  public addMarkerOnDragListener(marker: Marker) {
+    marker.on('dragend', () => {
+      this.markerChange.emit(marker.getLatLng());
+    });
   }
 
   public ngAfterViewInit(): void {
