@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  output,
+  inject,
   ViewChild,
 } from '@angular/core';
 import {
@@ -12,11 +12,18 @@ import {
   Map,
   LeafletMouseEvent,
   marker,
-  LatLngTuple,
   Marker,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
+import {
+  ControlValueAccessor,
+  NgControl,
+} from '@angular/forms';
+
+export type OnChangeCallback =
+  | ((value: LatLng) => void)
+  | null;
 
 @Component({
   selector: 'tra-map',
@@ -26,12 +33,28 @@ import { LatLng } from 'leaflet';
   styleUrl: './map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent
+  implements AfterViewInit, ControlValueAccessor
+{
   @ViewChild('map') private mapRef!: ElementRef;
   private map: Map | null = null;
   private currentMarker: Marker | null = null;
+  private onChange: OnChangeCallback = null;
+  private control = inject(NgControl, { self: true });
 
-  public markerChange = output<LatLng>();
+  public value: LatLng | null = null;
+
+  constructor() {
+    this.control.valueAccessor = this;
+  }
+
+  private emitChanges() {
+    if (!this.currentMarker || !this.onChange) {
+      return;
+    }
+
+    this.onChange(this.currentMarker.getLatLng());
+  }
 
   public onClick(event: LeafletMouseEvent) {
     if (!this.map) {
@@ -46,14 +69,14 @@ export class MapComponent implements AfterViewInit {
       draggable: true,
     }).addTo(this.map);
 
-    this.markerChange.emit(this.currentMarker.getLatLng());
+    this.emitChanges();
 
     this.addMarkerOnDragListener(this.currentMarker);
   }
 
   public addMarkerOnDragListener(marker: Marker) {
     marker.on('dragend', () => {
-      this.markerChange.emit(marker.getLatLng());
+      this.emitChanges();
     });
   }
 
@@ -70,5 +93,19 @@ export class MapComponent implements AfterViewInit {
     this.map.setView([51.505, -0.09], 13);
 
     this.map.on('click', event => this.onClick(event));
+  }
+
+  public writeValue(latLng: LatLng): void {
+    this.value = latLng;
+  }
+
+  public registerOnChange(
+    fn: NonNullable<OnChangeCallback>,
+  ): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(): void {
+    return;
   }
 }

@@ -1,2 +1,7 @@
-<tra-map (markerChange)="onMarkerChange($event)" />
 <tra-stations-list />
+<form [formGroup]="form">
+  <tra-map formControlName="latLng" />
+</form>
+
+@let latLng = form.controls.latLng.valueChanges | async;
+<p>{{ latLng }}</p>
