@@ -1,11 +1,12 @@
 :host {
-  display: flex;
-  flex-direction: column;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .stations__container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 50px;
+  max-width: 760px;
+  width: 100%;
 }

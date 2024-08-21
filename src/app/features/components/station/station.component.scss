@@ -1,12 +1,12 @@
-.stations__wrapper {
+:host {
   display: flex;
   border: 1px solid rgb(187, 187, 187);
   border-radius: 8px;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  min-height: 203px;
-  max-width: 768px;
+  max-height: 203px;
+  flex: 1 1 760px;
 }
 .coordinates {
   display: flex;

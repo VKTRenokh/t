@@ -23,8 +23,6 @@ export class StationComponent {
 
   private store = inject(Store);
 
-  public showStation = true;
-
   public handleDelete() {
     this.store.dispatch(
       StationsActions.deleteStation({
