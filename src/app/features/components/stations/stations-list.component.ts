@@ -17,11 +17,11 @@ import { TuiPagination } from '@taiga-ui/kit';
 import { calculateTotalPages } from '../../utils/calculateTotalPages';
 
 @Component({
-  selector: 'tra-stations',
+  selector: 'tra-stations-list',
   standalone: true,
   imports: [StationComponent, TuiPagination],
-  templateUrl: './stations.component.html',
-  styleUrl: './stations.component.scss',
+  templateUrl: './stations-list.component.html',
+  styleUrl: './stations-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StationsComponent implements OnInit {

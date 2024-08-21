@@ -34,7 +34,7 @@ import { filter, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { emailValidator } from '../../validators/email/email.validator';
-import { StationsComponent } from '../../../features/components/stations/stations.component';
+import { StationsComponent } from '../../../features/components/stations/stations-list.component';
 
 const minPasswordLength = 8;
 
