@@ -28,9 +28,7 @@ export class ConnectedNamesPipe implements PipeTransform {
     );
 
     const connectedNames = currentStation.connectedTo.map(
-      station => {
-        return stationsMap.get(station.id);
-      },
+      station => stationsMap.get(station.id),
     );
 
     return connectedNames.join(', ');

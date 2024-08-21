@@ -5,7 +5,7 @@
       <div class="coordinates">
         <span
           >{{ stationProps.latitude }},
-          {{ stationProps.latitude }}</span
+          {{ stationProps.longitude }}</span
         >
       </div>
       <div class="connections">
@@ -19,9 +19,13 @@
     <button
       tuiButton
       title="Delete"
-      (click)="handleDelete()"
+      size="s"
+      appearance="secondary"
     >
-      <tui-icon icon="@tui.trash" />
+      <tui-icon
+        icon="@tui.trash"
+        (click)="handleDelete()"
+      />
     </button>
   </div>
 }

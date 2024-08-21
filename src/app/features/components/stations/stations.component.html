@@ -1,5 +1,10 @@
-<div class="tui-container tui-space_top-5">
-  @for (station of stations(); track $index) {
+<div class="stations__container">
+  @for (station of getPaginatedStations(); track $index) {
     <tra-station [stationProps]="station" />
   }
+  <tui-pagination
+    [length]="getTotalPages()"
+    [index]="stationsListCurrentPage"
+    (indexChange)="goToPage($event)"
+  ></tui-pagination>
 </div>
