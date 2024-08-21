@@ -1,6 +1,12 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <tra-map formControlName="latLng" />
+  <tui-input formControlName="city">
+    City name
+    <input
+      type="text"
+      tuiTextfieldLegacy
+      formControlName="city"
+    />
+  </tui-input>
+  <button tuiButton type="submit">Save</button>
 </form>
-
-@let latLng = form.controls.latLng.valueChanges | async;
-<p>{{ latLng }}</p>
