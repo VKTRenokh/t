@@ -93,15 +93,20 @@ export class MapComponent
     });
   }
 
-  public ngAfterViewInit(): void {
-    this.map = createMap(this.mapRef.nativeElement);
+  public addLayer(map: Map) {
     tileLayer(
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       },
-    ).addTo(this.map);
+    ).addTo(map);
+  }
+
+  public ngAfterViewInit(): void {
+    this.map = createMap(this.mapRef.nativeElement);
+
+    this.addLayer(this.map);
 
     this.map.setView(defaultLatLng, defaultZoom);
 
