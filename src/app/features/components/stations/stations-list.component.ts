@@ -15,7 +15,12 @@ import { AppState } from '../../../state/app.state';
 import { StationsActions } from '../../../state/actions/stations.action';
 import { TuiPagination } from '@taiga-ui/kit';
 import { calculateTotalPages } from '../../utils/calculateTotalPages';
-import { TuiNotification } from '@taiga-ui/core';
+import { TuiError } from '@taiga-ui/core';
+
+import { isNotNullable } from '../../../shared/utils/is-not-nullables';
+import { filter, map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { selectStationsError } from '../../../state/selectors/stations.selector';
 
 @Component({
   selector: 'tra-stations-list',
@@ -23,7 +28,8 @@ import { TuiNotification } from '@taiga-ui/core';
   imports: [
     StationComponent,
     TuiPagination,
-    TuiNotification,
+    TuiError,
+    AsyncPipe,
   ],
   templateUrl: './stations-list.component.html',
   styleUrl: './stations-list.component.scss',
@@ -37,6 +43,13 @@ export class StationsListComponent implements OnInit {
   public service = inject(StationsService);
 
   public store = inject(Store<AppState>);
+
+  public error$ = this.store
+    .select(selectStationsError)
+    .pipe(
+      filter(isNotNullable),
+      map(error => error.message),
+    );
 
   public currentPage = 0;
 

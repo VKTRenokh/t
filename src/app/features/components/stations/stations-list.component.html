@@ -2,10 +2,12 @@
   @for (station of getPaginatedStations(); track $index) {
     <tra-station [stationProps]="station" />
   }
-  <tui-pagination
-    [length]="getTotalPages()"
-    [index]="currentPage"
-    (indexChange)="goToPage($event)"
-  ></tui-pagination>
+  @if (stations()?.length) {
+    <tui-pagination
+      [length]="getTotalPages()"
+      [index]="currentPage"
+      (indexChange)="goToPage($event)"
+    ></tui-pagination>
+  }
 </div>
-<tui-notification size="l">ERROR</tui-notification>
+<tui-error [error]="error$ | async" />

@@ -2,9 +2,11 @@ import { createReducer, on } from '@ngrx/store';
 
 import { Station } from '../../features/interfaces/stations.interface';
 import { StationsActions } from '../actions/stations.action';
+import { ApiError } from '../../shared/models/api-error.model';
 
 export interface StationsState {
   stationsList: Station[];
+  error?: ApiError;
 }
 
 export const initialState: StationsState = {
@@ -29,4 +31,8 @@ export const stationsReducer = createReducer(
       ),
     }),
   ),
+  on(StationsActions.failure, (state, { error }) => ({
+    ...state,
+    error: error,
+  })),
 );

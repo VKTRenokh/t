@@ -5,7 +5,7 @@ import {
   ofType,
 } from '@ngrx/effects';
 
-import { exhaustMap, map } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 
 import { StationsService } from '../../features/services/stations.service';
 import { StationsActions } from '../actions/stations.action';
@@ -20,10 +20,18 @@ export class StationsEffects {
       ofType(StationsActions.getStations),
       exhaustMap(() =>
         this.stationsService.getStations().pipe(
-          map(stations =>
-            StationsActions.getStationsSuccess({
-              stations,
-            }),
+          map(
+            stations =>
+              StationsActions.getStationsSuccess({
+                stations,
+              }),
+            catchError(response =>
+              of(
+                StationsActions.failure({
+                  error: response.error,
+                }),
+              ),
+            ),
           ),
         ),
       ),

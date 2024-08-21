@@ -15,3 +15,8 @@ export const selectStationsById = (id: number) =>
       station.connectedTo.find(city => city.id === id),
     ),
   );
+
+export const selectStationsError = createSelector(
+  selectFeature,
+  stations => stations.error,
+);
