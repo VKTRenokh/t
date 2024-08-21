@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
+  forwardRef,
   inject,
   ViewChild,
 } from '@angular/core';
@@ -18,8 +20,10 @@ import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
 import {
   ControlValueAccessor,
-  NgControl,
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
@@ -38,6 +42,13 @@ export const defaultZoom = 6;
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MapComponent),
+      multi: true,
+    },
+  ],
 })
 export class MapComponent
   implements AfterViewInit, ControlValueAccessor
@@ -46,13 +57,9 @@ export class MapComponent
   private map: Map | null = null;
   private currentMarker: Marker | null = null;
   private onChange: OnChangeCallback = null;
-  private control = inject(NgControl, { self: true });
+  private destroyRef = inject(DestroyRef);
 
   public value: LatLng = defaultLatLng;
-
-  constructor() {
-    this.control.valueAccessor = this;
-  }
 
   private emitChanges() {
     if (!this.currentMarker || !this.onChange) {
@@ -98,7 +105,9 @@ export class MapComponent
 
     this.map.setView(defaultLatLng, defaultZoom);
 
-    this.map.on('click', event => this.onClick(event));
+    fromEvent<LeafletMouseEvent>(this.map, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(event => this.onClick(event));
   }
 
   public writeValue(latLng: LatLng): void {
