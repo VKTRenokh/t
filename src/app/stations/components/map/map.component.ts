@@ -13,7 +13,6 @@ import {
   LeafletMouseEvent,
   marker,
   Marker,
-  polyline,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
@@ -25,6 +24,9 @@ import {
 export type OnChangeCallback =
   | ((value: LatLng) => void)
   | null;
+
+// TODO: Add map line connections between stations
+// TODO: Unsubscribe from leaflet events
 
 export const defaultLatLng = new LatLng(51.505, -0.09);
 export const defaultZoom = 6;
