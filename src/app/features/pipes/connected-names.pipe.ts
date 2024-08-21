@@ -13,13 +13,6 @@ export class ConnectedNamesPipe implements PipeTransform {
   private stations = this.stationsFacade.stations;
 
   public transform(currentStation: Station): string {
-    if (
-      !currentStation ||
-      !currentStation.connectedTo.length
-    ) {
-      return 'There are no connected stations';
-    }
-
     const stationsMap = new Map(
       this.stations()?.map(station => [
         station.id,

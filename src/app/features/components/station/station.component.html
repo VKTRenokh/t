@@ -9,11 +9,14 @@
         >
       </div>
       <div class="connections">
-        @if (stationProps.connectedTo.length) {}
         <h2>Connected to:</h2>
-        <p>
-          {{ stationProps | connectedNames }}
-        </p>
+        @if (stationProps.connectedTo.length) {
+          <p>
+            {{ stationProps | connectedNames }}
+          </p>
+        } @else {
+          <p>There are no connected stations</p>
+        }
       </div>
     </div>
     <button
