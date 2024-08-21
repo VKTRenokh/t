@@ -88,9 +88,9 @@ export class MapComponent
   }
 
   public addMarkerOnDragListener(marker: Marker) {
-    marker.on('dragend', () => {
-      this.emitChanges();
-    });
+    fromEvent(marker, 'dragend')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.emitChanges());
   }
 
   public addLayer(map: Map) {
@@ -112,7 +112,8 @@ export class MapComponent
   public writeValue(latLng: LatLng): void {
     this.value = latLng;
 
-    this.map?.setView(latLng, defaultZoom);
+    this.map?.setView(latLng, this.map.getZoom());
+    this.currentMarker?.setLatLng(latLng);
   }
 
   public registerOnChange(
