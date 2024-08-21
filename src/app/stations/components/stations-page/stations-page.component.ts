@@ -13,4 +13,8 @@ import { MapComponent } from '../map/map.component';
   styleUrl: './stations-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsPageComponent {}
+export class StationsPageComponent {
+  public onMarkerChange(event: unknown) {
+    console.log(event);
+  }
+}
