@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  tileLayer,
   map as createMap,
   Map,
   LeafletMouseEvent,
@@ -24,6 +23,7 @@ import {
 } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
@@ -94,13 +94,7 @@ export class MapComponent
   }
 
   public addLayer(map: Map) {
-    tileLayer(
-      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      },
-    ).addTo(map);
+    tileLayer().addTo(map);
   }
 
   public ngAfterViewInit(): void {
