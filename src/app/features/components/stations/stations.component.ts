@@ -33,31 +33,30 @@ export class StationsComponent implements OnInit {
 
   public store = inject(Store<AppState>);
 
-  public stationsListCurrentPage = 0;
+  public currentPage = 0;
 
-  private listPageSize = 5;
+  private itemsPerPage = 5;
 
   public ngOnInit(): void {
     this.store.dispatch(StationsActions.getStations());
   }
 
   public goToPage(index: number) {
-    this.stationsListCurrentPage = index;
+    this.currentPage = index;
   }
 
   public getPaginatedStations() {
-    const startIndex =
-      this.stationsListCurrentPage * this.listPageSize;
+    const startIndex = this.currentPage * this.itemsPerPage;
     return this.stations()!.slice(
       startIndex,
-      startIndex + this.listPageSize,
+      startIndex + this.itemsPerPage,
     );
   }
 
   public getTotalPages() {
     return calculateTotalPages(
       this.stations()!.length,
-      this.listPageSize,
+      this.itemsPerPage,
     );
   }
 }
