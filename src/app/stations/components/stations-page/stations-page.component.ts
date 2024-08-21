@@ -13,8 +13,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { TuiButton } from '@taiga-ui/core';
-import { TuiInputModule } from '@taiga-ui/legacy';
+import {
+  TuiButton,
+  TuiError,
+  TuiNumberFormat,
+} from '@taiga-ui/core';
+import {
+  TuiInputModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tra-stations-page',
@@ -25,6 +34,10 @@ import { TuiInputModule } from '@taiga-ui/legacy';
     AsyncPipe,
     TuiButton,
     TuiInputModule,
+    TuiError,
+    TuiInputNumberModule,
+    TuiFieldErrorPipe,
+    TuiNumberFormat,
   ],
   templateUrl: './stations-page.component.html',
   styleUrl: './stations-page.component.scss',
@@ -33,17 +46,22 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 export class StationsPageComponent {
   private formBuilder = inject(NonNullableFormBuilder);
 
+  public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
     latLng: this.formBuilder.control(defaultLatLng),
     city: this.formBuilder.control('', [
       Validators.required,
     ]),
+    lat: this.formBuilder.control(0),
+    lng: this.formBuilder.control(0),
   });
 
   constructor() {
-    this.form.controls.latLng.valueChanges.subscribe(
-      console.log,
-    );
+    this.form.controls.latLng.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(latLng => {
+        this.form.patchValue({ ...latLng });
+      });
   }
 
   public onSubmit() {

@@ -1,4 +1,8 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  [tuiNumberFormat]="numberFormat"
+>
   <tra-map formControlName="latLng" />
   <tui-input formControlName="city">
     City name
@@ -8,5 +12,13 @@
       formControlName="city"
     />
   </tui-input>
-  <button tuiButton type="submit">Save</button>
+  <tui-error
+    [error]="[] | tuiFieldError | async"
+    formControlName="city"
+  />
+  <tui-input-number formControlName="lat" />
+  <tui-input-number formControlName="lng" />
+  <button tuiButton type="submit" [disabled]="form.invalid">
+    Save
+  </button>
 </form>
