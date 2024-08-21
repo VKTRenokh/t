@@ -18,6 +18,7 @@ import {
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
 import { Router } from '@angular/router';
+import { ProfileActions } from '../actions/profile.action';
 
 @Injectable()
 export class AuthEffects {
@@ -114,12 +115,13 @@ export class AuthEffects {
       ofType(ROOT_EFFECTS_INIT),
       exhaustMap(() => {
         const token = this.getToken();
-
-        if (!token) {
-          return EMPTY;
+        if (token) {
+          return of(
+            AuthActions.loginSuccess({ token }),
+            ProfileActions.fetchProfile(),
+          );
         }
-
-        return of(AuthActions.loginSuccess({ token }));
+        return EMPTY;
       }),
     ),
   );
