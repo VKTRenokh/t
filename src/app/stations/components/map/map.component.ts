@@ -13,6 +13,7 @@ import {
   LeafletMouseEvent,
   marker,
   Marker,
+  polyline,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
@@ -24,6 +25,9 @@ import {
 export type OnChangeCallback =
   | ((value: LatLng) => void)
   | null;
+
+export const defaultLatLng = new LatLng(51.505, -0.09);
+export const defaultZoom = 6;
 
 @Component({
   selector: 'tra-map',
@@ -42,7 +46,7 @@ export class MapComponent
   private onChange: OnChangeCallback = null;
   private control = inject(NgControl, { self: true });
 
-  public value: LatLng | null = null;
+  public value: LatLng = defaultLatLng;
 
   constructor() {
     this.control.valueAccessor = this;
@@ -90,13 +94,15 @@ export class MapComponent
       },
     ).addTo(this.map);
 
-    this.map.setView([51.505, -0.09], 13);
+    this.map.setView(defaultLatLng, defaultZoom);
 
     this.map.on('click', event => this.onClick(event));
   }
 
   public writeValue(latLng: LatLng): void {
     this.value = latLng;
+
+    this.map?.setView(latLng, defaultZoom);
   }
 
   public registerOnChange(
