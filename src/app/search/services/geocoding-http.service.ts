@@ -9,11 +9,13 @@ import { GeocodingResponse } from '../../core/models/geocoding-response';
 })
 export class GeocodingHttpService {
   private httpClient = inject(HttpClient);
+  private readonly basePath = environment.geocodingBasePath;
 
   public getTowns(
     town: string,
   ): Observable<GeocodingResponse> {
-    const apiUrlVideos = `${environment.geocodingBasePath}?q=${town}&key=${environment.key}`;
+    const apiUrlVideos = `${this.basePath}?q=${town}&key=${environment.key}`;
+    console.log('negr');
 
     return this.httpClient.get<GeocodingResponse>(
       apiUrlVideos,

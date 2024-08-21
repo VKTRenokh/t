@@ -1,3 +1,6 @@
+@let fromTowns = fromTowns$ | async;
+@let toTowns = toTowns$ | async;
+
 <div class="tui-container tui-space_top-5">
   <h3>Search routes</h3>
   <form
@@ -9,15 +12,19 @@
       <div class="tui-form__row_cities">
         <tui-input formControlName="from">
           From city
-          @if (townsFromArr) {
+          @if (fromTowns) {
             <ng-template tuiDataList>
-              <tui-data-list-wrapper
-                [items]="townsFromArr"
-              />
+              <tui-opt-group>
+                @for (
+                  town of fromTowns.results;
+                  track town
+                ) {
+                  <p>{{ town.components.city }}</p>
+                }
+              </tui-opt-group>
             </ng-template>
           }
           <input
-            (ngModelChange)="inputFromValue.next($event)"
             type="text"
             formControlName="from"
             class="tui-form__input"
@@ -29,18 +36,24 @@
           color="grey"
           class="tui-form__row_arrows"
         />
-        <tui-input formControlName="to">
+        <tui-input
+          formControlName="to"
+          stringify="stringify"
+        >
           To city
-          @if (townsToArr) {
-            <ng-template tuiDataList>
-              <tui-data-list-wrapper [items]="townsToArr" />
-            </ng-template>
+          @if (toTowns) {
+            <tui-data-list-wrapper
+              *tuiDataList
+              [itemContent]="
+                stringify | tuiStringifyContent
+              "
+              [items]="toTowns.results | tuiFilterByInput"
+            />
           }
           <input
             type="text"
             class="tui-form__input"
             formControlName="to"
-            (ngModelChange)="inputToValue.next($event)"
             tuiTextfieldLegacy
           />
         </tui-input>

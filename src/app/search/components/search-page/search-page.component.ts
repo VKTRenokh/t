@@ -19,10 +19,15 @@ import {
   TuiInputModule,
 } from '@taiga-ui/legacy';
 import { futureDateValidator } from '../../validators/future-date/future-date.validator';
-import { TuiDataListWrapper } from '@taiga-ui/kit';
+import {
+  TuiDataListWrapper,
+  TuiFilterByInputPipe,
+  TuiStringifyContentPipe,
+} from '@taiga-ui/kit';
 import { GeocodingHttpService } from '../../services/geocoding-http.service';
-import { Subject } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { debounceTime, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Result } from '../../../core/models/geocoding-response';
 
 @Component({
@@ -36,6 +41,8 @@ import { Result } from '../../../core/models/geocoding-response';
     TuiButton,
     TuiDataListWrapper,
     TuiDataList,
+    TuiStringifyContentPipe,
+    TuiFilterByInputPipe,
     AsyncPipe,
   ],
   templateUrl: './search-page.component.html',
@@ -47,10 +54,7 @@ export class SearchPageComponent {
   protected geocodingHttpService = inject(
     GeocodingHttpService,
   );
-  protected inputFromValue = new Subject<string>();
-  protected inputToValue = new Subject<string>();
-  protected townsFromArr: string[] = [];
-  protected townsToArr: string[] = [];
+
   public form = this.formBuilder.group({
     from: this.formBuilder.control('', [
       Validators.required,
@@ -61,46 +65,27 @@ export class SearchPageComponent {
       [Validators.required, futureDateValidator],
     ),
   });
+  protected fromTowns$ =
+    this.form.controls.from.valueChanges.pipe(
+      debounceTime(300),
+      switchMap(value => {
+        console.log(value);
+        return this.geocodingHttpService.getTowns(
+          value as string,
+        );
+      }),
+      takeUntilDestroyed(),
+    );
+  protected readonly stringify = (item: Result): string =>
+    `${item.components.city || ''} ${item.components.state || ''} ${item.components.country || ''}`;
 
-  constructor() {
-    this.inputFromValue.subscribe(town => {
-      this.geocodingHttpService
-        .getTowns(town)
-        .subscribe(item => {
-          this.townsFromArr = this.getCitiesNames(
-            item.results,
-          );
-        });
-    });
-    this.inputToValue.subscribe(town => {
-      this.geocodingHttpService
-        .getTowns(town)
-        .subscribe(item => {
-          this.townsToArr = this.getCitiesNames(
-            item.results,
-          );
-        });
-    });
-  }
-
-  private getCitiesNames(results: Result[]): string[] {
-    const townArray = [];
-    for (const element of results) {
-      const city = element.components.city
-        ? element.components.city
-        : '';
-      const state = element.components.state
-        ? element.components.state
-        : '';
-      const country = element.components.country
-        ? element.components.country
-        : '';
-
-      const fullCity = `${city} ${state} ${country}`;
-      townArray.push(fullCity);
-    }
-    return townArray;
-  }
+  protected toTowns$ =
+    this.form.controls.to.valueChanges.pipe(
+      switchMap(value =>
+        this.geocodingHttpService.getTowns(value as string),
+      ),
+      takeUntilDestroyed(),
+    );
 
   public getNextTuiDay() {
     const now = TuiDay.currentLocal();
