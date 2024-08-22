@@ -10,7 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  Bounds,
   map as createMap,
+  LatLngBounds,
   Map as LeafLetMap,
   LeafletMouseEvent,
   marker,
@@ -110,6 +112,17 @@ export class MapComponent
     this.markerMap.delete(id);
   }
 
+  // FIXME: any
+  public isStationVisible(
+    station: any,
+    bounds: LatLngBounds,
+  ) {
+    return bounds.contains([
+      station.latitude,
+      station.longitude,
+    ]);
+  }
+
   private addVisibleMarkers() {
     const stations = this.stations() as any[];
 
@@ -119,14 +132,12 @@ export class MapComponent
     const stationsToKeep = new Set<string>();
 
     const bounds = this.map.getBounds();
-    const visibleStations = stations.filter(station =>
-      bounds.contains([
-        station.latitude,
-        station.longitude,
-      ]),
-    );
 
-    visibleStations.forEach(station => {
+    stations.forEach(station => {
+      if (!this.isStationVisible(station, bounds)) {
+        return;
+      }
+
       stationsToKeep.add(station.id);
 
       if (this.markerMap.has(station.id)) {
