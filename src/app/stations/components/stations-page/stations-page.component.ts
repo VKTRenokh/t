@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
-import { StationsListComponent } from '../stations/stations-list.component';
+import { StationsListComponent } from '../../../stations/components/stations/stations-list.component';
 
 @Component({
   selector: 'tra-stations-page',

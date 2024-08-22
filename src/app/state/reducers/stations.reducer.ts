@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { Station } from '../../features/interfaces/stations.interface';
+import { Station } from '../../stations/interfaces/stations.interface';
 import { StationsActions } from '../actions/stations.action';
 import { ApiError } from '../../shared/models/api-error.model';
 

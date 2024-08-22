@@ -7,7 +7,7 @@ import {
 
 import { catchError, exhaustMap, map, of } from 'rxjs';
 
-import { StationsService } from '../../features/services/stations.service';
+import { StationsService } from '../../stations/services/stations.service';
 import { StationsActions } from '../actions/stations.action';
 
 @Injectable()
