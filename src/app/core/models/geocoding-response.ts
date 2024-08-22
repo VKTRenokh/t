@@ -1,26 +1,20 @@
-export interface GeocodingResponse {
-  results: Result[];
-  status: Status;
+export interface NominatimResponse {
+  place_id: string;
+  osm_type: string;
+  osm_id: string;
+  boundingbox: [string, string, string, string]; // [south, north, west, east]
+  lat: string;
+  lon: string;
+  display_name: string;
+  class: string;
+  type: string;
+  importance: number;
+  address: Address;
 }
 
-export interface Result {
-  formatted: string;
-  geometry: Geometry;
-  components: Components;
-}
-
-interface Geometry {
-  lat: number;
-  lng: number;
-}
-
-interface Components {
+interface Address {
   city: string;
-  state: string;
+  state?: string;
   country: string;
-}
-
-interface Status {
-  code: number;
-  message: string;
+  country_code: string;
 }

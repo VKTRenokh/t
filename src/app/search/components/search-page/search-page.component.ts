@@ -15,6 +15,7 @@ import {
   TuiIcon,
 } from '@taiga-ui/core';
 import {
+  TuiComboBoxModule,
   TuiInputDateTimeModule,
   TuiInputModule,
 } from '@taiga-ui/legacy';
@@ -26,9 +27,14 @@ import {
 } from '@taiga-ui/kit';
 import { GeocodingHttpService } from '../../services/geocoding-http.service';
 import { AsyncPipe } from '@angular/common';
-import { debounceTime, switchMap } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Result } from '../../../core/models/geocoding-response';
+import { NominatimResponse } from '../../../core/models/geocoding-response';
 
 @Component({
   selector: 'tra-search-page',
@@ -42,6 +48,7 @@ import { Result } from '../../../core/models/geocoding-response';
     TuiDataListWrapper,
     TuiDataList,
     TuiStringifyContentPipe,
+    TuiComboBoxModule,
     TuiFilterByInputPipe,
     AsyncPipe,
   ],
@@ -56,10 +63,14 @@ export class SearchPageComponent {
   );
 
   public form = this.formBuilder.group({
-    from: this.formBuilder.control('', [
-      Validators.required,
-    ]),
-    to: this.formBuilder.control('', [Validators.required]),
+    from: this.formBuilder.control<NominatimResponse | null>(
+      null,
+      [Validators.required],
+    ),
+    to: this.formBuilder.control<NominatimResponse | null>(
+      null,
+      [Validators.required],
+    ),
     date: this.formBuilder.control(
       [this.getNextTuiDay(), TuiTime.currentLocal()],
       [Validators.required, futureDateValidator],
@@ -67,25 +78,37 @@ export class SearchPageComponent {
   });
   protected fromTowns$ =
     this.form.controls.from.valueChanges.pipe(
+      distinctUntilChanged(),
       debounceTime(300),
-      switchMap(value => {
-        console.log(value);
-        return this.geocodingHttpService.getTowns(
-          value as string,
-        );
-      }),
-      takeUntilDestroyed(),
-    );
-  protected readonly stringify = (item: Result): string =>
-    `${item.components.city || ''} ${item.components.state || ''} ${item.components.country || ''}`;
-
-  protected toTowns$ =
-    this.form.controls.to.valueChanges.pipe(
       switchMap(value =>
-        this.geocodingHttpService.getTowns(value as string),
+        this.geocodingHttpService
+          .getTowns(value)
+          .pipe(map(value => value.map(this.stringify))),
       ),
       takeUntilDestroyed(),
     );
+
+  protected toTowns$ =
+    this.form.controls.to.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      switchMap(value =>
+        this.geocodingHttpService
+          .getTowns(value)
+          .pipe(map(value => value.map(this.stringify))),
+      ),
+      takeUntilDestroyed(),
+    );
+
+  constructor() {
+    this.form.get('to')?.valueChanges.subscribe(val => {
+      console.log(val);
+    });
+  }
+
+  protected stringify(item: NominatimResponse): string {
+    return `${item.address.city || ''} ${item.address.state || ''} ${item.address.country || ''}`;
+  }
 
   public getNextTuiDay() {
     const now = TuiDay.currentLocal();

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
-import { GeocodingResponse } from '../../core/models/geocoding-response';
+import { NominatimResponse } from '../../core/models/geocoding-response';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +12,12 @@ export class GeocodingHttpService {
   private readonly basePath = environment.geocodingBasePath;
 
   public getTowns(
-    town: string,
-  ): Observable<GeocodingResponse> {
-    const apiUrlVideos = `${this.basePath}?q=${town}&key=${environment.key}`;
-    console.log('negr');
+    town: NominatimResponse | null,
+  ): Observable<NominatimResponse[]> {
+    const isTown = town ? town : '';
+    const apiUrlVideos = `${this.basePath}?q=${isTown}&format=json&addressdetails=1`;
 
-    return this.httpClient.get<GeocodingResponse>(
+    return this.httpClient.get<NominatimResponse[]>(
       apiUrlVideos,
     );
   }
