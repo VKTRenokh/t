@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   forwardRef,
   inject,
+  input,
   ViewChild,
 } from '@angular/core';
 import {
@@ -14,6 +16,7 @@ import {
   LeafletMouseEvent,
   marker,
   Marker,
+  popup,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
@@ -59,8 +62,35 @@ export class MapComponent
   private onChange: OnChangeCallback = null;
   private destroyRef = inject(DestroyRef);
 
+  public stations = input<any>();
   public value: LatLng = defaultLatLng;
-
+  //
+  //private eff = effect(() => {
+  //  const stations = this.stations() as any[];
+  //  const map = this.map!;
+  //
+  //  if (!stations) {
+  //    return;
+  //  }
+  //
+  //  stations.map(station => {
+  //    const latLng = new LatLng(
+  //      station.latitude,
+  //      station.longitude,
+  //    );
+  //
+  //    const stationPopup = popup()
+  //      .setContent(station.city)
+  //      .setLatLng(latLng);
+  //
+  //    marker(
+  //      new LatLng(station.latitude, station.longitude),
+  //    )
+  //      .addTo(map)
+  //      .bindPopup(stationPopup);
+  //  });
+  //});
+  //
   private emitChanges() {
     if (!this.currentMarker || !this.onChange) {
       return;
@@ -97,6 +127,30 @@ export class MapComponent
     tileLayer().addTo(map);
   }
 
+  private addVisibleMarkers() {
+    const stations = this.stations() as any[];
+
+    if (!stations || !this.map) {
+      return;
+    }
+
+    const bounds = this.map.getBounds();
+    const visibleStations = stations.filter(station =>
+      bounds.contains([
+        station.latitude,
+        station.longitude,
+      ]),
+    );
+
+    visibleStations.forEach(station => {
+      marker(
+        new LatLng(station.latitude, station.longitude),
+      )
+        .bindPopup(station.city)
+        .addTo(this.map!);
+    });
+  }
+
   public ngAfterViewInit(): void {
     this.map = createMap(this.mapRef.nativeElement);
 
@@ -107,6 +161,10 @@ export class MapComponent
     fromEvent<LeafletMouseEvent>(this.map, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(event => this.onClick(event));
+
+    fromEvent(this.map, 'moveend')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.addVisibleMarkers());
   }
 
   public writeValue(latLng: LatLng): void {

@@ -4,7 +4,10 @@
   [tuiNumberFormat]="numberFormat"
 >
   @defer {
-    <tra-map formControlName="latLng" />
+    <tra-map
+      formControlName="latLng"
+      [stations]="stations()"
+    />
   }
   <tui-input formControlName="city">
     City name
