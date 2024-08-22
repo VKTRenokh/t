@@ -10,7 +10,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  Bounds,
   map as createMap,
   LatLngBounds,
   Map as LeafLetMap,
@@ -24,7 +23,7 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { debounceTime, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
 import { FeatureGroup } from 'leaflet';
@@ -123,12 +122,23 @@ export class MapComponent
     ]);
   }
 
+  // FIXME: any
+  private addStationMarker(station: any) {
+    const stationMarker = marker(
+      new LatLng(station.latitude, station.longitude),
+    ).bindPopup(station.city);
+
+    this.markerMap.set(station.id, stationMarker);
+    this.markers.addLayer(stationMarker);
+  }
+
   private addVisibleMarkers() {
     const stations = this.stations() as any[];
 
     if (!stations || !this.map) {
       return;
     }
+
     const stationsToKeep = new Set<string>();
 
     const bounds = this.map.getBounds();
@@ -144,12 +154,7 @@ export class MapComponent
         return;
       }
 
-      const stationMarker = marker(
-        new LatLng(station.latitude, station.longitude),
-      ).bindPopup(station.city);
-
-      this.markerMap.set(station.id, stationMarker);
-      this.markers.addLayer(stationMarker);
+      this.addStationMarker(station);
     });
 
     this.markerMap.forEach((marker, id) => {
@@ -173,7 +178,7 @@ export class MapComponent
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(event => this.onClick(event));
 
-    fromEvent(this.map, 'moveend')
+    fromEvent(this.map, 'move')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.addVisibleMarkers());
   }
