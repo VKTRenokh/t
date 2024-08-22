@@ -34,7 +34,6 @@ import { filter, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { emailValidator } from '../../validators/email/email.validator';
-import { StationsListComponent } from '../../../features/components/stations/stations-list.component';
 
 const minPasswordLength = 8;
 
@@ -52,7 +51,6 @@ const minPasswordLength = 8;
     TuiLink,
     RouterLink,
     AsyncPipe,
-    StationsListComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

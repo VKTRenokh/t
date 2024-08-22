@@ -16,8 +16,6 @@ import {
 } from '@taiga-ui/legacy';
 import { futureDateValidator } from '../../validators/future-date/future-date.validator';
 
-import { StationsListComponent } from '../../../features/components/stations/stations-list.component';
-
 @Component({
   selector: 'tra-search-page',
   standalone: true,
@@ -27,7 +25,6 @@ import { StationsListComponent } from '../../../features/components/stations/sta
     TuiInputModule,
     TuiIcon,
     TuiButton,
-    StationsListComponent,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
