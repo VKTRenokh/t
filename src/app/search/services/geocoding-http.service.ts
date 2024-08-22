@@ -11,11 +11,11 @@ export class GeocodingHttpService {
   private httpClient = inject(HttpClient);
   private readonly basePath = environment.geocodingBasePath;
 
-  public getTowns(
-    town: NominatimResponse | null,
+  public getAddress(
+    address: string | NominatimResponse | null,
   ): Observable<NominatimResponse[]> {
-    const isTownExist = town || '';
-    const apiUrlVideos = `${this.basePath}?q=${isTownExist}&format=json&addressdetails=1`;
+    const isAddressExist = address || '';
+    const apiUrlVideos = `${this.basePath}?q=${isAddressExist}&format=json&addressdetails=1`;
 
     return this.httpClient.get<NominatimResponse[]>(
       apiUrlVideos,

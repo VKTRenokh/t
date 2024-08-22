@@ -1,5 +1,5 @@
-@let fromTowns = fromTowns$ | async;
-@let toTowns = toTowns$ | async;
+@let fromAddress = fromAddress$ | async;
+@let toAddres = toAddress$ | async;
 
 <div class="tui-container tui-space_top-5">
   <h3>Search routes</h3>
@@ -8,15 +8,35 @@
       <div class="tui-form__row_cities">
         <tui-input formControlName="from">
           From city
-          @if (fromTowns) {
-          <tui-data-list-wrapper *tuiDataList [items]="fromTowns" />
+          @if (fromAddress) {
+          <tui-data-list *tuiDataList class="data-list">
+            @for(item of fromAddress; track item) {
+            <button tuiOption [value]="item" (click)="onSelected(item)">
+              <div class="address">
+                <span class="address__city">{{ item.address.city}}</span>
+                <span class="address__state">{{item.address.state ?? ''}}</span>
+                <span class="address__country">{{ item.address.country}}</span>
+              </div>
+            </button>
+            }
+          </tui-data-list>
           }
         </tui-input>
         <tui-icon icon="@tui.arrow-left-right" color="grey" class="tui-form__row_arrows" />
         <tui-input formControlName="to">
           To city
-          @if (toTowns) {
-          <tui-data-list-wrapper *tuiDataList [items]="toTowns" />
+          @if (toAddres) {
+          <tui-data-list *tuiDataList class="data-list">
+            @for(item of toAddres; track item) {
+            <button tuiOption [value]="item" (click)="onSelected(item)">
+              <div class="address">
+                <span class="address__city">{{ item.address.city}}</span>
+                <span class="address__state">{{item.address.state ?? ''}}</span>
+                <span class="address__country">{{ item.address.country}}</span>
+              </div>
+            </button>
+            }
+          </tui-data-list>
           }
           <input type="text" class="tui-form__input" formControlName="to" tuiTextfieldLegacy />
         </tui-input>

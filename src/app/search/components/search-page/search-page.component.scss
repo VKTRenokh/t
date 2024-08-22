@@ -19,6 +19,8 @@
         width: 100%;
       }
 
+
+
       @media screen and (max-width: 63.9625em) {
         flex-direction: column;
         align-items: stretch;
@@ -33,5 +35,28 @@
         color: var(--tui-text-tertiary);
       }
     }
+  }
+}
+
+.data-list {
+  display: flex;
+  justify-content: center;
+
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+
+  &__city {
+    color: #000000;
+  }
+
+  &__state {
+    color: #343434;
+  }
+
+  &__country {
+    color: #71797E;
   }
 }

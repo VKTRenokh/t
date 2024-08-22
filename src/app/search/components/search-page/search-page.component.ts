@@ -30,7 +30,6 @@ import { AsyncPipe } from '@angular/common';
 import {
   debounceTime,
   distinctUntilChanged,
-  map,
   Observable,
   switchMap,
 } from 'rxjs';
@@ -46,11 +45,11 @@ import { NominatimResponse } from '../../../core/models/geocoding-response';
     TuiInputModule,
     TuiIcon,
     TuiButton,
-    TuiDataListWrapper,
     TuiDataList,
     TuiStringifyContentPipe,
     TuiComboBoxModule,
     TuiFilterByInputPipe,
+    TuiDataListWrapper,
     AsyncPipe,
   ],
   templateUrl: './search-page.component.html',
@@ -64,14 +63,12 @@ export class SearchPageComponent {
   );
 
   public form = this.formBuilder.group({
-    from: this.formBuilder.control<NominatimResponse | null>(
-      null,
-      [Validators.required],
-    ),
-    to: this.formBuilder.control<NominatimResponse | null>(
-      null,
-      [Validators.required],
-    ),
+    from: this.formBuilder.control<
+      NominatimResponse | string
+    >('', [Validators.required]),
+    to: this.formBuilder.control<
+      NominatimResponse | string
+    >('', [Validators.required]),
     date: this.formBuilder.control(
       [this.getNextTuiDay(), TuiTime.currentLocal()],
       [Validators.required, futureDateValidator],
@@ -91,30 +88,29 @@ export class SearchPageComponent {
     console.log('Submit');
   }
 
-  protected fromTowns$ =
+  protected fromAddress$ =
     this.form.controls.from.valueChanges.pipe(
       this.autocompleteRequest.bind(this),
     );
 
-  protected toTowns$ =
+  protected toAddress$ =
     this.form.controls.to.valueChanges.pipe(
       this.autocompleteRequest.bind(this),
     );
 
-  protected stringify(item: NominatimResponse): string {
-    return `${item.address.city || ''} ${item.address.state || ''} ${item.address.country || ''}`;
+  protected onSelected(address: NominatimResponse) {
+    const fullAddress = `${address.address.city} ${address.address.state || ''} ${address.address.country}`;
+    this.form.get('from')!.setValue(fullAddress);
   }
 
   private autocompleteRequest(
-    value: Observable<NominatimResponse | null>,
+    value: Observable<NominatimResponse | string | null>,
   ) {
     return value.pipe(
       distinctUntilChanged(),
       debounceTime(300),
       switchMap(value =>
-        this.geocodingHttpService
-          .getTowns(value)
-          .pipe(map(value => value.map(this.stringify))),
+        this.geocodingHttpService.getAddress(value),
       ),
       takeUntilDestroyed(),
     );
