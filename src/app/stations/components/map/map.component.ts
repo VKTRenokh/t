@@ -111,8 +111,27 @@ export class MapComponent
     this.markerMap.delete(id);
   }
 
+  private getStationLatLngById(id: string) {
+    // FIXME: any
+    const stations = this.stations() as any[];
+
+    if (!stations) {
+      return null;
+    }
+
+    const station = stations.find(
+      station => station.id === id,
+    );
+
+    if (!station) {
+      return null;
+    }
+
+    return new LatLng(station.latitude, station.longitude);
+  }
+
   // FIXME: any
-  public isStationVisible(
+  private isStationVisible(
     station: any,
     bounds: LatLngBounds,
   ) {
@@ -154,6 +173,14 @@ export class MapComponent
         return;
       }
 
+      console.log(
+        station,
+        // @ts-expect-error afd
+        station.conectedTo.map(to =>
+          this.getStationLatLngById(to.id),
+        ),
+      );
+
       this.addStationMarker(station);
     });
 
@@ -178,7 +205,7 @@ export class MapComponent
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(event => this.onClick(event));
 
-    fromEvent(this.map, 'move')
+    fromEvent(this.map, 'moveend')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.addVisibleMarkers());
   }
