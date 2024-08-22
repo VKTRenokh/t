@@ -31,6 +31,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
+  Observable,
   switchMap,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -76,39 +77,6 @@ export class SearchPageComponent {
       [Validators.required, futureDateValidator],
     ),
   });
-  protected fromTowns$ =
-    this.form.controls.from.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      switchMap(value =>
-        this.geocodingHttpService
-          .getTowns(value)
-          .pipe(map(value => value.map(this.stringify))),
-      ),
-      takeUntilDestroyed(),
-    );
-
-  protected toTowns$ =
-    this.form.controls.to.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      switchMap(value =>
-        this.geocodingHttpService
-          .getTowns(value)
-          .pipe(map(value => value.map(this.stringify))),
-      ),
-      takeUntilDestroyed(),
-    );
-
-  constructor() {
-    this.form.get('to')?.valueChanges.subscribe(val => {
-      console.log(val);
-    });
-  }
-
-  protected stringify(item: NominatimResponse): string {
-    return `${item.address.city || ''} ${item.address.state || ''} ${item.address.country || ''}`;
-  }
 
   public getNextTuiDay() {
     const now = TuiDay.currentLocal();
@@ -121,5 +89,34 @@ export class SearchPageComponent {
 
   public submit() {
     console.log('Submit');
+  }
+
+  protected fromTowns$ =
+    this.form.controls.from.valueChanges.pipe(
+      this.autocompleteRequest.bind(this),
+    );
+
+  protected toTowns$ =
+    this.form.controls.to.valueChanges.pipe(
+      this.autocompleteRequest.bind(this),
+    );
+
+  protected stringify(item: NominatimResponse): string {
+    return `${item.address.city || ''} ${item.address.state || ''} ${item.address.country || ''}`;
+  }
+
+  private autocompleteRequest(
+    value: Observable<NominatimResponse | null>,
+  ) {
+    return value.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      switchMap(value =>
+        this.geocodingHttpService
+          .getTowns(value)
+          .pipe(map(value => value.map(this.stringify))),
+      ),
+      takeUntilDestroyed(),
+    );
   }
 }

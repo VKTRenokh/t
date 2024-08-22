@@ -14,8 +14,8 @@ export class GeocodingHttpService {
   public getTowns(
     town: NominatimResponse | null,
   ): Observable<NominatimResponse[]> {
-    const isTown = town ? town : '';
-    const apiUrlVideos = `${this.basePath}?q=${isTown}&format=json&addressdetails=1`;
+    const isTownExist = town || '';
+    const apiUrlVideos = `${this.basePath}?q=${isTownExist}&format=json&addressdetails=1`;
 
     return this.httpClient.get<NominatimResponse[]>(
       apiUrlVideos,

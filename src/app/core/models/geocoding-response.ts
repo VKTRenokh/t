@@ -2,7 +2,10 @@ export interface NominatimResponse {
   place_id: string;
   osm_type: string;
   osm_id: string;
-  boundingbox: [string, string, string, string]; // [south, north, west, east]
+  /**
+   * [south, north, west, east]
+   */
+  boundingbox: [string, string, string, string];
   lat: string;
   lon: string;
   display_name: string;
