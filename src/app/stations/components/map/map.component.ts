@@ -65,33 +65,7 @@ export class MapComponent
 
   public stations = input<any>();
   public value: LatLng = defaultLatLng;
-  //
-  //private eff = effect(() => {
-  //  const stations = this.stations() as any[];
-  //  const map = this.map!;
-  //
-  //  if (!stations) {
-  //    return;
-  //  }
-  //
-  //  stations.map(station => {
-  //    const latLng = new LatLng(
-  //      station.latitude,
-  //      station.longitude,
-  //    );
-  //
-  //    const stationPopup = popup()
-  //      .setContent(station.city)
-  //      .setLatLng(latLng);
-  //
-  //    marker(
-  //      new LatLng(station.latitude, station.longitude),
-  //    )
-  //      .addTo(map)
-  //      .bindPopup(stationPopup);
-  //  });
-  //});
-  //
+
   private emitChanges() {
     if (!this.currentMarker || !this.onChange) {
       return;
@@ -128,14 +102,20 @@ export class MapComponent
     tileLayer().addTo(map);
   }
 
+  private removeInvisibleMarker(
+    marker: Marker,
+    id: string,
+  ) {
+    this.markers.removeLayer(marker);
+    this.markerMap.delete(id);
+  }
+
   private addVisibleMarkers() {
     const stations = this.stations() as any[];
 
     if (!stations || !this.map) {
       return;
     }
-    console.log(this.markerMap);
-
     const stationsToKeep = new Set<string>();
 
     const bounds = this.map.getBounds();
@@ -163,16 +143,12 @@ export class MapComponent
 
     this.markerMap.forEach((marker, id) => {
       if (stationsToKeep.has(id)) {
-        console.log('has', id);
         return;
       }
-      console.log('hasnt', id);
-      this.markers.removeLayer(marker);
-      this.markerMap.delete(id);
+      this.removeInvisibleMarker(marker, id);
     });
 
     this.markers.addTo(this.map);
-    console.log(this.markerMap);
   }
 
   public ngAfterViewInit(): void {
