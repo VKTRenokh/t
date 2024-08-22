@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  effect,
   ElementRef,
   forwardRef,
   inject,
@@ -12,11 +11,10 @@ import {
 } from '@angular/core';
 import {
   map as createMap,
-  Map,
+  Map as LeafLetMap,
   LeafletMouseEvent,
   marker,
   Marker,
-  popup,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
@@ -24,9 +22,10 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { fromEvent } from 'rxjs';
+import { debounceTime, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
+import { FeatureGroup } from 'leaflet';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
@@ -57,10 +56,12 @@ export class MapComponent
   implements AfterViewInit, ControlValueAccessor
 {
   @ViewChild('map') private mapRef!: ElementRef;
-  private map: Map | null = null;
+  private map: LeafLetMap | null = null;
   private currentMarker: Marker | null = null;
   private onChange: OnChangeCallback = null;
   private destroyRef = inject(DestroyRef);
+  private markers = new FeatureGroup();
+  private markerMap = new Map<string, Marker>();
 
   public stations = input<any>();
   public value: LatLng = defaultLatLng;
@@ -123,7 +124,7 @@ export class MapComponent
       .subscribe(() => this.emitChanges());
   }
 
-  public addLayer(map: Map) {
+  public addLayer(map: LeafLetMap) {
     tileLayer().addTo(map);
   }
 
@@ -133,6 +134,9 @@ export class MapComponent
     if (!stations || !this.map) {
       return;
     }
+    console.log(this.markerMap);
+
+    const stationsToKeep = new Set<string>();
 
     const bounds = this.map.getBounds();
     const visibleStations = stations.filter(station =>
@@ -143,12 +147,32 @@ export class MapComponent
     );
 
     visibleStations.forEach(station => {
-      marker(
+      stationsToKeep.add(station.id);
+
+      if (this.markerMap.has(station.id)) {
+        return;
+      }
+
+      const stationMarker = marker(
         new LatLng(station.latitude, station.longitude),
-      )
-        .bindPopup(station.city)
-        .addTo(this.map!);
+      ).bindPopup(station.city);
+
+      this.markerMap.set(station.id, stationMarker);
+      this.markers.addLayer(stationMarker);
     });
+
+    this.markerMap.forEach((marker, id) => {
+      if (stationsToKeep.has(id)) {
+        console.log('has', id);
+        return;
+      }
+      console.log('hasnt', id);
+      this.markers.removeLayer(marker);
+      this.markerMap.delete(id);
+    });
+
+    this.markers.addTo(this.map);
+    console.log(this.markerMap);
   }
 
   public ngAfterViewInit(): void {
