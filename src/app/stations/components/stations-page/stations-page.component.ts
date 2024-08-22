@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  signal,
 } from '@angular/core';
 import {
   defaultLatLng,
@@ -52,6 +53,7 @@ export class StationsPageComponent {
   private destroyRef = inject(DestroyRef);
   private stationsService = inject(StationsService);
 
+  public stations = signal<any>(null);
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
     latLng: this.formBuilder.control(defaultLatLng),
@@ -94,7 +96,9 @@ export class StationsPageComponent {
     this.bindLatLng(this.form.controls.lat.valueChanges);
     this.bindLatLng(this.form.controls.lng.valueChanges);
 
-    this.stationsService.get().subscribe(console.log);
+    this.stationsService
+      .get()
+      .subscribe(value => this.stations.set(value));
   }
 
   public onSubmit() {
