@@ -28,6 +28,7 @@ import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { LatLng } from 'leaflet';
+import { StationsService } from '../../services/stations/stations.service';
 
 @Component({
   selector: 'tra-stations-page',
@@ -51,6 +52,7 @@ import { LatLng } from 'leaflet';
 export class StationsPageComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private destroyRef = inject(DestroyRef);
+  private stationsService = inject(StationsService);
 
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
@@ -93,6 +95,8 @@ export class StationsPageComponent {
     // TODO: refactor this
     this.bindLatLng(this.form.controls.lat.valueChanges);
     this.bindLatLng(this.form.controls.lng.valueChanges);
+
+    this.stationsService.get().subscribe(console.log);
   }
 
   public onSubmit() {
