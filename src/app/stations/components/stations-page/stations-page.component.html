@@ -3,7 +3,9 @@
   (ngSubmit)="onSubmit()"
   [tuiNumberFormat]="numberFormat"
 >
-  <tra-map formControlName="latLng" />
+  @defer {
+    <tra-map formControlName="latLng" />
+  }
   <tui-input formControlName="city">
     City name
     <input
