@@ -159,12 +159,12 @@ export class MapComponent
 
     this.markerMap.set(station.id, stationMarker);
     this.markers.addLayer(stationMarker);
-    this.addStationMarkerListener(stationMarker, station);
+    this.addStationMarkerListeners(stationMarker, station);
 
     return stationMarker;
   }
 
-  private addStationMarkerListener(
+  private addStationMarkerListeners(
     marker: Marker,
     station: Station,
   ) {
@@ -173,6 +173,13 @@ export class MapComponent
       .subscribe(() => {
         this.selectedStation = station;
         this.drawConnections(station);
+      });
+
+    fromEvent(marker, 'popupclose')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.selectedStation = null;
+        this.clearConnections();
       });
   }
 
