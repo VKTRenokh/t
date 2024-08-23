@@ -23,6 +23,22 @@
   />
   <tui-input-number formControlName="lat" />
   <tui-input-number formControlName="lng" />
+  <form formGroupName="relations">
+    @for (
+      control of relations.controls;
+      let i = $index;
+      track i
+    ) {
+      <tui-input [formControlName]="i">
+        Connection {{ i + 1 }}
+        <input
+          type="text"
+          tuiTextfieldLegacy
+          [formControlName]="i"
+        />
+      </tui-input>
+    }
+  </form>
   <button tuiButton type="submit" [disabled]="form.invalid">
     Save
   </button>
