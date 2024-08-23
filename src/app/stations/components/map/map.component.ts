@@ -12,6 +12,7 @@ import {
 import {
   map as createMap,
   LatLngBounds,
+  LatLngTuple,
   Map as LeafLetMap,
   LeafletMouseEvent,
   marker,
@@ -80,25 +81,31 @@ export class MapComponent
     this.onChange(this.currentMarker.getLatLng());
   }
 
+  private addCurrentMarker(position: LatLngTuple) {
+    if (this.currentMarker) {
+      this.currentMarker.remove();
+    }
+
+    this.currentMarker = marker(position, {
+      draggable: true,
+    }).addTo(this.map!);
+
+    this.addMarkerOnDragListener(this.currentMarker);
+  }
+
+  private resetStationSelection() {
+    this.selectedStation = null;
+    this.clearConnections();
+  }
+
   public onClick(event: LeafletMouseEvent) {
     if (!this.map) {
       return;
     }
 
-    if (this.currentMarker) {
-      this.currentMarker.remove();
-    }
-
-    this.currentMarker = marker(getLatAndLng(event), {
-      draggable: true,
-    }).addTo(this.map);
-
+    this.addCurrentMarker(getLatAndLng(event));
     this.emitChanges();
-
-    this.addMarkerOnDragListener(this.currentMarker);
-
-    this.selectedStation = null;
-    this.clearConnections();
+    this.resetStationSelection();
   }
 
   public addMarkerOnDragListener(marker: Marker) {
