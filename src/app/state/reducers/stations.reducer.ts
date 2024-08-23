@@ -26,7 +26,9 @@ export const stationsReducer = createReducer(
     (state, { stations }) => ({
       ...state,
       stationsList: stations,
-      totalPages: stations.length / state.itemsPerPage,
+      totalPages: Math.ceil(
+        stations.length / state.itemsPerPage,
+      ),
     }),
   ),
   on(
