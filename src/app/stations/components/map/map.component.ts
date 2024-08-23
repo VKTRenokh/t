@@ -169,13 +169,11 @@ export class MapComponent
 
   private drawConnection(
     from: LatLng,
-    to: LatLng,
     toStationId: string,
   ) {
-    if (
-      !this.markerMap.get(toStationId) ||
-      this.connectionMap.get(from + toStationId)
-    ) {
+    const to = this.getStationLatLngById(toStationId);
+
+    if (this.connectionMap.get(from + toStationId) || !to) {
       return;
     }
 
@@ -191,17 +189,7 @@ export class MapComponent
     station.connectedTo.forEach(to =>
       this.drawConnection(
         new LatLng(station.latitude, station.longitude),
-        // FIXME: remove bang
-        this.getStationLatLngById(to.id)!,
         to.id,
-      ),
-    );
-
-    const listeners = ['resizeend', 'moveend'] as const;
-
-    listeners.forEach(listener =>
-      this.map?.once(listener, () =>
-        this.drawConnections(station),
       ),
     );
   }
