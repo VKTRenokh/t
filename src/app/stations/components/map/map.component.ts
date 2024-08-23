@@ -30,6 +30,7 @@ import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
 import { FeatureGroup } from 'leaflet';
+import { Station } from '../../models/station/station.model';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
@@ -67,10 +68,9 @@ export class MapComponent
   private markers = new FeatureGroup();
   private markerMap = new Map<string, Marker>();
   private connectionMap = new Map<string, Polyline>();
-  // FIXME: any
-  private selectedStation: any = null;
+  private selectedStation: Station | null = null;
 
-  public stations = input<any>();
+  public stations = input<Station[]>();
   public value: LatLng = defaultLatLng;
 
   private emitChanges() {
@@ -124,8 +124,7 @@ export class MapComponent
   }
 
   private getStationLatLngById(id: string) {
-    // FIXME: any
-    const stations = this.stations() as any[];
+    const stations = this.stations();
 
     if (!stations) {
       return null;
@@ -142,9 +141,8 @@ export class MapComponent
     return new LatLng(station.latitude, station.longitude);
   }
 
-  // FIXME: any
   private isStationVisible(
-    station: any,
+    station: Station,
     bounds: LatLngBounds,
   ) {
     return bounds.contains([
@@ -153,8 +151,7 @@ export class MapComponent
     ]);
   }
 
-  // FIXME: any
-  private addStationMarker(station: any) {
+  private addStationMarker(station: Station) {
     const stationMarker = marker([
       station.latitude,
       station.longitude,
@@ -169,7 +166,7 @@ export class MapComponent
   // FIXME: any
   private addStationMarkerListener(
     marker: Marker,
-    station: any,
+    station: Station,
   ) {
     fromEvent(marker, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -206,10 +203,8 @@ export class MapComponent
     this.addVisibleMarkers();
   }
 
-  // FIXME: any
-  private drawConnections(station: any) {
+  private drawConnections(station: Station) {
     this.clearConnections();
-    // @ts-expect-error 123
     station.connectedTo.forEach(to => {
       this.drawConnection(
         new LatLng(station.latitude, station.longitude),
@@ -221,22 +216,19 @@ export class MapComponent
     this.addVisibleMarkers();
   }
 
-  // FIXME: any
-  private isConnectedToSelectedStation(station: any) {
+  private isConnectedToSelectedStation(station: Station) {
     if (!this.selectedStation) {
       return false;
     }
 
     return this.selectedStation.connectedTo.some(
-      // @ts-expect-error 123
       connectedStation =>
         connectedStation.id === station.id,
     );
   }
 
-  // FIXME: remove any
   private addVisibleMarkers() {
-    const stations = this.stations() as any[];
+    const stations = this.stations();
 
     if (!stations || !this.map) {
       return;

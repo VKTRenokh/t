@@ -30,6 +30,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { LatLng } from 'leaflet';
 import { StationsService } from '../../services/stations/stations.service';
+import { Station } from '../../models/station/station.model';
 
 @Component({
   selector: 'tra-stations-page',
@@ -55,7 +56,9 @@ export class StationsPageComponent {
   private destroyRef = inject(DestroyRef);
   private stationsService = inject(StationsService);
 
-  public stations = signal<any>(null);
+  public stations = signal<Station[] | undefined>(
+    undefined,
+  );
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
     latLng: this.formBuilder.control(defaultLatLng),
