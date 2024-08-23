@@ -63,12 +63,12 @@ export class SearchPageComponent {
   );
 
   public form = this.formBuilder.group({
-    from: this.formBuilder.control<
-      NominatimResponse | string
-    >('', [Validators.required]),
-    to: this.formBuilder.control<
-      NominatimResponse | string
-    >('', [Validators.required]),
+    from: this.formBuilder.control<string>('', [
+      Validators.required,
+    ]),
+    to: this.formBuilder.control<string>('', [
+      Validators.required,
+    ]),
     date: this.formBuilder.control(
       [this.getNextTuiDay(), TuiTime.currentLocal()],
       [Validators.required, futureDateValidator],
@@ -104,7 +104,7 @@ export class SearchPageComponent {
   }
 
   private autocompleteRequest(
-    value: Observable<NominatimResponse | string | null>,
+    value: Observable<string | null>,
   ) {
     return value.pipe(
       distinctUntilChanged(),
