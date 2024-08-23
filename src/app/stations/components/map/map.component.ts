@@ -10,9 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  circleMarker,
   map as createMap,
-  icon,
   LatLngBounds,
   Map as LeafLetMap,
   LeafletMouseEvent,
@@ -68,6 +66,8 @@ export class MapComponent
   private markers = new FeatureGroup();
   private markerMap = new Map<string, Marker>();
   private connectionMap = new Map<string, Polyline>();
+  // FIXME: any
+  private selectedStation: any = null;
 
   public stations = input<any>();
   public value: LatLng = defaultLatLng;
@@ -96,6 +96,9 @@ export class MapComponent
     this.emitChanges();
 
     this.addMarkerOnDragListener(this.currentMarker);
+
+    this.selectedStation = null;
+    this.clearConnections();
   }
 
   public addMarkerOnDragListener(marker: Marker) {
@@ -164,6 +167,7 @@ export class MapComponent
     fromEvent(marker, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
+        this.selectedStation = station;
         this.drawConnections(station);
       });
   }
@@ -187,22 +191,43 @@ export class MapComponent
   }
 
   private clearConnections() {
+    if (!this.connectionMap.size) {
+      return;
+    }
     this.connectionMap.forEach(line => line.remove());
     this.connectionMap.clear();
+    this.addVisibleMarkers();
   }
 
   // FIXME: any
   private drawConnections(station: any) {
     this.clearConnections();
     // @ts-expect-error 123
-    station.connectedTo.forEach(to =>
+    station.connectedTo.forEach(to => {
       this.drawConnection(
         new LatLng(station.latitude, station.longitude),
         to.id,
-      ),
+      );
+      return to.id;
+    });
+
+    this.addVisibleMarkers();
+  }
+
+  // FIXME: any
+  private isConnectedToSelectedStation(station: any) {
+    if (!this.selectedStation) {
+      return false;
+    }
+
+    return this.selectedStation.connectedTo.some(
+      // @ts-expect-error 123
+      connectedStation =>
+        connectedStation.id === station.id,
     );
   }
 
+  // FIXME: remove any
   private addVisibleMarkers() {
     const stations = this.stations() as any[];
 
@@ -215,7 +240,15 @@ export class MapComponent
     const bounds = this.map.getBounds();
 
     stations.forEach(station => {
-      if (!this.isStationVisible(station, bounds)) {
+      const isVisible = this.selectedStation
+        ? this.isConnectedToSelectedStation(station) ||
+          this.selectedStation.id === station.id
+        : true;
+
+      if (
+        !this.isStationVisible(station, bounds) ||
+        !isVisible
+      ) {
         return;
       }
 
@@ -250,6 +283,8 @@ export class MapComponent
     fromEvent<LeafletMouseEvent>(this.map, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(event => this.onClick(event));
+
+    // TODO: remove repeating code
 
     fromEvent(this.map, 'moveend')
       .pipe(takeUntilDestroyed(this.destroyRef))
