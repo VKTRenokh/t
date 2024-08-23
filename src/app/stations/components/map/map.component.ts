@@ -155,7 +155,11 @@ export class MapComponent
     const stationMarker = marker([
       station.latitude,
       station.longitude,
-    ]).bindPopup(station.city);
+    ]).bindPopup(station.city, {
+      autoClose: false,
+      closeOnEscapeKey: true,
+      keepInView: true,
+    });
 
     this.markerMap.set(station.id, stationMarker);
     this.markers.addLayer(stationMarker);
