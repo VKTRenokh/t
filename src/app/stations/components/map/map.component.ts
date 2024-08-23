@@ -10,7 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  circleMarker,
   map as createMap,
+  icon,
   LatLngBounds,
   Map as LeafLetMap,
   LeafletMouseEvent,
@@ -106,10 +108,7 @@ export class MapComponent
     tileLayer().addTo(map);
   }
 
-  private removeInvisibleMarker(
-    marker: Marker,
-    id: string,
-  ) {
+  private removeMarker(marker: Marker, id: string) {
     this.markers.removeLayer(marker);
     this.markerMap.delete(id);
   }
@@ -175,18 +174,26 @@ export class MapComponent
   ) {
     const to = this.getStationLatLngById(toStationId);
 
-    if (this.connectionMap.get(from + toStationId) || !to) {
+    if (!to) {
       return;
     }
 
-    const line = polyline([from, to], { weight: 0.5 });
+    const line = polyline([from, to], {
+      weight: 0.8,
+    });
 
     this.connectionMap.set(from + toStationId, line);
     line.addTo(this.map!);
   }
 
+  private clearConnections() {
+    this.connectionMap.forEach(line => line.remove());
+    this.connectionMap.clear();
+  }
+
   // FIXME: any
   private drawConnections(station: any) {
+    this.clearConnections();
     // @ts-expect-error 123
     station.connectedTo.forEach(to =>
       this.drawConnection(
@@ -227,7 +234,7 @@ export class MapComponent
       if (stationsToKeep.has(id)) {
         return;
       }
-      this.removeInvisibleMarker(marker, id);
+      this.removeMarker(marker, id);
     });
 
     this.markers.addTo(this.map);
