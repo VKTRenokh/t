@@ -1,44 +1,48 @@
+@let fromAddress = fromAddress$ | async;
+@let toAddress = toAddress$ | async;
+
 <div class="tui-container tui-space_top-5">
   <h3>Search routes</h3>
-  <form
-    [formGroup]="form"
-    class="tui-form"
-    (ngSubmit)="submit()"
-  >
+  <form [formGroup]="form" class="tui-form" (ngSubmit)="submit()">
     <div class="tui-form__row">
       <div class="tui-form__row_cities">
         <tui-input formControlName="from">
           From city
-          <input
-            type="text"
-            formControlName="from"
-            class="tui-form__input"
-            tuiTextfieldLegacy
-          />
+          @if (fromAddress) {
+          <tui-data-list *tuiDataList class="data-list">
+            @for(item of fromAddress; track item) {
+            <button tuiOption [value]="item" (click)="onSelect(item, 'from')">
+              <div class="address">
+                <span class="address__city">{{ item.address.city}}</span>
+                <span class="address__state">{{item.address.state ?? ''}}</span>
+                <span class="address__country">{{ item.address.country}}</span>
+              </div>
+            </button>
+            }
+          </tui-data-list>
+          }
         </tui-input>
-        <tui-icon
-          icon="@tui.arrow-left-right"
-          color="grey"
-          class="tui-form__row_arrows"
-        />
+        <tui-icon icon="@tui.arrow-left-right" color="grey" class="tui-form__row_arrows" />
         <tui-input formControlName="to">
           To city
-          <input
-            type="text"
-            class="tui-form__input"
-            formControlName="to"
-            tuiTextfieldLegacy
-          />
+          @if (toAddress) {
+          <tui-data-list *tuiDataList class="data-list">
+            @for(item of toAddress; track item) {
+            <button tuiOption [value]="item" (click)="onSelect(item, 'to')">
+              <div class="address">
+                <span class="address__city">{{ item.address.city }}</span>
+                <span class="address__state">{{item.address.state ?? ''}}</span>
+                <span class="address__country">{{ item.address.country }}</span>
+              </div>
+            </button>
+            }
+          </tui-data-list>
+          }
+          <input type="text" class="tui-form__input" formControlName="to" tuiTextfieldLegacy />
         </tui-input>
       </div>
-      <tui-input-date-time formControlName="date"
-        >Choose a date</tui-input-date-time
-      >
-      <button
-        tuiButton
-        type="submit"
-        [disabled]="form.invalid"
-      >
+      <tui-input-date-time formControlName="date">Choose a date</tui-input-date-time>
+      <button tuiButton type="submit" [disabled]="form.invalid">
         <tui-icon icon="@tui.search" />
         Search
       </button>
