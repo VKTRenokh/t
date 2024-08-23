@@ -11,7 +11,7 @@
           @if (fromAddress) {
           <tui-data-list *tuiDataList class="data-list">
             @for(item of fromAddress; track item) {
-            <button tuiOption [value]="item" (click)="onSelect(item)">
+            <button tuiOption [value]="item" (click)="onSelect(item, 'from')">
               <div class="address">
                 <span class="address__city">{{ item.address.city}}</span>
                 <span class="address__state">{{item.address.state ?? ''}}</span>
@@ -28,11 +28,11 @@
           @if (toAddress) {
           <tui-data-list *tuiDataList class="data-list">
             @for(item of toAddress; track item) {
-            <button tuiOption [value]="item" (click)="onSelect(item)">
+            <button tuiOption [value]="item" (click)="onSelect(item, 'to')">
               <div class="address">
-                <span class="address__city">{{ item.address.city}}</span>
+                <span class="address__city">{{ item.address.city }}</span>
                 <span class="address__state">{{item.address.state ?? ''}}</span>
-                <span class="address__country">{{ item.address.country}}</span>
+                <span class="address__country">{{ item.address.country }}</span>
               </div>
             </button>
             }
