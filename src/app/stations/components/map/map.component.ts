@@ -16,6 +16,7 @@ import {
   LeafletMouseEvent,
   marker,
   Marker,
+  Polyline,
   polyline,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
@@ -64,6 +65,7 @@ export class MapComponent
   private destroyRef = inject(DestroyRef);
   private markers = new FeatureGroup();
   private markerMap = new Map<string, Marker>();
+  private connectionMap = new Map<string, Polyline>();
 
   public stations = input<any>();
   public value: LatLng = defaultLatLng;
@@ -151,6 +153,18 @@ export class MapComponent
 
     this.markerMap.set(station.id, stationMarker);
     this.markers.addLayer(stationMarker);
+
+    return stationMarker;
+  }
+
+  // FIXME: any
+  private addStationMarkerListener(
+    marker: Marker,
+    station: any,
+  ) {
+    fromEvent(marker, 'click').subscribe(() => {
+      this.drawConnections(station);
+    });
   }
 
   private drawConnection(
@@ -158,13 +172,38 @@ export class MapComponent
     to: LatLng,
     toStationId: string,
   ) {
-    if (!this.markerMap.get(toStationId)) {
+    if (
+      !this.markerMap.get(toStationId) ||
+      this.connectionMap.get(from + toStationId)
+    ) {
       return;
     }
 
-    const line = polyline([from, to], { weight: 0.4 });
+    const line = polyline([from, to], { weight: 0.5 });
 
+    this.connectionMap.set(from + toStationId, line);
     line.addTo(this.map!);
+  }
+
+  // FIXME: any
+  private drawConnections(station: any) {
+    // @ts-expect-error 123
+    station.connectedTo.forEach(to =>
+      this.drawConnection(
+        new LatLng(station.latitude, station.longitude),
+        // FIXME: remove bang
+        this.getStationLatLngById(to.id)!,
+        to.id,
+      ),
+    );
+
+    const listeners = ['resizeend', 'moveend'] as const;
+
+    listeners.forEach(listener =>
+      this.map?.once(listener, () =>
+        this.drawConnections(station),
+      ),
+    );
   }
 
   private addVisibleMarkers() {
@@ -189,16 +228,9 @@ export class MapComponent
         return;
       }
 
-      // @ts-expect-error afd
-      station.connectedTo.map(to =>
-        this.drawConnection(
-          new LatLng(station.latitude, station.longitude),
-          this.getStationLatLngById(to.id)!,
-          to.id,
-        ),
-      );
+      const marker = this.addStationMarker(station);
 
-      this.addStationMarker(station);
+      this.addStationMarkerListener(marker, station);
     });
 
     this.markerMap.forEach((marker, id) => {
