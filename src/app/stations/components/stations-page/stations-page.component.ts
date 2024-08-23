@@ -11,6 +11,7 @@ import {
   MapComponent,
 } from '../map/map.component';
 import {
+  FormArray,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -71,7 +72,20 @@ export class StationsPageComponent {
     lng: this.formBuilder.control<number | null>(null, [
       Validators.required,
     ]),
+    relations: this.formBuilder.array([
+      this.addRelationControl(),
+    ]),
   });
+
+  public get relations() {
+    return this.form.get('relations') as FormArray;
+  }
+
+  public addRelationControl() {
+    return this.formBuilder.control('', [
+      Validators.required,
+    ]);
+  }
 
   public bindLatLng(value: Observable<number | null>) {
     // TODO: refactor this
