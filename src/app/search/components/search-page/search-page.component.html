@@ -1,5 +1,5 @@
 @let fromAddress = fromAddress$ | async;
-@let toAddres = toAddress$ | async;
+@let toAddress = toAddress$ | async;
 
 <div class="tui-container tui-space_top-5">
   <h3>Search routes</h3>
@@ -11,7 +11,7 @@
           @if (fromAddress) {
           <tui-data-list *tuiDataList class="data-list">
             @for(item of fromAddress; track item) {
-            <button tuiOption [value]="item" (click)="onSelected(item)">
+            <button tuiOption [value]="item" (click)="onSelect(item)">
               <div class="address">
                 <span class="address__city">{{ item.address.city}}</span>
                 <span class="address__state">{{item.address.state ?? ''}}</span>
@@ -25,10 +25,10 @@
         <tui-icon icon="@tui.arrow-left-right" color="grey" class="tui-form__row_arrows" />
         <tui-input formControlName="to">
           To city
-          @if (toAddres) {
+          @if (toAddress) {
           <tui-data-list *tuiDataList class="data-list">
-            @for(item of toAddres; track item) {
-            <button tuiOption [value]="item" (click)="onSelected(item)">
+            @for(item of toAddress; track item) {
+            <button tuiOption [value]="item" (click)="onSelect(item)">
               <div class="address">
                 <span class="address__city">{{ item.address.city}}</span>
                 <span class="address__state">{{item.address.state ?? ''}}</span>

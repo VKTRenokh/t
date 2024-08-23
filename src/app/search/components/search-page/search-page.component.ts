@@ -98,7 +98,7 @@ export class SearchPageComponent {
       this.autocompleteRequest.bind(this),
     );
 
-  protected onSelected(address: NominatimResponse) {
+  protected onSelect(address: NominatimResponse) {
     const fullAddress = `${address.address.city} ${address.address.state || ''} ${address.address.country}`;
     this.form.get('from')!.setValue(fullAddress);
   }
