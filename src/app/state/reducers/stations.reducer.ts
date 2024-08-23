@@ -6,11 +6,17 @@ import { ApiError } from '../../shared/models/api-error.model';
 
 export interface StationsState {
   stationsList: Station[];
+  paginationPage: number;
+  itemsPerPage: number;
+  totalPages: number;
   error?: ApiError;
 }
 
 export const initialState: StationsState = {
   stationsList: [],
+  paginationPage: 0,
+  itemsPerPage: 5,
+  totalPages: 0,
 };
 
 export const stationsReducer = createReducer(
@@ -20,6 +26,7 @@ export const stationsReducer = createReducer(
     (state, { stations }) => ({
       ...state,
       stationsList: stations,
+      totalPages: stations.length / state.itemsPerPage,
     }),
   ),
   on(
@@ -29,6 +36,13 @@ export const stationsReducer = createReducer(
       stationsList: state.stationsList.filter(
         station => station.id !== id,
       ),
+    }),
+  ),
+  on(
+    StationsActions.changePage,
+    (state, { pageNumber }) => ({
+      ...state,
+      paginationPage: pageNumber,
     }),
   ),
   on(StationsActions.failure, (state, { error }) => ({

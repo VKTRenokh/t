@@ -14,7 +14,7 @@ import { AppState } from '../../../state/app.state';
 
 import { StationsActions } from '../../../state/actions/stations.action';
 import { TuiPagination } from '@taiga-ui/kit';
-import { calculateTotalPages } from '../../utils/calculateTotalPages';
+
 import { TuiError } from '@taiga-ui/core';
 
 import { isNotNullable } from '../../../shared/utils/is-not-nullables';
@@ -38,11 +38,14 @@ import { selectStationsError } from '../../../state/selectors/stations.selector'
 export class StationsListComponent implements OnInit {
   private stationsFacade = inject(StationsFacade);
 
-  public stations = this.stationsFacade.stations;
-
   public service = inject(StationsService);
 
   public store = inject(Store<AppState>);
+
+  public stations = this.stationsFacade.stations;
+
+  public paginatedStations =
+    this.stationsFacade.paginatedStations;
 
   public error$ = this.store
     .select(selectStationsError)
@@ -51,30 +54,19 @@ export class StationsListComponent implements OnInit {
       map(error => error.message),
     );
 
-  public currentPage = 0;
+  public currentPage = this.stationsFacade.currentPage;
 
-  private itemsPerPage = 5;
+  public totalPages = this.stationsFacade.totalPages;
 
   public ngOnInit(): void {
     this.store.dispatch(StationsActions.getStations());
   }
 
-  public goToPage(index: number) {
-    this.currentPage = index;
-  }
-
-  public getPaginatedStations() {
-    const startIndex = this.currentPage * this.itemsPerPage;
-    return this.stations()!.slice(
-      startIndex,
-      startIndex + this.itemsPerPage,
-    );
-  }
-
-  public getTotalPages() {
-    return calculateTotalPages(
-      this.stations()!.length,
-      this.itemsPerPage,
+  public goToPage(pageNumber: number) {
+    this.store.dispatch(
+      StationsActions.changePage({
+        pageNumber: pageNumber,
+      }),
     );
   }
 }

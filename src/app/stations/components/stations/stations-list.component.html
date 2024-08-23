@@ -1,11 +1,11 @@
 <div class="stations__container">
-  @for (station of getPaginatedStations(); track $index) {
+  @for (station of paginatedStations(); track $index) {
     <tra-station [stationProps]="station" />
   }
   @if (stations()?.length) {
     <tui-pagination
-      [length]="getTotalPages()"
-      [index]="currentPage"
+      [length]="totalPages()!"
+      [index]="currentPage()!"
       (indexChange)="goToPage($event)"
     ></tui-pagination>
   }

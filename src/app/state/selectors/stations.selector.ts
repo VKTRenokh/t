@@ -1,22 +1,43 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
 
-export const selectFeature = (state: AppState) =>
+export const stationsFeatureSelector = (state: AppState) =>
   state.stations;
 
 export const selectAllStations = createSelector(
-  selectFeature,
+  stationsFeatureSelector,
   stations => stations.stationsList,
 );
 
-export const selectStationsById = (id: number) =>
-  createSelector(selectFeature, stations =>
-    stations.stationsList.forEach(station =>
-      station.connectedTo.find(city => city.id === id),
-    ),
-  );
-
 export const selectStationsError = createSelector(
-  selectFeature,
+  stationsFeatureSelector,
   stations => stations.error,
+);
+
+export const selectPaginationPageNumber = createSelector(
+  stationsFeatureSelector,
+  stations => stations.paginationPage,
+);
+
+export const selectItemsPerPage = createSelector(
+  stationsFeatureSelector,
+  stations => stations.itemsPerPage,
+);
+
+export const selectPaginatedStations = createSelector(
+  selectAllStations,
+  selectPaginationPageNumber,
+  selectItemsPerPage,
+  (stations, pageNumber, itemsPerPage) => {
+    const startIndex = pageNumber * itemsPerPage;
+    return stations.slice(
+      startIndex,
+      startIndex + itemsPerPage,
+    );
+  },
+);
+
+export const selectTotalPages = createSelector(
+  stationsFeatureSelector,
+  stations => stations.totalPages,
 );

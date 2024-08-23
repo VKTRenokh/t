@@ -13,6 +13,7 @@ export const StationsActions = createActionGroup({
     getStationsSuccess: props<{ stations: Station[] }>(),
     deleteStation: props<{ id: number }>(),
     deleteStationSuccess: props<{ id: number }>(),
+    changePage: props<{ pageNumber: number }>(),
     failure: props<{ error: ApiError }>(),
   },
 });
