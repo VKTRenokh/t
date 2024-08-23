@@ -1,16 +1,16 @@
 <div class="station__container">
-  <h1>{{ stationProps.city }}</h1>
+  <h1>{{ stationProps().city }}</h1>
   <div class="coordinates">
     <span
-      >{{ stationProps.latitude }},
-      {{ stationProps.longitude }}</span
+      >{{ stationProps().latitude }},
+      {{ stationProps().longitude }}</span
     >
   </div>
   <div class="connections">
     <h2>Connected to:</h2>
-    @if (stationProps.connectedTo.length) {
+    @if (stationProps().connectedTo.length) {
       <p>
-        {{ stationProps | connectedNames }}
+        {{ stationProps() | connectedNames }}
       </p>
     } @else {
       <p>There are no connected stations</p>

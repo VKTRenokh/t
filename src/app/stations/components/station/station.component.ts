@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
+  input,
 } from '@angular/core';
 import { TuiButton, TuiIcon } from '@taiga-ui/core';
-import { Station } from '../../../stations/interfaces/stations.interface';
-import { ConnectedNamesPipe } from '../../../stations/pipes/connected-names.pipe';
+
 import { Store } from '@ngrx/store';
 import { StationsActions } from '../../../state/actions/stations.action';
+import { Station } from '../../interfaces/stations.interface';
+import { ConnectedNamesPipe } from '../../pipes/connected-names.pipe';
 
 @Component({
   selector: 'tra-station',
@@ -19,14 +20,14 @@ import { StationsActions } from '../../../state/actions/stations.action';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StationComponent {
-  @Input({ required: true }) public stationProps!: Station;
+  public stationProps = input.required<Station>();
 
   private store = inject(Store);
 
   public handleDelete() {
     this.store.dispatch(
       StationsActions.deleteStation({
-        id: this.stationProps.id,
+        id: this.stationProps().id,
       }),
     );
   }
