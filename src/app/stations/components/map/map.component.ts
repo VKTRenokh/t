@@ -16,6 +16,7 @@ import {
   LeafletMouseEvent,
   marker,
   Marker,
+  polyline,
 } from 'leaflet';
 import { getLatAndLng } from '../../utils/get-lat-and-lng/get-lat-and-lng.util';
 import { LatLng } from 'leaflet';
@@ -36,7 +37,7 @@ export type OnChangeCallback =
 // TODO: Unsubscribe from leaflet events
 
 export const defaultLatLng = new LatLng(51.505, -0.09);
-export const defaultZoom = 6;
+export const defaultZoom = 4;
 
 @Component({
   selector: 'tra-map',
@@ -143,12 +144,27 @@ export class MapComponent
 
   // FIXME: any
   private addStationMarker(station: any) {
-    const stationMarker = marker(
-      new LatLng(station.latitude, station.longitude),
-    ).bindPopup(station.city);
+    const stationMarker = marker([
+      station.latitude,
+      station.longitude,
+    ]).bindPopup(station.city);
 
     this.markerMap.set(station.id, stationMarker);
     this.markers.addLayer(stationMarker);
+  }
+
+  private drawConnection(
+    from: LatLng,
+    to: LatLng,
+    toStationId: string,
+  ) {
+    if (!this.markerMap.get(toStationId)) {
+      return;
+    }
+
+    const line = polyline([from, to], { weight: 0.4 });
+
+    line.addTo(this.map!);
   }
 
   private addVisibleMarkers() {
@@ -173,11 +189,12 @@ export class MapComponent
         return;
       }
 
-      console.log(
-        station,
-        // @ts-expect-error afd
-        station.conectedTo.map(to =>
-          this.getStationLatLngById(to.id),
+      // @ts-expect-error afd
+      station.connectedTo.map(to =>
+        this.drawConnection(
+          new LatLng(station.latitude, station.longitude),
+          this.getStationLatLngById(to.id)!,
+          to.id,
         ),
       );
 
