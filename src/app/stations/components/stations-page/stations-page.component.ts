@@ -107,6 +107,15 @@ export class StationsPageComponent {
   }
 
   public onSubmit() {
-    console.dir(this.form.getRawValue(), { depth: null });
+    const values = this.form.getRawValue();
+
+    this.stationsService
+      .post({
+        city: values.city,
+        latitude: values.lat!,
+        longitude: values.lng!,
+        relations: [],
+      })
+      .subscribe();
   }
 }
