@@ -159,11 +159,11 @@ export class MapComponent
 
     this.markerMap.set(station.id, stationMarker);
     this.markers.addLayer(stationMarker);
+    this.addStationMarkerListener(stationMarker, station);
 
     return stationMarker;
   }
 
-  // FIXME: any
   private addStationMarkerListener(
     marker: Marker,
     station: Station,
@@ -205,6 +205,7 @@ export class MapComponent
 
   private drawConnections(station: Station) {
     this.clearConnections();
+
     station.connectedTo.forEach(to => {
       this.drawConnection(
         new LatLng(station.latitude, station.longitude),
@@ -227,6 +228,22 @@ export class MapComponent
     );
   }
 
+  private shouldShowIfSelectedStation(station: Station) {
+    return this.selectedStation
+      ? this.isConnectedToSelectedStation(station) ||
+          this.selectedStation.id === station.id
+      : true;
+  }
+
+  private removeMarkers(keep: Set<string>) {
+    this.markerMap.forEach((marker, id) => {
+      if (keep.has(id)) {
+        return;
+      }
+      this.removeMarker(marker, id);
+    });
+  }
+
   private addVisibleMarkers() {
     const stations = this.stations();
 
@@ -239,14 +256,9 @@ export class MapComponent
     const bounds = this.map.getBounds();
 
     stations.forEach(station => {
-      const isVisible = this.selectedStation
-        ? this.isConnectedToSelectedStation(station) ||
-          this.selectedStation.id === station.id
-        : true;
-
       if (
         !this.isStationVisible(station, bounds) ||
-        !isVisible
+        !this.shouldShowIfSelectedStation(station)
       ) {
         return;
       }
@@ -257,17 +269,10 @@ export class MapComponent
         return;
       }
 
-      const marker = this.addStationMarker(station);
-
-      this.addStationMarkerListener(marker, station);
+      this.addStationMarker(station);
     });
 
-    this.markerMap.forEach((marker, id) => {
-      if (stationsToKeep.has(id)) {
-        return;
-      }
-      this.removeMarker(marker, id);
-    });
+    this.removeMarkers(stationsToKeep);
 
     this.markers.addTo(this.map);
   }
