@@ -162,9 +162,11 @@ export class MapComponent
     marker: Marker,
     station: any,
   ) {
-    fromEvent(marker, 'click').subscribe(() => {
-      this.drawConnections(station);
-    });
+    fromEvent(marker, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.drawConnections(station);
+      });
   }
 
   private drawConnection(
