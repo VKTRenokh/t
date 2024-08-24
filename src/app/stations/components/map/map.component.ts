@@ -120,6 +120,7 @@ export class MapComponent
 
   private removeMarker(marker: Marker, id: string) {
     this.markers.removeLayer(marker);
+    marker.off();
     this.markerMap.delete(id);
   }
 
