@@ -63,10 +63,6 @@ export class StationsListComponent implements OnInit {
   }
 
   public goToPage(pageNumber: number) {
-    this.store.dispatch(
-      StationsActions.changePage({
-        pageNumber: pageNumber,
-      }),
-    );
+    this.stationsFacade.changePage(pageNumber);
   }
 }
