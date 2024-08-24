@@ -26,6 +26,7 @@ import {
 import {
   TuiInputModule,
   TuiInputNumberModule,
+  TuiSelectModule,
 } from '@taiga-ui/legacy';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -48,6 +49,7 @@ import { Station } from '../../models/station/station.model';
     TuiInputNumberModule,
     TuiFieldErrorPipe,
     TuiNumberFormat,
+    TuiSelectModule,
   ],
   templateUrl: './stations-page.component.html',
   styleUrl: './stations-page.component.scss',
@@ -61,16 +63,11 @@ export class StationsPageComponent {
   public stations = signal<Station[] | undefined>(
     undefined,
   );
-  public stationLookup = computed(() => {
+  public cities = computed(() => {
     const stations = this.stations();
-    return new Map(
-      stations
-        ? stations.map(station => [
-            station.city,
-            station.id,
-          ])
-        : [],
-    );
+    return stations
+      ? stations.map(station => station.city)
+      : [];
   });
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
@@ -132,35 +129,13 @@ export class StationsPageComponent {
       .subscribe(value => this.stations.set(value));
   }
 
-  private convertCityNamesToIds(names: string[]) {
-    const stations = this.stations();
-    const stationLookup = this.stationLookup();
-
-    if (!stations) {
-      return [];
-    }
-
-    return names
-      .map(name => stationLookup.get(name)!)
-      .filter(Boolean);
-  }
-
   public onSubmit() {
     const values = this.form.getRawValue();
-
-    const relations = this.convertCityNamesToIds(
-      values.relations,
-    );
-
-    if (!relations.length) {
-      return;
-    }
 
     console.log({
       city: values.city,
       latitude: values.lat!,
       longitude: values.lng!,
-      relations: relations,
     });
   }
 }

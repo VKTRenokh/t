@@ -29,14 +29,18 @@
       let i = $index;
       track i
     ) {
-      <tui-input [formControlName]="i">
+      <tui-select [formControlName]="i">
         Connection {{ i + 1 }}
         <input
           type="text"
           tuiTextfieldLegacy
           [formControlName]="i"
         />
-      </tui-input>
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="cities()"
+        />
+      </tui-select>
     }
   </form>
   <button tuiButton type="submit" [disabled]="form.invalid">
