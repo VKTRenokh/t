@@ -38,4 +38,8 @@ export class StationsFacade {
       StationsActions.changePage({ pageNumber: page }),
     );
   }
+
+  public getStations() {
+    this.store.dispatch(StationsActions.getStations());
+  }
 }
