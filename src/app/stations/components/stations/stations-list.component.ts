@@ -8,11 +8,9 @@ import {
 import { StationComponent } from '../station/station.component';
 
 import { StationsFacade } from '../../../state/facades/stations.facade';
-import { StationsService } from '../../services/stations.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 
-import { StationsActions } from '../../../state/actions/stations.action';
 import { TuiPagination } from '@taiga-ui/kit';
 
 import { TuiError } from '@taiga-ui/core';
@@ -37,8 +35,6 @@ import { selectStationsError } from '../../../state/selectors/stations.selector'
 })
 export class StationsListComponent implements OnInit {
   private stationsFacade = inject(StationsFacade);
-
-  public service = inject(StationsService);
 
   public store = inject(Store<AppState>);
 
