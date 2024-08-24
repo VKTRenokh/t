@@ -9,6 +9,7 @@ import {
   selectPaginationPageNumber,
   selectTotalPages,
 } from '../selectors/stations.selector';
+import { StationsActions } from '../actions/stations.action';
 
 @Injectable({
   providedIn: 'root',
@@ -31,4 +32,10 @@ export class StationsFacade {
   public totalPages = toSignal(
     this.store.select(selectTotalPages),
   );
+
+  public changePage(page: number) {
+    this.store.dispatch(
+      StationsActions.changePage({ pageNumber: page }),
+    );
+  }
 }
