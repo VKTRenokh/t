@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   inject,
   signal,
@@ -60,6 +61,17 @@ export class StationsPageComponent {
   public stations = signal<Station[] | undefined>(
     undefined,
   );
+  public stationLookup = computed(() => {
+    const stations = this.stations();
+    return new Map(
+      stations
+        ? stations.map(station => [
+            station.city,
+            station.id,
+          ])
+        : [],
+    );
+  });
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
     latLng: this.formBuilder.control(defaultLatLng),
@@ -120,16 +132,35 @@ export class StationsPageComponent {
       .subscribe(value => this.stations.set(value));
   }
 
+  private convertCityNamesToIds(names: string[]) {
+    const stations = this.stations();
+    const stationLookup = this.stationLookup();
+
+    if (!stations) {
+      return [];
+    }
+
+    return names
+      .map(name => stationLookup.get(name)!)
+      .filter(Boolean);
+  }
+
   public onSubmit() {
     const values = this.form.getRawValue();
 
-    this.stationsService
-      .post({
-        city: values.city,
-        latitude: values.lat!,
-        longitude: values.lng!,
-        relations: [],
-      })
-      .subscribe();
+    const relations = this.convertCityNamesToIds(
+      values.relations,
+    );
+
+    if (!relations.length) {
+      return;
+    }
+
+    console.log({
+      city: values.city,
+      latitude: values.lat!,
+      longitude: values.lng!,
+      relations: relations,
+    });
   }
 }
