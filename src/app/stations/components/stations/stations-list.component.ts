@@ -59,7 +59,7 @@ export class StationsListComponent implements OnInit {
   public totalPages = this.stationsFacade.totalPages;
 
   public ngOnInit(): void {
-    this.store.dispatch(StationsActions.getStations());
+    this.stationsFacade.getStations();
   }
 
   public goToPage(pageNumber: number) {
