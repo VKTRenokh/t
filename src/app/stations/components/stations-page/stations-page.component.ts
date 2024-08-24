@@ -177,19 +177,23 @@ export class StationsPageComponent {
   public convertCityNamesToIds(names: string[]) {
     const map = this.cityToIdMap();
 
-    return names.map(name => map.get(name)).filter(Boolean);
+    return names
+      .map(name => +map.get(name)!)
+      .filter(Boolean);
   }
 
   public onSubmit() {
     const values = this.form.getRawValue();
 
-    console.log({
-      city: values.city,
-      latitude: values.lat!,
-      longitude: values.lng!,
-      relations: this.convertCityNamesToIds(
-        values.relations,
-      ),
-    });
+    this.stationsService
+      .post({
+        city: values.city,
+        latitude: values.lat!,
+        longitude: values.lng!,
+        relations: this.convertCityNamesToIds(
+          values.relations,
+        ),
+      })
+      .subscribe();
   }
 }
