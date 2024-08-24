@@ -290,7 +290,10 @@ export class MapComponent
   }
 
   public ngAfterViewInit(): void {
-    this.map = createMap(this.mapRef.nativeElement);
+    this.map = createMap(this.mapRef.nativeElement, {
+      minZoom: 2,
+      keyboard: true,
+    });
 
     this.addLayer(this.map);
 
