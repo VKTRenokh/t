@@ -69,6 +69,17 @@ export class StationsPageComponent {
       ? stations.map(station => station.city)
       : [];
   });
+  public cityToIdMap = computed(() => {
+    const stations = this.stations();
+    return new Map(
+      stations
+        ? stations.map(station => [
+            station.city,
+            station.id,
+          ])
+        : [],
+    );
+  });
   public numberFormat = { precision: 15 };
   public form = this.formBuilder.group({
     latLng: this.formBuilder.control(defaultLatLng),
@@ -129,8 +140,19 @@ export class StationsPageComponent {
       .subscribe(value => this.stations.set(value));
   }
 
+  public convertCityNamesToIds(names: string[]) {
+    const map = this.cityToIdMap();
+
+    return names.map(name => map.get(name)).filter(Boolean);
+  }
+
   public onSubmit() {
     const values = this.form.getRawValue();
+
+    console.log(
+      this.convertCityNamesToIds(values.relations),
+      'relations',
+    );
 
     console.log({
       city: values.city,
