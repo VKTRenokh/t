@@ -93,7 +93,7 @@ export class StationsPageComponent {
       Validators.required,
     ]),
     relations: this.formBuilder.array([
-      this.addRelationControl(),
+      this.createRelationControl(),
     ]),
   });
 
@@ -101,7 +101,7 @@ export class StationsPageComponent {
     return this.form.get('relations') as FormArray;
   }
 
-  public addRelationControl() {
+  public createRelationControl() {
     return this.formBuilder.control('', [
       Validators.required,
     ]);
@@ -138,6 +138,42 @@ export class StationsPageComponent {
     this.stationsService
       .get()
       .subscribe(value => this.stations.set(value));
+
+    this.form.controls.relations.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(cities => {
+        this.handleRelationsChange(cities);
+      });
+  }
+
+  private addNewRelationsInput() {
+    this.relations.push(this.createRelationControl());
+  }
+
+  private clearEmptyInputs(relations: string[]) {
+    if (relations.length <= 1) {
+      return;
+    }
+
+    const lastInputValue = relations.at(-1);
+    const secondLastInputValue = relations.at(-2);
+
+    if (!secondLastInputValue && !lastInputValue) {
+      this.relations.removeAt(this.relations.length - 1);
+    }
+  }
+
+  private handleRelationsChange(relations: string[]) {
+    const lastValue = relations.at(-1);
+
+    if (
+      lastValue &&
+      this.relations.length === relations.length
+    ) {
+      this.addNewRelationsInput();
+    }
+
+    this.clearEmptyInputs(relations);
   }
 
   public convertCityNamesToIds(names: string[]) {
@@ -149,15 +185,13 @@ export class StationsPageComponent {
   public onSubmit() {
     const values = this.form.getRawValue();
 
-    console.log(
-      this.convertCityNamesToIds(values.relations),
-      'relations',
-    );
-
     console.log({
       city: values.city,
       latitude: values.lat!,
       longitude: values.lng!,
+      relations: this.convertCityNamesToIds(
+        values.relations,
+      ),
     });
   }
 }

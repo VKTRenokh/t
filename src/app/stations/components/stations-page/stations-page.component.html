@@ -10,7 +10,7 @@
     />
   }
   <tui-input formControlName="city">
-    City name
+    Station name
     <input
       type="text"
       tuiTextfieldLegacy
@@ -21,15 +21,19 @@
     [error]="[] | tuiFieldError | async"
     formControlName="city"
   />
-  <tui-input-number formControlName="lat" />
-  <tui-input-number formControlName="lng" />
+  <tui-input-number formControlName="lat">
+    Latitude
+  </tui-input-number>
+  <tui-input-number formControlName="lng">
+    Longitude
+  </tui-input-number>
   <form formGroupName="relations">
     @for (
       control of relations.controls;
       let i = $index;
       track i
     ) {
-      <tui-select [formControlName]="i">
+      <tui-input [formControlName]="i">
         Connection {{ i + 1 }}
         <input
           type="text"
@@ -40,7 +44,7 @@
           *tuiDataList
           [items]="cities()"
         />
-      </tui-select>
+      </tui-input>
     }
   </form>
   <button tuiButton type="submit" [disabled]="form.invalid">
