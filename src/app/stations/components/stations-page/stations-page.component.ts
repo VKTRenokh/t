@@ -102,9 +102,7 @@ export class StationsPageComponent {
   }
 
   public createRelationControl() {
-    return this.formBuilder.control('', [
-      Validators.required,
-    ]);
+    return this.formBuilder.control('', []);
   }
 
   public bindLatLng(value: Observable<number | null>) {
