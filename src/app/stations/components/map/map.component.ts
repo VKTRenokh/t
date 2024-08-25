@@ -69,8 +69,10 @@ export class MapComponent
   private markerMap = new Map<number, Marker>();
   private connectionMap = new Map<string, Polyline>();
   private selectedStation: Station | null = null;
-  private maxSouthWest: LatLngTuple = [-0x5a, -0xb4];
-  private maxNorthEast: LatLngTuple = [0x5a, 0xb4];
+  private maxBounds = new LatLngBounds(
+    [-0x5a, -0xb4],
+    [0x5a, 0xb4],
+  );
 
   public stations = input<Station[]>();
   public value: LatLng = defaultLatLng;
@@ -179,6 +181,7 @@ export class MapComponent
       autoClose: false,
       closeOnEscapeKey: true,
       keepInView: true,
+      autoPan: false, // fixes call stack error
     });
 
     this.markerMap.set(station.id, stationMarker);
@@ -314,10 +317,7 @@ export class MapComponent
   private initializeMap() {
     this.map = createMap(this.mapRef.nativeElement, {
       minZoom: 2,
-      maxBounds: new LatLngBounds(
-        this.maxSouthWest,
-        this.maxNorthEast,
-      ),
+      maxBounds: this.maxBounds,
       keyboard: true,
     });
   }

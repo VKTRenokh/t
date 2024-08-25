@@ -176,6 +176,10 @@ export class StationsPageComponent {
       .filter(Boolean);
   }
 
+  private resetForm() {
+    this.form.reset();
+  }
+
   private getFormValues() {
     const values = this.form.getRawValue();
 
@@ -191,5 +195,6 @@ export class StationsPageComponent {
 
   public onSubmit() {
     this.stationsFacade.createStation(this.getFormValues());
+    this.resetForm();
   }
 }
