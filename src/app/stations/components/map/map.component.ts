@@ -69,6 +69,8 @@ export class MapComponent
   private markerMap = new Map<number, Marker>();
   private connectionMap = new Map<string, Polyline>();
   private selectedStation: Station | null = null;
+  private maxSouthWest: LatLngTuple = [-0x55, -0xc0];
+  private maxNorthEast: LatLngTuple = [0x55, 0xbc];
 
   public stations = input<Station[]>();
   public value: LatLng = defaultLatLng;
@@ -295,6 +297,10 @@ export class MapComponent
   public ngAfterViewInit(): void {
     this.map = createMap(this.mapRef.nativeElement, {
       minZoom: 2,
+      maxBounds: new LatLngBounds(
+        this.maxSouthWest,
+        this.maxNorthEast,
+      ),
       keyboard: true,
     });
 
