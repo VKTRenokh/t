@@ -13,6 +13,7 @@ import {
   map as createMap,
   LatLngBounds,
   LatLngTuple,
+  LeafletEventHandlerFnMap,
   Map as LeafLetMap,
   LeafletMouseEvent,
   marker,
@@ -31,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
 import { FeatureGroup } from 'leaflet';
 import { Station } from '../../models/station/station.model';
+import { Evented } from 'leaflet';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
@@ -304,6 +306,15 @@ export class MapComponent
     });
   }
 
+  private fromMapEvent<T>(
+    event: keyof LeafletEventHandlerFnMap,
+  ) {
+    // @ts-expect-error shut up
+    return fromEvent<T>(this.map, event).pipe(
+      takeUntilDestroyed(this.destroyRef),
+    );
+  }
+
   public ngAfterViewInit(): void {
     this.initializeMap();
 
@@ -311,13 +322,11 @@ export class MapComponent
 
     this.map!.setView(defaultLatLng, defaultZoom);
 
-    fromEvent<LeafletMouseEvent>(this.map!, 'click')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(event => this.onClick(event));
+    this.fromMapEvent<LeafletMouseEvent>('click').subscribe(
+      event => this.onClick(event),
+    );
 
-    // TODO: remove repeating code
-
-    fromEvent(this.map!, 'moveend')
+    this.fromMapEvent('moveend')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.addVisibleMarkers());
   }
