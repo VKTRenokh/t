@@ -51,4 +51,15 @@ export class StationsEffects {
       ),
     ),
   );
+
+  public createStationEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(StationsActions.createStation),
+      exhaustMap(({ station }) =>
+        this.stationsService
+          .createStation(station)
+          .pipe(map(() => StationsActions.getStations())),
+      ),
+    ),
+  );
 }

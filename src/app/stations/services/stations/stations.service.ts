@@ -13,7 +13,7 @@ export class StationsService {
     return this.http.get<Station[]>('/api/station');
   }
 
-  public post(station: PostStation) {
+  public createStation(station: PostStation) {
     return this.http.post('/api/station', station);
   }
 

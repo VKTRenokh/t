@@ -10,6 +10,7 @@ import {
   selectTotalPages,
 } from '../selectors/stations.selector';
 import { StationsActions } from '../actions/stations.action';
+import { PostStation } from '../../stations/models/post-station/post-station.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,12 @@ export class StationsFacade {
   public deleteStation(id: number) {
     this.store.dispatch(
       StationsActions.deleteStation({ id }),
+    );
+  }
+
+  public createStation(station: PostStation) {
+    this.store.dispatch(
+      StationsActions.createStation({ station }),
     );
   }
 }

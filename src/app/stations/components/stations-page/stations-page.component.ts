@@ -4,7 +4,6 @@ import {
   computed,
   DestroyRef,
   inject,
-  signal,
 } from '@angular/core';
 import { StationsListComponent } from '../../../stations/components/stations/stations-list.component';
 import {
@@ -32,8 +31,8 @@ import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
 import { StationsService } from '../../services/stations/stations.service';
-import { Station } from '../../models/station/station.model';
 import { LatLng } from 'leaflet';
+import { StationsFacade } from '../../../state/facades/stations.facade';
 
 @Component({
   selector: 'tra-stations-page',
@@ -58,11 +57,10 @@ import { LatLng } from 'leaflet';
 export class StationsPageComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private destroyRef = inject(DestroyRef);
-  private stationsService = inject(StationsService);
+  private stationsFacade = inject(StationsFacade);
 
-  public stations = signal<Station[] | undefined>(
-    undefined,
-  );
+  public stations = this.stationsFacade.stations;
+
   public cities = computed(() => {
     const stations = this.stations();
     return stations
@@ -131,9 +129,7 @@ export class StationsPageComponent {
 
     this.bindLatLng();
 
-    this.stationsService
-      .get()
-      .subscribe(value => this.stations.set(value));
+    this.stationsFacade.getStations();
 
     this.form.controls.relations.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -180,18 +176,20 @@ export class StationsPageComponent {
       .filter(Boolean);
   }
 
-  public onSubmit() {
+  private getFormValues() {
     const values = this.form.getRawValue();
 
-    this.stationsService
-      .post({
-        city: values.city,
-        latitude: values.lat!,
-        longitude: values.lng!,
-        relations: this.convertCityNamesToIds(
-          values.relations,
-        ),
-      })
-      .subscribe();
+    return {
+      city: values.city,
+      latitude: values.lat!,
+      longitude: values.lng!,
+      relations: this.convertCityNamesToIds(
+        values.relations,
+      ),
+    };
+  }
+
+  public onSubmit() {
+    this.stationsFacade.createStation(this.getFormValues());
   }
 }

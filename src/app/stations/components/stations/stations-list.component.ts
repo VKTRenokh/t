@@ -33,7 +33,7 @@ import { selectStationsError } from '../../../state/selectors/stations.selector'
   styleUrl: './stations-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsListComponent implements OnInit {
+export class StationsListComponent {
   private stationsFacade = inject(StationsFacade);
 
   public store = inject(Store<AppState>);
@@ -53,10 +53,6 @@ export class StationsListComponent implements OnInit {
   public currentPage = this.stationsFacade.currentPage;
 
   public totalPages = this.stationsFacade.totalPages;
-
-  public ngOnInit(): void {
-    this.stationsFacade.getStations();
-  }
 
   public goToPage(pageNumber: number) {
     this.stationsFacade.changePage(pageNumber);
