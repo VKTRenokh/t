@@ -1,5 +1,39 @@
 .content-wrapper {
   padding: 1rem;
-  width: min(100vw, 1200px);
+  max-width: 1200px;
   margin-inline: auto;
+
+  h2 {
+    text-align: center;
+  }
+  h3 {
+    text-align: right;
+    text-transform: capitalize;
+  }
+
+  .chenge-password-button {
+    margin-left: auto;
+  }
+
+  form {
+    max-width: 500px;
+    margin-bottom: 1rem;
+
+    tui-input {
+      margin-top: 1rem;
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 1rem;
+  }
+
+  .form-actions-buttons-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 }
