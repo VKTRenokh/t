@@ -44,6 +44,13 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
+    path: 'stations',
+    loadComponent: () =>
+      import(
+        './stations/components/stations-page/stations-page.component.js'
+      ).then(M => M.StationsPageComponent),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import(

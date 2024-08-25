@@ -15,8 +15,10 @@ import {
 import { authReducer } from './state/reducers/auth.reducer';
 import { AuthEffects } from './state/effects/auth.effect';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
-import { profileReducer } from './state/reducers/profile.reducer';
+import { StationsEffects } from './state/effects/stations.effect';
 import { ProfileEffects } from './state/effects/profile.effect';
+import { profileReducer } from './state/reducers/profile.reducer';
+import { stationsReducer } from './state/reducers/stations.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +29,12 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       profile: profileReducer,
+      stations: stationsReducer,
     }),
-    provideEffects([AuthEffects, ProfileEffects]),
+    provideEffects(
+      AuthEffects,
+      ProfileEffects,
+      StationsEffects,
+    ),
   ],
 };

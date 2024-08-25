@@ -1,0 +1,28 @@
+@let station = stationProps();
+<div class="station__container">
+  <h1>{{ station.city }}</h1>
+  <div class="coordinates">
+    <span
+      >{{ station.latitude }}, {{ station.longitude }}</span
+    >
+  </div>
+  <div class="connections">
+    <h2>Connected to:</h2>
+    @if (station.connectedTo.length) {
+      <p>
+        {{ station | connectedNames }}
+      </p>
+    } @else {
+      <p>There are no connected stations</p>
+    }
+  </div>
+</div>
+<button
+  tuiButton
+  title="Delete"
+  size="s"
+  appearance="secondary"
+  (click)="handleDelete()"
+>
+  <tui-icon icon="@tui.trash" />
+</button>
