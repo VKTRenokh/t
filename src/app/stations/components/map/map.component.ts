@@ -315,6 +315,20 @@ export class MapComponent
     );
   }
 
+  private subscribeToMapEvents() {
+    if (!this.map) {
+      return;
+    }
+
+    this.fromMapEvent<LeafletMouseEvent>('click').subscribe(
+      event => this.onClick(event),
+    );
+
+    this.fromMapEvent('moveend').subscribe(() =>
+      this.addVisibleMarkers(),
+    );
+  }
+
   public ngAfterViewInit(): void {
     this.initializeMap();
 
@@ -322,13 +336,7 @@ export class MapComponent
 
     this.map!.setView(defaultLatLng, defaultZoom);
 
-    this.fromMapEvent<LeafletMouseEvent>('click').subscribe(
-      event => this.onClick(event),
-    );
-
-    this.fromMapEvent('moveend')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.addVisibleMarkers());
+    this.subscribeToMapEvents();
   }
 
   public writeValue(latLng: LatLng): void {
