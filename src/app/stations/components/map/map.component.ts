@@ -67,8 +67,8 @@ export class MapComponent
   private markerMap = new Map<number, Marker>();
   private connectionMap = new Map<string, Polyline>();
   private selectedStation: Station | null = null;
-  private maxSouthWest: LatLngTuple = [-0x55, -0xc0];
-  private maxNorthEast: LatLngTuple = [0x55, 0xbc];
+  private maxSouthWest: LatLngTuple = [-0x5a, -0xb4];
+  private maxNorthEast: LatLngTuple = [0x5a, 0xb4];
 
   public stations = input<Station[]>();
   public value: LatLng = defaultLatLng;
