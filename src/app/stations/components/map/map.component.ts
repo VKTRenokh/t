@@ -293,7 +293,7 @@ export class MapComponent
     this.markers.addTo(this.map);
   }
 
-  public ngAfterViewInit(): void {
+  private initializeMap() {
     this.map = createMap(this.mapRef.nativeElement, {
       minZoom: 2,
       maxBounds: new LatLngBounds(
@@ -302,18 +302,22 @@ export class MapComponent
       ),
       keyboard: true,
     });
+  }
 
-    this.addLayer(this.map);
+  public ngAfterViewInit(): void {
+    this.initializeMap();
 
-    this.map.setView(defaultLatLng, defaultZoom);
+    this.addLayer(this.map!);
 
-    fromEvent<LeafletMouseEvent>(this.map, 'click')
+    this.map!.setView(defaultLatLng, defaultZoom);
+
+    fromEvent<LeafletMouseEvent>(this.map!, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(event => this.onClick(event));
 
     // TODO: remove repeating code
 
-    fromEvent(this.map, 'moveend')
+    fromEvent(this.map!, 'moveend')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.addVisibleMarkers());
   }
