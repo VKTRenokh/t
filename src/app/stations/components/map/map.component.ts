@@ -205,10 +205,7 @@ export class MapComponent
       weight: 0.8,
     });
 
-    this.connectionMap.set(
-      from + toStationId.toString(),
-      line,
-    );
+    this.connectionMap.set(`${from}${toStationId}`, line);
     line.addTo(this.map!);
   }
 
