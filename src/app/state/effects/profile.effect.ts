@@ -4,7 +4,7 @@ import {
   createEffect,
   ofType,
 } from '@ngrx/effects';
-import { ProfileApiService } from '../../profile/services/profile_api.services';
+import { ProfileApiService } from '../../profile/services/profile-api.services';
 import { exhaustMap, map, catchError, of, tap } from 'rxjs';
 import { ProfileActions } from '../actions/profile.action';
 

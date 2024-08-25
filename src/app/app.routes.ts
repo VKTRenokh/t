@@ -38,7 +38,7 @@ export const routes: Routes = [
     path: 'profile',
     loadComponent: () =>
       import(
-        './profile/components/profile.component.js'
+        './profile/components/profile/profile.component.js'
       ).then(M => M.ProfileComponent),
     pathMatch: 'full',
     canMatch: [authGuard],

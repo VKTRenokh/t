@@ -1,0 +1,26 @@
+<div class="content-wrapper">
+  <h3 style="margin-left: auto">Role:</h3>
+  <div style="margin-left: auto">{{ profile()?.role }}</div>
+  <h3>Name:</h3>
+  <div>{{ profile()?.name }}</div>
+  <h3>Email:</h3>
+  <div>{{ profile()?.email }}</div>
+
+  <button
+    size="m"
+    tuiButton
+    type="button"
+    (click)="openChengePasswordDialog()"
+  >
+    Change Password
+  </button>
+
+  <button
+    appearance="destructive"
+    size="m"
+    tuiButton
+    (click)="logout()"
+  >
+    Logout
+  </button>
+</div>

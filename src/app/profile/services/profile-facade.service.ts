@@ -1,4 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import {
+  computed,
+  inject,
+  Injectable,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AppState } from '../../state/app.state';
@@ -7,6 +11,7 @@ import {
   selectProfileLoading,
   selectProfileError,
 } from '../../state/selectors/profile.selector';
+import { ProfileActions } from '../../state/actions/profile.action';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +24,10 @@ export class ProfileFacade {
     {
       initialValue: null,
     },
+  );
+
+  public userRole = computed(
+    () => this.profile()?.role ?? null,
   );
 
   public isLoading = toSignal(
@@ -34,4 +43,10 @@ export class ProfileFacade {
       initialValue: null,
     },
   );
+
+  public updatePassword(password: string) {
+    this.store.dispatch(
+      ProfileActions.updatePassword({ password }),
+    );
+  }
 }
