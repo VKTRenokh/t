@@ -76,7 +76,7 @@ export class ProfileComponent {
     ),
     {
       dismissible: true,
-      label: 'Chenge Password',
+      label: 'Change Password',
     },
   );
   constructor() {

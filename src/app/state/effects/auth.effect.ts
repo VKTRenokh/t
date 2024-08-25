@@ -86,7 +86,7 @@ export class AuthEffects {
     { dispatch: false },
   );
 
-  public ragistrationEffect = createEffect(() =>
+  public registrationEffect = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.registration),
       exhaustMap(data =>
@@ -111,13 +111,13 @@ export class AuthEffects {
       ofType(ROOT_EFFECTS_INIT),
       exhaustMap(() => {
         const token = this.getToken();
-        if (token) {
-          return of(
-            AuthActions.loginSuccess({ token }),
-            ProfileActions.fetchProfile(),
-          );
+        if (!token) {
+          return EMPTY;
         }
-        return EMPTY;
+        return of(
+          AuthActions.loginSuccess({ token }),
+          ProfileActions.fetchProfile(),
+        );
       }),
     ),
   );
