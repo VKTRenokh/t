@@ -182,10 +182,14 @@ export class StationsPageComponent {
   private getFormValues() {
     const values = this.form.getRawValue();
 
+    if (!values.lat || !values.lng) {
+      return;
+    }
+
     return {
       city: values.city,
-      latitude: values.lat!,
-      longitude: values.lng!,
+      latitude: values.lat,
+      longitude: values.lng,
       relations: this.convertCityNamesToIds(
         values.relations,
       ),
@@ -193,7 +197,13 @@ export class StationsPageComponent {
   }
 
   public onSubmit() {
-    this.stationsFacade.createStation(this.getFormValues());
+    const values = this.getFormValues();
+
+    if (!values) {
+      return;
+    }
+
+    this.stationsFacade.createStation(values);
     this.resetForm();
   }
 }
