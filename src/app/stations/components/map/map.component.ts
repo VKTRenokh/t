@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   forwardRef,
   inject,
@@ -62,6 +63,7 @@ export class MapComponent
   private map: LeafLetMap | null = null;
   private currentMarker: Marker | null = null;
   private onChange: OnChangeCallback = null;
+  private onTouch: (() => void) | null = null;
   private destroyRef = inject(DestroyRef);
   private markers = new FeatureGroup();
   private markerMap = new Map<number, Marker>();
@@ -73,6 +75,13 @@ export class MapComponent
   public stations = input<Station[]>();
   public value: LatLng = defaultLatLng;
 
+  constructor() {
+    effect(() => {
+      this.addVisibleMarkers(this.stations());
+      this.removeCurrentMarker();
+    });
+  }
+
   private emitChanges() {
     if (!this.currentMarker || !this.onChange) {
       return;
@@ -81,9 +90,18 @@ export class MapComponent
     this.onChange(this.currentMarker.getLatLng());
   }
 
+  private removeCurrentMarker() {
+    if (!this.currentMarker) {
+      return;
+    }
+
+    this.currentMarker.remove();
+    this.currentMarker = null;
+  }
+
   private addCurrentMarker(position: LatLngTuple) {
     if (this.currentMarker) {
-      this.currentMarker.remove();
+      this.removeCurrentMarker();
     }
 
     this.currentMarker = marker(position, {
@@ -106,6 +124,7 @@ export class MapComponent
     this.addCurrentMarker(getLatAndLng(event));
     this.emitChanges();
     this.resetStationSelection();
+    this.onTouch?.();
   }
 
   public addMarkerOnDragListener(marker: Marker) {
@@ -259,8 +278,8 @@ export class MapComponent
     });
   }
 
-  private addVisibleMarkers() {
-    const stations = this.stations();
+  private addVisibleMarkers(_stations?: Station[]) {
+    const stations = _stations ?? this.stations();
 
     if (!stations || !this.map) {
       return;
@@ -349,7 +368,8 @@ export class MapComponent
     this.onChange = fn;
   }
 
-  public registerOnTouched(): void {
+  public registerOnTouched(fn: () => void): void {
+    this.onTouch = fn;
     return;
   }
 }
