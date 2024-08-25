@@ -176,7 +176,10 @@ export class StationsPageComponent {
   }
 
   private resetForm() {
-    this.form.reset();
+    this.form.reset(
+      { latLng: this.form.controls.latLng.value },
+      { emitEvent: false },
+    );
   }
 
   private getFormValues() {
