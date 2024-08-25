@@ -178,9 +178,7 @@ export class MapComponent
       station.latitude,
       station.longitude,
     ]).bindPopup(station.city, {
-      autoClose: false,
       closeOnEscapeKey: true,
-      keepInView: true,
       autoPan: false, // fixes call stack error
     });
 
