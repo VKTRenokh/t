@@ -30,10 +30,10 @@ import {
 } from '@taiga-ui/legacy';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
-import { LatLng } from 'leaflet';
+import { combineLatest } from 'rxjs';
 import { StationsService } from '../../services/stations/stations.service';
 import { Station } from '../../models/station/station.model';
+import { LatLng } from 'leaflet';
 
 @Component({
   selector: 'tra-stations-page',
@@ -105,21 +105,21 @@ export class StationsPageComponent {
     return this.formBuilder.control('', []);
   }
 
-  public bindLatLng(value: Observable<number | null>) {
-    // TODO: refactor this
-    value
+  public bindLatLng() {
+    combineLatest([
+      this.form.controls.lat.valueChanges,
+      this.form.controls.lng.valueChanges,
+    ])
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() =>
+      .subscribe(latLng => {
+        const lat = latLng.at(0) ?? 0;
+        const lng = latLng.at(1) ?? 0;
+
         this.form.patchValue(
-          {
-            latLng: new LatLng(
-              this.form.controls.lat.value ?? 0,
-              this.form.controls.lng.value ?? 0,
-            ),
-          },
+          { latLng: new LatLng(lat, lng) },
           { emitEvent: false },
-        ),
-      );
+        );
+      });
   }
 
   constructor() {
@@ -129,9 +129,7 @@ export class StationsPageComponent {
         this.form.patchValue({ ...latLng });
       });
 
-    // TODO: refactor this
-    this.bindLatLng(this.form.controls.lat.valueChanges);
-    this.bindLatLng(this.form.controls.lng.valueChanges);
+    this.bindLatLng();
 
     this.stationsService
       .get()

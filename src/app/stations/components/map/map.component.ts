@@ -36,7 +36,6 @@ export type OnChangeCallback =
   | ((value: LatLng) => void)
   | null;
 
-// TODO: Add map line connections between stations
 // TODO: Unsubscribe from leaflet events
 
 export const defaultLatLng = new LatLng(51.505, -0.09);
