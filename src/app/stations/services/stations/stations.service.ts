@@ -16,4 +16,12 @@ export class StationsService {
   public post(station: PostStation) {
     return this.http.post('/api/station', station);
   }
+
+  public getStations() {
+    return this.http.get<Station[]>('/api/station');
+  }
+
+  public deleteStation(id: number) {
+    return this.http.delete(`/api/station/${id}`);
+  }
 }

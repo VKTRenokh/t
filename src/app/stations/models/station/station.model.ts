@@ -1,10 +1,10 @@
 export interface ConnectedTo {
-  id: string;
+  id: number;
   distance: number;
 }
 
 export interface Station {
-  id: string;
+  id: number;
   city: string;
   latitude: number;
   longitude: number;

@@ -42,4 +42,10 @@ export class StationsFacade {
   public getStations() {
     this.store.dispatch(StationsActions.getStations());
   }
+
+  public deleteStation(id: number) {
+    this.store.dispatch(
+      StationsActions.deleteStation({ id }),
+    );
+  }
 }

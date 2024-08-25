@@ -1,6 +1,6 @@
 <div class="stations__container">
   @for (station of paginatedStations(); track $index) {
-    <tra-station [stationProps]="station" />
+    <tra-station [stationInput]="station" />
   }
   @if (stations()?.length) {
     <tui-pagination

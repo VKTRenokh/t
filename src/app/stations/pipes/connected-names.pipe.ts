@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { Station } from '../interfaces/stations.interface';
+import { Station } from '../models/station/station.model';
 import { StationsFacade } from '../../state/facades/stations.facade';
 
 @Pipe({
@@ -12,17 +12,17 @@ export class ConnectedNamesPipe implements PipeTransform {
 
   private stations = this.stationsFacade.stations;
 
-  public transform(currentStation: Station): string {
-    const stationsMap = new Map(
-      this.stations()?.map(station => [
-        station.id,
-        station.city,
-      ]),
-    );
+  private idToCityMap = new Map(
+    this.stations()?.map(station => [
+      station.id,
+      station.city,
+    ]),
+  );
 
-    const connectedNames = currentStation.connectedTo.map(
-      station => stationsMap.get(station.id),
-    );
+  public transform(currentStation: Station): string {
+    const connectedNames = currentStation.connectedTo
+      .map(station => this.idToCityMap.get(station.id))
+      .filter(Boolean);
 
     return connectedNames.join(', ');
   }

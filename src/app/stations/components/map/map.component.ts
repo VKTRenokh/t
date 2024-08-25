@@ -66,7 +66,7 @@ export class MapComponent
   private onChange: OnChangeCallback = null;
   private destroyRef = inject(DestroyRef);
   private markers = new FeatureGroup();
-  private markerMap = new Map<string, Marker>();
+  private markerMap = new Map<number, Marker>();
   private connectionMap = new Map<string, Polyline>();
   private selectedStation: Station | null = null;
 
@@ -118,13 +118,13 @@ export class MapComponent
     tileLayer().addTo(map);
   }
 
-  private removeMarker(marker: Marker, id: string) {
+  private removeMarker(marker: Marker, id: number) {
     this.markers.removeLayer(marker);
     marker.off();
     this.markerMap.delete(id);
   }
 
-  private getStationLatLngById(id: string) {
+  private getStationLatLngById(id: number) {
     const stations = this.stations();
 
     if (!stations) {
@@ -190,7 +190,7 @@ export class MapComponent
 
   private drawConnection(
     from: LatLng,
-    toStationId: string,
+    toStationId: number,
   ) {
     const to = this.getStationLatLngById(toStationId);
 
@@ -202,7 +202,10 @@ export class MapComponent
       weight: 0.8,
     });
 
-    this.connectionMap.set(from + toStationId, line);
+    this.connectionMap.set(
+      from + toStationId.toString(),
+      line,
+    );
     line.addTo(this.map!);
   }
 
@@ -247,7 +250,7 @@ export class MapComponent
       : true;
   }
 
-  private removeMarkers(keep: Set<string>) {
+  private removeMarkers(keep: Set<number>) {
     this.markerMap.forEach((marker, id) => {
       if (keep.has(id)) {
         return;
@@ -263,7 +266,7 @@ export class MapComponent
       return;
     }
 
-    const stationsToKeep = new Set<string>();
+    const stationsToKeep = new Set<number>();
 
     const bounds = this.map.getBounds();
 

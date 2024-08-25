@@ -7,7 +7,7 @@ import {
 
 import { catchError, exhaustMap, map, of } from 'rxjs';
 
-import { StationsService } from '../../stations/services/stations.service';
+import { StationsService } from '../../stations/services/stations/stations.service';
 import { StationsActions } from '../actions/stations.action';
 
 @Injectable()
@@ -20,17 +20,16 @@ export class StationsEffects {
       ofType(StationsActions.getStations),
       exhaustMap(() =>
         this.stationsService.getStations().pipe(
-          map(
-            stations =>
-              StationsActions.getStationsSuccess({
-                stations,
+          map(stations =>
+            StationsActions.getStationsSuccess({
+              stations,
+            }),
+          ),
+          catchError(response =>
+            of(
+              StationsActions.failure({
+                error: response.error,
               }),
-            catchError(response =>
-              of(
-                StationsActions.failure({
-                  error: response.error,
-                }),
-              ),
             ),
           ),
         ),
