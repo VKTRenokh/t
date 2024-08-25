@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +5,6 @@ import {
   effect,
   inject,
   INJECTOR,
-  OnInit,
   signal,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -22,16 +20,12 @@ import {
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import {
-  TuiAlertService,
   TuiButton,
   TuiDialogService,
   TuiError,
   TuiLoader,
 } from '@taiga-ui/core';
 import { emailValidator } from '../../../auth/validators/email/email.validator';
-import { selectProfileError } from '../../../state/selectors/profile.selector';
-import { filter, map } from 'rxjs';
-import { isNotNullable } from '../../../shared/utils/is-not-nullables';
 import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 

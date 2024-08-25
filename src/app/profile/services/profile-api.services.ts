@@ -10,7 +10,6 @@ export class ProfileApiService {
   private http = inject(HttpClient);
 
   public getProfile() {
-    console.log('i call get profile');
     return this.http.get<Profile>('/api/profile').pipe(
       catchError(error => {
         if (error.status === 401) {
