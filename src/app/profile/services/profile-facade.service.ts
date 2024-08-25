@@ -12,6 +12,7 @@ import {
   selectProfileError,
 } from '../../state/selectors/profile.selector';
 import { ProfileActions } from '../../state/actions/profile.action';
+import { Profile } from '../models/profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,12 @@ export class ProfileFacade {
   public updatePassword(password: string) {
     this.store.dispatch(
       ProfileActions.updatePassword({ password }),
+    );
+  }
+
+  public updateProfile(profile: Partial<Profile>) {
+    this.store.dispatch(
+      ProfileActions.updateProfile({ profile }),
     );
   }
 }

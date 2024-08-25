@@ -51,7 +51,6 @@ export class ProfileComponent {
   private readonly dialogs = inject(TuiDialogService);
   private readonly injector = inject(INJECTOR);
   private formBuilder = inject(NonNullableFormBuilder);
-
   public error$ = this.store
     .select(selectProfileError)
     .pipe(
@@ -61,7 +60,6 @@ export class ProfileComponent {
 
   public profile = this.profileFacade.profile;
   public isLoading = this.profileFacade.isLoading;
-  public error = this.profileFacade.error;
 
   public isEditing = signal(false);
 
@@ -109,8 +107,9 @@ export class ProfileComponent {
 
   public saveChanges(): void {
     if (this.profileForm.valid) {
-      const data = this.profileForm.getRawValue();
-      console.log(data);
+      const profile = this.profileForm.getRawValue();
+      console.log(profile);
+      this.profileFacade.updateProfile(profile);
       this.isEditing.set(false);
       this.profileForm.disable();
     }
