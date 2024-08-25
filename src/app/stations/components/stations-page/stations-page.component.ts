@@ -30,7 +30,6 @@ import {
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
-import { StationsService } from '../../services/stations/stations.service';
 import { LatLng } from 'leaflet';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 

@@ -1,6 +1,8 @@
 @let station = stationInput();
-<div class="station__container">
-  <h1>{{ station.city }}</h1>
+<div class="station__container" tuiCardLarge>
+  <header tuiHeader>
+    <h3 tuiTitle>{{ station.city }}</h3>
+  </header>
   <div class="coordinates">
     <span
       >{{ station.latitude }}, {{ station.longitude }}</span
@@ -16,13 +18,15 @@
       <p>There are no connected stations</p>
     }
   </div>
+  <aside tuiAccessories>
+    <button
+      tuiButton
+      title="Delete"
+      size="s"
+      appearance="secondary"
+      (click)="handleDelete()"
+    >
+      <tui-icon icon="@tui.trash" />
+    </button>
+  </aside>
 </div>
-<button
-  tuiButton
-  title="Delete"
-  size="s"
-  appearance="secondary"
-  (click)="handleDelete()"
->
-  <tui-icon icon="@tui.trash" />
-</button>

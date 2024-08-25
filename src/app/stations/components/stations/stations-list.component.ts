@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
 } from '@angular/core';
 
 import { StationComponent } from '../station/station.component';
