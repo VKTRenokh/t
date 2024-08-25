@@ -32,13 +32,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tileLayer } from '../../utils/tile-layer/tile-layer.util';
 import { FeatureGroup } from 'leaflet';
 import { Station } from '../../models/station/station.model';
-import { Evented } from 'leaflet';
 
 export type OnChangeCallback =
   | ((value: LatLng) => void)
   | null;
-
-// TODO: Unsubscribe from leaflet events
 
 export const defaultLatLng = new LatLng(51.505, -0.09);
 export const defaultZoom = 4;
@@ -176,19 +173,22 @@ export class MapComponent
     marker: Marker,
     station: Station,
   ) {
-    fromEvent(marker, 'click')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.selectedStation = station;
-        this.drawConnections(station);
-      });
+    const fromMarkerEvent = (
+      event: keyof LeafletEventHandlerFnMap,
+    ) =>
+      fromEvent(marker, event).pipe(
+        takeUntilDestroyed(this.destroyRef),
+      );
 
-    fromEvent(marker, 'popupclose')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.selectedStation = null;
-        this.clearConnections();
-      });
+    fromMarkerEvent('click').subscribe(() => {
+      this.selectedStation = station;
+      this.drawConnections(station);
+    });
+
+    fromMarkerEvent('popupclose').subscribe(() => {
+      this.selectedStation = null;
+      this.clearConnections();
+    });
   }
 
   private drawConnection(
