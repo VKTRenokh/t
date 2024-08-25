@@ -9,6 +9,7 @@ import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
 import {
   catchError,
+  concatMap,
   EMPTY,
   exhaustMap,
   map,
@@ -38,22 +39,17 @@ export class AuthEffects {
   public loginEffect = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.login),
-      exhaustMap(data =>
-        this.authService
-          .login(data.email, data.password)
-          .pipe(
-            tap(response => this.saveToken(response.token)),
-            map(response =>
-              AuthActions.loginSuccess(response),
-            ),
-            catchError(response =>
-              of(
-                AuthActions.failure({
-                  error: response.error,
-                }),
-              ),
-            ),
+      exhaustMap(({ email, password }) =>
+        this.authService.login(email, password).pipe(
+          tap(response => this.saveToken(response.token)),
+          concatMap(response => [
+            AuthActions.loginSuccess(response),
+            ProfileActions.fetchProfile(),
+          ]),
+          catchError(error =>
+            of(AuthActions.failure({ error: error.error })),
           ),
+        ),
       ),
     ),
   );
