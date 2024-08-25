@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   INJECTOR,
+  OnInit,
   signal,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -19,9 +22,11 @@ import {
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import {
+  TuiAlertService,
   TuiButton,
   TuiDialogService,
   TuiError,
+  TuiLoader,
 } from '@taiga-ui/core';
 import { emailValidator } from '../../../auth/validators/email/email.validator';
 import { selectProfileError } from '../../../state/selectors/profile.selector';
@@ -40,6 +45,7 @@ import { TuiFieldErrorPipe } from '@taiga-ui/kit';
     AsyncPipe,
     TuiFieldErrorPipe,
     TuiError,
+    TuiLoader,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -49,17 +55,13 @@ export class ProfileComponent {
   private store = inject(Store);
   private profileFacade = inject(ProfileFacade);
   private readonly dialogs = inject(TuiDialogService);
-  private readonly injector = inject(INJECTOR);
   private formBuilder = inject(NonNullableFormBuilder);
-  public error$ = this.store
-    .select(selectProfileError)
-    .pipe(
-      filter(isNotNullable),
-      map(error => error.message),
-    );
+
+  private readonly injector = inject(INJECTOR);
 
   public profile = this.profileFacade.profile;
   public isLoading = this.profileFacade.isLoading;
+  public error = this.profileFacade.error;
 
   public isEditing = signal(false);
 
@@ -83,10 +85,10 @@ export class ProfileComponent {
       label: 'Chenge Password',
     },
   );
-
   constructor() {
-    console.log(this.profile());
-    this.initForm();
+    effect(() => {
+      this.initForm();
+    });
   }
 
   private initForm(): void {
@@ -108,10 +110,13 @@ export class ProfileComponent {
   public saveChanges(): void {
     if (this.profileForm.valid) {
       const profile = this.profileForm.getRawValue();
-      console.log(profile);
       this.profileFacade.updateProfile(profile);
-      this.isEditing.set(false);
-      this.profileForm.disable();
+      this.profileFacade.updateProfileSuccess$.subscribe(
+        () => {
+          this.isEditing.set(false);
+          this.profileForm.disable();
+        },
+      );
     }
   }
 
@@ -125,13 +130,6 @@ export class ProfileComponent {
   }
 
   public openChangePasswordDialog() {
-    this.dialog.subscribe({
-      next: data => {
-        console.info(`Dialog emitted data = ${data}`);
-      },
-      complete: () => {
-        console.info('Dialog closed');
-      },
-    });
+    this.dialog.subscribe();
   }
 }

@@ -17,57 +17,34 @@ export const initialState: ProfileState = {
 
 export const profileReducer = createReducer(
   initialState,
-  on(ProfileActions.fetchProfile, state => ({
-    ...state,
-    loading: true,
-  })),
+  on(
+    ProfileActions.fetchProfile,
+    ProfileActions.updateProfile,
+    ProfileActions.updatePassword,
+    state => ({
+      ...state,
+      loading: true,
+      error: null,
+    }),
+  ),
   on(
     ProfileActions.fetchProfileSuccess,
-    (state, { profile }) => ({
-      ...state,
-      profile,
-      loading: false,
-    }),
-  ),
-  on(
-    ProfileActions.fetchProfileFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    }),
-  ),
-
-  on(ProfileActions.updateProfile, state => ({
-    ...state,
-    loading: true,
-  })),
-  on(
     ProfileActions.updateProfileSuccess,
     (state, { profile }) => ({
       ...state,
       profile,
       loading: false,
+      error: null,
     }),
   ),
-  on(
-    ProfileActions.updateProfileFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    }),
-  ),
-
-  on(ProfileActions.updatePassword, state => ({
-    ...state,
-    loading: true,
-  })),
   on(ProfileActions.updatePasswordSuccess, state => ({
     ...state,
     loading: false,
+    error: null,
   })),
   on(
+    ProfileActions.fetchProfileFailure,
+    ProfileActions.updateProfileFailure,
     ProfileActions.updatePasswordFailure,
     (state, { error }) => ({
       ...state,
@@ -75,4 +52,8 @@ export const profileReducer = createReducer(
       loading: false,
     }),
   ),
+  on(ProfileActions.resetError, state => ({
+    ...state,
+    error: null,
+  })),
 );

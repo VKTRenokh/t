@@ -1,84 +1,89 @@
-<div class="content-wrapper">
-  <h2 tuiTitle>Profile</h2>
+@if (profile()) {
+  <div class="content-wrapper">
+    <h2 tuiTitle>Profile</h2>
 
-  <h3 tuiTitle>Profile role: {{ profile()?.role }}</h3>
+    <h3 tuiTitle>Profile role: {{ profile()?.role }}</h3>
 
-  <form [formGroup]="profileForm">
-    <tui-input formControlName="name">
-      Name
-      <input tuiTextfieldLegacy />
-    </tui-input>
-    <tui-error
-      formControlName="name"
-      [error]="[] | tuiFieldError | async"
-    />
-
-    <tui-input formControlName="email">
-      Email
-      <input
-        type="text"
-        formControlName="email"
-        placeholder="Enter email here"
-        tuiTextfieldLegacy
+    <form [formGroup]="profileForm">
+      <tui-input formControlName="name">
+        Name
+        <input tuiTextfieldLegacy />
+      </tui-input>
+      <tui-error
+        formControlName="name"
+        [error]="[] | tuiFieldError | async"
       />
-      <span class="tui-required"></span>
-    </tui-input>
-    <tui-error
-      formControlName="email"
-      [error]="[] | tuiFieldError | async"
-    />
-  </form>
 
-  <div class="buttons-container">
-    <div class="form-actions-buttons-container">
-      @if (!isEditing()) {
-        <button
-          tuiButton
-          type="button"
-          appearance="flat"
-          size="m"
-          (click)="startEditing()"
-        >
-          Edit Profile
-        </button>
-      } @else {
-        <button
-          tuiButton
-          type="button"
-          appearance="primary"
-          size="m"
-          [disabled]="profileForm.invalid"
-          (click)="saveChanges()"
-        >
-          Save Changes
-        </button>
-        <button
-          tuiButton
-          type="button"
-          appearance="outline"
-          size="m"
-          (click)="cancelEditing()"
-        >
-          Cancel
-        </button>
-      }
+      <tui-input formControlName="email">
+        Email
+        <input
+          type="text"
+          formControlName="email"
+          placeholder="Enter email here"
+          tuiTextfieldLegacy
+        />
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-error
+        formControlName="email"
+        [error]="[] | tuiFieldError | async"
+      />
+    </form>
+
+    <div class="buttons-container">
+      <div class="form-actions-buttons-container">
+        @if (!isEditing()) {
+          <button
+            tuiButton
+            type="button"
+            appearance="flat"
+            size="m"
+            (click)="startEditing()"
+          >
+            Edit Profile
+          </button>
+        } @else {
+          <button
+            tuiButton
+            type="button"
+            appearance="primary"
+            size="m"
+            [disabled]="profileForm.invalid"
+            (click)="saveChanges()"
+          >
+            Save Changes
+          </button>
+          <button
+            tuiButton
+            type="button"
+            appearance="outline"
+            size="m"
+            (click)="cancelEditing()"
+          >
+            Cancel
+          </button>
+        }
+      </div>
+      <button
+        size="m"
+        tuiButton
+        type="button"
+        (click)="openChangePasswordDialog()"
+      >
+        Change Password
+      </button>
+
+      <button
+        appearance="destructive"
+        size="m"
+        tuiButton
+        (click)="logout()"
+      >
+        Logout
+      </button>
     </div>
-    <button
-      size="m"
-      tuiButton
-      type="button"
-      (click)="openChangePasswordDialog()"
-    >
-      Change Password
-    </button>
-
-    <button
-      appearance="destructive"
-      size="m"
-      tuiButton
-      (click)="logout()"
-    >
-      Logout
-    </button>
   </div>
-</div>
+}
+@if (isLoading()) {
+  <tui-loader />
+}

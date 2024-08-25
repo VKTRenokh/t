@@ -13,42 +13,33 @@ import {
 } from '../../state/selectors/profile.selector';
 import { ProfileActions } from '../../state/actions/profile.action';
 import { Profile } from '../models/profile.model';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileFacade {
   private store = inject(Store<AppState>);
+  private actions$ = inject(Actions);
 
   public profile = toSignal(
     this.store.select(selectProfile),
-    {
-      initialValue: null,
-    },
+    { initialValue: null },
   );
-
   public userRole = computed(
     () => this.profile()?.role ?? null,
   );
-
   public isLoading = toSignal(
     this.store.select(selectProfileLoading),
-    {
-      initialValue: false,
-    },
+    { initialValue: false },
   );
-
   public error = toSignal(
     this.store.select(selectProfileError),
-    {
-      initialValue: null,
-    },
+    { initialValue: null },
   );
 
-  public updatePassword(password: string) {
-    this.store.dispatch(
-      ProfileActions.updatePassword({ password }),
-    );
+  public fetchProfile() {
+    this.store.dispatch(ProfileActions.fetchProfile());
   }
 
   public updateProfile(profile: Partial<Profile>) {
@@ -56,4 +47,27 @@ export class ProfileFacade {
       ProfileActions.updateProfile({ profile }),
     );
   }
+
+  public updatePassword(password: string) {
+    this.store.dispatch(
+      ProfileActions.updatePassword({ password }),
+    );
+  }
+
+  public resetError() {
+    this.store.dispatch(ProfileActions.resetError());
+  }
+
+  public updateProfileSuccess$ = this.actions$.pipe(
+    ofType(ProfileActions.updateProfileSuccess),
+  );
+  public updateProfileFailure$ = this.actions$.pipe(
+    ofType(ProfileActions.updateProfileFailure),
+  );
+  public updatePasswordSuccess$ = this.actions$.pipe(
+    ofType(ProfileActions.updatePasswordSuccess),
+  );
+  public updatePasswordFailure$ = this.actions$.pipe(
+    ofType(ProfileActions.updatePasswordFailure),
+  );
 }

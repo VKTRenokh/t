@@ -7,28 +7,27 @@ import {
 import { ProfileApiService } from '../../profile/services/profile-api.services';
 import { exhaustMap, map, catchError, of, tap } from 'rxjs';
 import { ProfileActions } from '../actions/profile.action';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Injectable()
 export class ProfileEffects {
   private actions = inject(Actions);
   private profileApiService = inject(ProfileApiService);
+  private alertService = inject(TuiAlertService);
 
   public fetchProfile = createEffect(() =>
     this.actions.pipe(
       ofType(ProfileActions.fetchProfile),
-      tap(() =>
-        console.log(
-          'Received ProfileActions.fetchProfile in ProfileEffects',
-        ),
-      ),
       exhaustMap(() =>
         this.profileApiService.getProfile().pipe(
           map(profile =>
             ProfileActions.fetchProfileSuccess({ profile }),
           ),
-          catchError(error =>
+          catchError(response =>
             of(
-              ProfileActions.fetchProfileFailure({ error }),
+              ProfileActions.fetchProfileFailure({
+                error: response.error,
+              }),
             ),
           ),
         ),
@@ -46,10 +45,10 @@ export class ProfileEffects {
               profile: updatedProfile,
             }),
           ),
-          catchError(error =>
+          catchError(response =>
             of(
               ProfileActions.updateProfileFailure({
-                error,
+                error: response.error,
               }),
             ),
           ),
@@ -68,10 +67,10 @@ export class ProfileEffects {
             map(() =>
               ProfileActions.updatePasswordSuccess(),
             ),
-            catchError(error =>
+            catchError(response =>
               of(
                 ProfileActions.updatePasswordFailure({
-                  error,
+                  error: response.error,
                 }),
               ),
             ),
@@ -79,4 +78,47 @@ export class ProfileEffects {
       ),
     ),
   );
+
+  public showSuccessToast = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(
+          ProfileActions.updateProfileSuccess,
+          ProfileActions.updatePasswordSuccess,
+        ),
+        tap(() =>
+          this.showToast(
+            'Success',
+            'Operation completed successfully',
+            'success',
+          ),
+        ),
+      ),
+    { dispatch: false },
+  );
+
+  public showErrorToast = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(
+          ProfileActions.fetchProfileFailure,
+          ProfileActions.updateProfileFailure,
+          ProfileActions.updatePasswordFailure,
+        ),
+        tap(({ error }) =>
+          this.showToast('Error', error.message, 'error'),
+        ),
+      ),
+    { dispatch: false },
+  );
+
+  private showToast(
+    label: string,
+    message: string,
+    appearance: 'success' | 'error',
+  ): void {
+    this.alertService
+      .open(message, { label, appearance })
+      .subscribe();
+  }
 }
