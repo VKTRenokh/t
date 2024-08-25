@@ -9,18 +9,20 @@ import { Profile } from '../../profile/models/profile.model';
 export const ProfileActions = createActionGroup({
   source: 'Profile',
   events: {
-    'Fetch Profile': emptyProps(),
-    'Fetch Profile Success': props<{ profile: Profile }>(),
-    'Fetch Profile Failure': props<{ error: ApiError }>(),
+    fetchProfile: emptyProps(),
+    fetchProfileSuccess: props<{ profile: Profile }>(),
+    fetchProfileFailure: props<{ error: ApiError }>(),
 
-    'Update Profile': props<{
-      profile: Partial<Profile>;
+    updateProfile: props<{ profile: Partial<Profile> }>(),
+    updateProfileSuccess: props<{ profile: Profile }>(),
+    updateProfileFailure: props<{ error: ApiError }>(),
+
+    updatePassword: props<{
+      password: string;
     }>(),
-    'Update Profile Success': props<{ profile: Profile }>(),
-    'Update Profile Failure': props<{ error: ApiError }>(),
+    updatePasswordSuccess: emptyProps(),
+    updatePasswordFailure: props<{ error: ApiError }>(),
 
-    'Update Password': props<{ password: string }>(),
-    'Update Password Success': emptyProps(),
-    'Update Password Failure': props<{ error: ApiError }>(),
+    resetError: emptyProps(),
   },
 });
