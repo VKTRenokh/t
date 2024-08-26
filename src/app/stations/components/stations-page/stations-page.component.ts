@@ -23,16 +23,21 @@ import {
   TuiNumberFormat,
 } from '@taiga-ui/core';
 import {
+  TuiComboBoxModule,
   TuiInputModule,
   TuiInputNumberModule,
   TuiSelectModule,
 } from '@taiga-ui/legacy';
-import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import {
+  TuiDataListWrapper,
+  TuiFieldErrorPipe,
+} from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
 import { LatLng } from 'leaflet';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import { FilterByArrayPipe } from '../../pipes/filter-by-array/filter-by-array.pipe';
+import { TuiBooleanHandler } from '@taiga-ui/cdk/types';
 
 @Component({
   selector: 'tra-stations-page',
@@ -50,6 +55,8 @@ import { FilterByArrayPipe } from '../../pipes/filter-by-array/filter-by-array.p
     TuiNumberFormat,
     TuiSelectModule,
     FilterByArrayPipe,
+    TuiComboBoxModule,
+    TuiDataListWrapper,
   ],
   templateUrl: './stations-page.component.html',
   styleUrl: './stations-page.component.scss',
@@ -107,7 +114,7 @@ export class StationsPageComponent {
   }
 
   public createRelationControl() {
-    return this.formBuilder.control('', []);
+    return this.formBuilder.control('');
   }
 
   public bindLatLng() {
@@ -141,6 +148,7 @@ export class StationsPageComponent {
     this.form.controls.relations.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(cities => {
+        console.log('changes', cities);
         this.handleRelationsChange(cities);
       });
   }
@@ -221,6 +229,8 @@ export class StationsPageComponent {
 
     this.stationsFacade.createStation(values);
     this.resetForm();
-    console.log('should reset');
   }
+
+  protected disabledItemHandler: TuiBooleanHandler<string> =
+    item => this.getUsedStations().includes(item);
 }

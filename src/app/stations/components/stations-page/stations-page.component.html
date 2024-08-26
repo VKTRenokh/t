@@ -33,20 +33,15 @@
       let i = $index;
       track i
     ) {
-      <tui-input [formControlName]="i">
+      <tui-combo-box [formControlName]="i">
         Connection {{ i + 1 }}
-        <input
-          type="text"
-          tuiTextfieldLegacy
-          [formControlName]="i"
-        />
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="
-            cities() | filterByArray: getUsedStations()
-          "
-        />
-      </tui-input>
+          [items]="cities()"
+          [disabledItemHandler]="disabledItemHandler"
+        ></tui-data-list-wrapper>
+        <input type="text" tuiTextfieldLegacy />
+      </tui-combo-box>
     }
   </form>
   <button tuiButton type="submit" [disabled]="form.invalid">
