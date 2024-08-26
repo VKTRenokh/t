@@ -42,7 +42,9 @@
         />
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="cities()"
+          [items]="
+            cities() | filterByArray: getUsedStations()
+          "
         />
       </tui-input>
     }

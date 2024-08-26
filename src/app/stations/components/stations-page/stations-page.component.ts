@@ -32,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
 import { LatLng } from 'leaflet';
 import { StationsFacade } from '../../../state/facades/stations.facade';
+import { FilterByArrayPipe } from '../../pipes/filter-by-array/filter-by-array.pipe';
 
 @Component({
   selector: 'tra-stations-page',
@@ -48,6 +49,7 @@ import { StationsFacade } from '../../../state/facades/stations.facade';
     TuiFieldErrorPipe,
     TuiNumberFormat,
     TuiSelectModule,
+    FilterByArrayPipe,
   ],
   templateUrl: './stations-page.component.html',
   styleUrl: './stations-page.component.scss',
@@ -96,6 +98,12 @@ export class StationsPageComponent {
 
   public get relations() {
     return this.form.get('relations') as FormArray;
+  }
+
+  public getUsedStations() {
+    const value: string[] = this.relations.value;
+
+    return value.filter(Boolean);
   }
 
   public createRelationControl() {
