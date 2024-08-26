@@ -158,13 +158,6 @@ export class MapComponent
   public addLayer(map: LeafLetMap) {
     tileLayer().addTo(map);
   }
-
-  private removeMarker(marker: Marker, id: number) {
-    this.markers.removeLayer(marker);
-    marker.off();
-    this.markerMap.delete(id);
-  }
-
   private getStationLatLngById(id: number) {
     const stations = this.stations();
 
@@ -288,6 +281,13 @@ export class MapComponent
       ? this.isConnectedToSelectedStation(station) ||
           this.selectedStation.id === station.id
       : true;
+  }
+
+  private removeMarker(marker: Marker, id: number) {
+    this.markers.removeLayer(marker);
+    marker.off();
+    marker.remove();
+    this.markerMap.delete(id);
   }
 
   private removeMarkers(keep: Set<number>) {
