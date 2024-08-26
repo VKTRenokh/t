@@ -8,9 +8,11 @@ export const cityValidator =
   control => {
     const cities = citiesSignal();
 
-    return control.value &&
-      cities &&
-      cities.includes(control.value)
+    if (!control.value) {
+      return null;
+    }
+
+    return cities && cities.includes(control.value)
       ? null
       : { city: { value: control.value } };
   };

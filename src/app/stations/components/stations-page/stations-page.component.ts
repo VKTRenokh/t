@@ -203,8 +203,10 @@ export class StationsPageComponent {
   private resetForm() {
     this.form.reset(
       { latLng: this.form.controls.latLng.value },
-      { emitEvent: true },
+      { emitEvent: false },
     );
+
+    this.form.controls.relations.reset();
   }
 
   private getFormValues() {
