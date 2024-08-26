@@ -31,6 +31,7 @@ import {
 import {
   TuiDataListWrapper,
   TuiFieldErrorPipe,
+  TuiFilterByInputPipe,
 } from '@taiga-ui/kit';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
@@ -58,6 +59,7 @@ import { cityValidator } from '../../validators/city/city.validator';
     FilterByArrayPipe,
     TuiComboBoxModule,
     TuiDataListWrapper,
+    TuiFilterByInputPipe,
   ],
   templateUrl: './stations-page.component.html',
   styleUrl: './stations-page.component.scss',

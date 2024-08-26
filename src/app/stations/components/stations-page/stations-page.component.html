@@ -37,7 +37,7 @@
         Connection {{ i + 1 }}
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="cities()"
+          [items]="cities() | tuiFilterByInput"
           [disabledItemHandler]="disabledItemHandler"
         ></tui-data-list-wrapper>
         <input type="text" tuiTextfieldLegacy />
