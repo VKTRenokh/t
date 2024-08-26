@@ -1,13 +1,11 @@
 @if (profile()) {
   <div class="content-wrapper">
-    <h2 id="profile" tuititle="">Profile</h2>
-    <h3 id="profile-role-profile.role" tuititle="">
-      Profile role: {{ profile()?.role }}
-    </h3>
+    <h2 tuititle>Profile</h2>
+    <h3 tuititle>Profile role: {{ profile()?.role }}</h3>
 
     <div class="input-container">
       <tui-input
-        [formControl]="profileForm.controls.name"
+        [formControl]="nameControl"
         [readOnly]="editingField !== 'name'"
       >
         Name
@@ -48,7 +46,7 @@
 
     <div class="input-container">
       <tui-input
-        [formControl]="profileForm.controls.email"
+        [formControl]="emailControl"
         [readOnly]="editingField !== 'email'"
       >
         Email

@@ -6,7 +6,7 @@ import { initialState } from '../../state/reducers/auth.reducer';
 import { selectIsAuthorized } from '../../state/selectors/auth.selector';
 import { Actions, ofType } from '@ngrx/effects';
 import { AuthActions } from '../../state/actions/auth.action';
-import { take, tap } from 'rxjs';
+import { take } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -25,11 +25,9 @@ export class AuthFacade {
   public logout() {
     this.store.dispatch(AuthActions.logout());
     this.actions$
-      .pipe(
-        ofType(AuthActions.logoutSuccess),
-        take(1),
-        tap(() => this.router.navigate(['/search'])),
-      )
-      .subscribe();
+      .pipe(ofType(AuthActions.logoutSuccess), take(1))
+      .subscribe(() => {
+        this.router.navigate(['/search']);
+      });
   }
 }

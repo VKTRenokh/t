@@ -27,6 +27,7 @@ import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AuthFacade } from '../../../core/services/auth-facade.service';
 import { ChangePasswordDialogComponent } from '../change-password-dialog/change-password-dialog.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'tra-profile',
@@ -60,13 +61,15 @@ export class ProfileComponent {
 
   public editingField: 'name' | 'email' | null = null;
 
-  public profileForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    email: this.formBuilder.control('', [
-      Validators.required,
-      emailValidator,
-    ]),
-  });
+  public nameControl = this.formBuilder.control(
+    '',
+    Validators.required,
+  );
+
+  public emailControl = this.formBuilder.control('', [
+    Validators.required,
+    emailValidator,
+  ]);
 
   public formDisabled = computed(
     () => this.editingField === null,
@@ -92,39 +95,51 @@ export class ProfileComponent {
   private initForm(): void {
     const currentProfile = this.profile();
     if (currentProfile) {
-      this.profileForm.patchValue({
-        name: currentProfile.name || '',
-        email: currentProfile.email,
-      });
+      this.nameControl.setValue(currentProfile.name || '');
+      this.emailControl.setValue(currentProfile.email);
     }
-    this.profileForm.disable();
+    this.nameControl.disable();
+    this.emailControl.disable();
   }
 
   public startEditing(field: 'name' | 'email'): void {
     this.editingField = field;
-    this.profileForm.controls[field].enable();
+    if (field === 'name') {
+      this.nameControl.enable();
+    } else {
+      this.emailControl.enable();
+    }
   }
 
   public saveChanges(field: 'name' | 'email'): void {
-    if (this.profileForm.controls[field].invalid) {
+    const control =
+      field === 'name'
+        ? this.nameControl
+        : this.emailControl;
+    if (control.invalid) {
       return;
     }
 
     const updatedValue = {
-      [field]: this.profileForm.controls[field].value,
+      [field]: control.value,
     };
     this.profileFacade.updateProfile(updatedValue);
-    this.profileFacade.updateProfileSuccess$.subscribe(
-      () => {
+    this.profileFacade.updateProfileSuccess$
+      .pipe(take(1))
+      .subscribe(() => {
         this.editingField = null;
-        this.profileForm.controls[field].disable();
-      },
-    );
+        control.disable();
+      });
   }
 
   public cancelEditing(field: 'name' | 'email'): void {
     this.editingField = null;
-    this.profileForm.get(field)?.disable();
+    const control =
+      field === 'name'
+        ? this.nameControl
+        : this.emailControl;
+    control.disable();
+    this.initForm();
   }
 
   public logout() {
