@@ -81,6 +81,7 @@ export class MapComponent
     effect(() => {
       this.addVisibleMarkers(this.stations());
       this.removeCurrentMarker();
+      console.log('updates');
     });
   }
 
@@ -279,9 +280,8 @@ export class MapComponent
     });
   }
 
-  private addVisibleMarkers(_stations?: Station[]) {
-    const stations = _stations ?? this.stations();
-
+  private addVisibleMarkers(stations?: Station[]) {
+    console.log(stations);
     if (!stations || !this.map) {
       return;
     }
@@ -295,6 +295,16 @@ export class MapComponent
         !this.isStationVisible(station, bounds) ||
         !this.shouldShowIfSelectedStation(station)
       ) {
+        if (station.city === 'HARK0')
+          // FIX: bug here... the new station is ignored because of
+          // shouldShowIfSelectedStation check, possible to fix, should fix
+          // later
+          console.log(
+            !this.isStationVisible(station, bounds),
+            !this.shouldShowIfSelectedStation(station),
+            !this.isStationVisible(station, bounds) ||
+              !this.shouldShowIfSelectedStation(station),
+          );
         return;
       }
 
@@ -323,7 +333,7 @@ export class MapComponent
   private fromMapEvent<T>(
     event: keyof LeafletEventHandlerFnMap,
   ) {
-    // @ts-expect-error shut up
+    // @ts-expect-error :( sadge
     return fromEvent<T>(this.map, event).pipe(
       takeUntilDestroyed(this.destroyRef),
     );
@@ -339,7 +349,7 @@ export class MapComponent
     );
 
     this.fromMapEvent('moveend').subscribe(() =>
-      this.addVisibleMarkers(),
+      this.addVisibleMarkers(this.stations()),
     );
   }
 
