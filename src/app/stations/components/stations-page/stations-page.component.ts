@@ -146,20 +146,25 @@ export class StationsPageComponent {
       return;
     }
 
-    const lastInputValue = relations.at(-1);
-    const secondLastInputValue = relations.at(-2);
+    const lastValue = relations.at(-1);
+    const secondLastValue = relations.at(-2);
 
-    if (!secondLastInputValue && !lastInputValue) {
-      this.relations.removeAt(this.relations.length - 1);
+    if (secondLastValue || lastValue) {
+      return;
     }
+
+    this.relations.removeAt(this.relations.length - 1);
   }
 
   private handleRelationsChange(relations: string[]) {
     const lastValue = relations.at(-1);
+    const stations = this.stations();
 
     if (
       lastValue &&
-      this.relations.length === relations.length
+      this.relations.length === relations.length &&
+      stations &&
+      this.relations.length <= stations.length - 1
     ) {
       this.addNewRelationsInput();
     }
@@ -178,7 +183,7 @@ export class StationsPageComponent {
   private resetForm() {
     this.form.reset(
       { latLng: this.form.controls.latLng.value },
-      { emitEvent: false },
+      { emitEvent: true },
     );
   }
 
@@ -208,5 +213,6 @@ export class StationsPageComponent {
 
     this.stationsFacade.createStation(values);
     this.resetForm();
+    console.log('should reset');
   }
 }
