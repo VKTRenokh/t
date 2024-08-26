@@ -100,16 +100,18 @@ export class ProfileComponent {
   }
 
   public saveChanges(): void {
-    if (this.profileForm.valid) {
-      const profile = this.profileForm.getRawValue();
-      this.profileFacade.updateProfile(profile);
-      this.profileFacade.updateProfileSuccess$.subscribe(
-        () => {
-          this.isEditing.set(false);
-          this.profileForm.disable();
-        },
-      );
+    if (this.profileForm.invalid) {
+      return;
     }
+
+    const profile = this.profileForm.getRawValue();
+    this.profileFacade.updateProfile(profile);
+    this.profileFacade.updateProfileSuccess$.subscribe(
+      () => {
+        this.isEditing.set(false);
+        this.profileForm.disable();
+      },
+    );
   }
 
   public cancelEditing(): void {
