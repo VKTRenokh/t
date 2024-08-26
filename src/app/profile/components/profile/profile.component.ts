@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ProfileFacade } from '../../services/profile-facade.service';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
-import { ChengePasswordDialogComponent } from '../chenge-password-dialog/chenge-password-dialog.component';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -26,6 +25,7 @@ import { emailValidator } from '../../../auth/validators/email/email.validator';
 import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AuthFacade } from '../../../core/services/auth-facade.service';
+import { ChangePasswordDialogComponent } from '../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'tra-profile',
@@ -69,7 +69,7 @@ export class ProfileComponent {
 
   private readonly dialog = this.dialogs.open(
     new PolymorpheusComponent(
-      ChengePasswordDialogComponent,
+      ChangePasswordDialogComponent,
       this.injector,
     ),
     {

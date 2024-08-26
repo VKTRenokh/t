@@ -28,7 +28,7 @@ import { ProfileFacade } from '../../services/profile-facade.service';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'tra-chenge-password-dialog',
+  selector: 'tra-change-password-dialog',
   standalone: true,
   imports: [
     TuiInputModule,
@@ -42,8 +42,8 @@ import { AsyncPipe } from '@angular/common';
     TuiFieldErrorPipe,
     AsyncPipe,
   ],
-  templateUrl: './chenge-password-dialog.component.html',
-  styleUrl: './chenge-password-dialog.component.scss',
+  templateUrl: './change-password-dialog.component.html',
+  styleUrl: './change-password-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -54,7 +54,7 @@ import { AsyncPipe } from '@angular/common';
     },
   ],
 })
-export class ChengePasswordDialogComponent {
+export class ChangePasswordDialogComponent {
   private profileFacade = inject(ProfileFacade);
   private formGroup = inject(NonNullableFormBuilder);
   protected isLoading = this.profileFacade.isLoading;
