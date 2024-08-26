@@ -228,6 +228,7 @@ export class MapComponent
     fromMarkerEvent('popupclose').subscribe(() => {
       this.selectedStation = null;
       this.clearConnections();
+      this.addVisibleMarkers(this.stations());
     });
   }
 
@@ -255,7 +256,7 @@ export class MapComponent
     }
     this.connectionMap.forEach(line => line.remove());
     this.connectionMap.clear();
-    this.addVisibleMarkers();
+    this.addVisibleMarkers(this.stations());
   }
 
   private drawConnections(station: Station) {
@@ -269,7 +270,7 @@ export class MapComponent
       return to.id;
     });
 
-    this.addVisibleMarkers();
+    this.addVisibleMarkers(this.stations());
   }
 
   private isConnectedToSelectedStation(station: Station) {
