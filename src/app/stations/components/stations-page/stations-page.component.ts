@@ -38,6 +38,7 @@ import { LatLng } from 'leaflet';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import { FilterByArrayPipe } from '../../pipes/filter-by-array/filter-by-array.pipe';
 import { TuiBooleanHandler } from '@taiga-ui/cdk/types';
+import { cityValidator } from '../../validators/city/city.validator';
 
 @Component({
   selector: 'tra-stations-page',
@@ -114,7 +115,9 @@ export class StationsPageComponent {
   }
 
   public createRelationControl() {
-    return this.formBuilder.control('');
+    return this.formBuilder.control('', [
+      cityValidator(this.cities),
+    ]);
   }
 
   public bindLatLng() {
@@ -148,7 +151,6 @@ export class StationsPageComponent {
     this.form.controls.relations.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(cities => {
-        console.log('changes', cities);
         this.handleRelationsChange(cities);
       });
   }

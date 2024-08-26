@@ -42,6 +42,10 @@
         ></tui-data-list-wrapper>
         <input type="text" tuiTextfieldLegacy />
       </tui-combo-box>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        [formControlName]="i"
+      />
     }
   </form>
   <button tuiButton type="submit" [disabled]="form.invalid">
