@@ -5,7 +5,6 @@ import {
   effect,
   inject,
   INJECTOR,
-  signal,
 } from '@angular/core';
 import { ProfileFacade } from '../../services/profile-facade.service';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
@@ -19,7 +18,9 @@ import {
   TuiButton,
   TuiDialogService,
   TuiError,
+  TuiIcon,
   TuiLoader,
+  TuiTextfield,
 } from '@taiga-ui/core';
 import { emailValidator } from '../../../auth/validators/email/email.validator';
 import { AsyncPipe } from '@angular/common';
@@ -38,6 +39,8 @@ import { ChangePasswordDialogComponent } from '../change-password-dialog/change-
     TuiFieldErrorPipe,
     TuiError,
     TuiLoader,
+    TuiIcon,
+    TuiTextfield,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
@@ -55,7 +58,7 @@ export class ProfileComponent {
   public isLoading = this.profileFacade.isLoading;
   public error = this.profileFacade.error;
 
-  public isEditing = signal(false);
+  public editingField: 'name' | 'email' | null = null;
 
   public profileForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -65,7 +68,9 @@ export class ProfileComponent {
     ]),
   });
 
-  public formDisabled = computed(() => !this.isEditing());
+  public formDisabled = computed(
+    () => this.editingField === null,
+  );
 
   private readonly dialog = this.dialogs.open(
     new PolymorpheusComponent(
@@ -77,6 +82,7 @@ export class ProfileComponent {
       label: 'Change Password',
     },
   );
+
   constructor() {
     effect(() => {
       this.initForm();
@@ -87,36 +93,38 @@ export class ProfileComponent {
     const currentProfile = this.profile();
     if (currentProfile) {
       this.profileForm.patchValue({
-        name: currentProfile.name,
+        name: currentProfile.name || '',
         email: currentProfile.email,
       });
     }
     this.profileForm.disable();
   }
 
-  public startEditing(): void {
-    this.isEditing.set(true);
-    this.profileForm.enable();
+  public startEditing(field: 'name' | 'email'): void {
+    this.editingField = field;
+    this.profileForm.controls[field].enable();
   }
 
-  public saveChanges(): void {
-    if (this.profileForm.invalid) {
+  public saveChanges(field: 'name' | 'email'): void {
+    if (this.profileForm.controls[field].invalid) {
       return;
     }
 
-    const profile = this.profileForm.getRawValue();
-    this.profileFacade.updateProfile(profile);
+    const updatedValue = {
+      [field]: this.profileForm.controls[field].value,
+    };
+    this.profileFacade.updateProfile(updatedValue);
     this.profileFacade.updateProfileSuccess$.subscribe(
       () => {
-        this.isEditing.set(false);
-        this.profileForm.disable();
+        this.editingField = null;
+        this.profileForm.controls[field].disable();
       },
     );
   }
 
-  public cancelEditing(): void {
-    this.initForm();
-    this.isEditing.set(false);
+  public cancelEditing(field: 'name' | 'email'): void {
+    this.editingField = null;
+    this.profileForm.get(field)?.disable();
   }
 
   public logout() {

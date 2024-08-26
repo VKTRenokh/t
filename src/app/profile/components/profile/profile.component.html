@@ -1,82 +1,105 @@
 @if (profile()) {
   <div class="content-wrapper">
-    <h2 tuiTitle>Profile</h2>
+    <h2 id="profile" tuititle="">Profile</h2>
+    <h3 id="profile-role-profile.role" tuititle="">
+      Profile role: {{ profile()?.role }}
+    </h3>
 
-    <h3 tuiTitle>Profile role: {{ profile()?.role }}</h3>
-
-    <form [formGroup]="profileForm">
-      <tui-input formControlName="name">
+    <div class="input-container">
+      <tui-input
+        [formControl]="profileForm.controls.name"
+        [readOnly]="editingField !== 'name'"
+      >
         Name
-        <input tuiTextfieldLegacy />
       </tui-input>
-      <tui-error
-        formControlName="name"
-        [error]="[] | tuiFieldError | async"
-      />
+      @if (editingField !== 'name') {
+        <button
+          appearance="outline"
+          iconStart="@tui.pencil"
+          size="s"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="startEditing('name')"
+        >
+          Edit
+        </button>
+      } @else {
+        <button
+          size="s"
+          iconStart="@tui.save"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="saveChanges('name')"
+        >
+          Save
+        </button>
+        <button
+          size="s"
+          appearance="destructive"
+          iconStart="@tui.circle-x"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="cancelEditing('name')"
+        >
+          Cancel
+        </button>
+      }
+    </div>
 
-      <tui-input formControlName="email">
+    <div class="input-container">
+      <tui-input
+        [formControl]="profileForm.controls.email"
+        [readOnly]="editingField !== 'email'"
+      >
         Email
-        <input
-          type="text"
-          formControlName="email"
-          placeholder="Enter email here"
-          tuiTextfieldLegacy
-        />
         <span class="tui-required"></span>
       </tui-input>
-      <tui-error
-        formControlName="email"
-        [error]="[] | tuiFieldError | async"
-      />
-    </form>
+      @if (editingField !== 'email') {
+        <button
+          appearance="outline"
+          iconStart="@tui.pencil"
+          size="s"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="startEditing('email')"
+        >
+          Edit
+        </button>
+      } @else {
+        <button
+          size="s"
+          iconStart="@tui.save"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="saveChanges('email')"
+        >
+          Save
+        </button>
+        <button
+          size="s"
+          appearance="destructive"
+          iconStart="@tui.circle-x"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="cancelEditing('email')"
+        >
+          Cancel
+        </button>
+      }
+    </div>
 
     <div class="buttons-container">
-      <div class="form-actions-buttons-container">
-        @if (!isEditing()) {
-          <button
-            tuiButton
-            type="button"
-            appearance="flat"
-            size="m"
-            (click)="startEditing()"
-          >
-            Edit Profile
-          </button>
-        } @else {
-          <button
-            tuiButton
-            type="button"
-            appearance="primary"
-            size="m"
-            [disabled]="profileForm.invalid"
-            (click)="saveChanges()"
-          >
-            Save Changes
-          </button>
-          <button
-            tuiButton
-            type="button"
-            appearance="outline"
-            size="m"
-            (click)="cancelEditing()"
-          >
-            Cancel
-          </button>
-        }
-      </div>
       <button
-        size="m"
         tuiButton
         type="button"
         (click)="openChangePasswordDialog()"
       >
         Change Password
       </button>
-
       <button
-        appearance="destructive"
-        size="m"
         tuiButton
+        type="button"
+        appearance="outline"
         (click)="logout()"
       >
         Logout
@@ -84,6 +107,7 @@
     </div>
   </div>
 }
+
 @if (isLoading()) {
-  <tui-loader />
+  <tui-loader></tui-loader>
 }
