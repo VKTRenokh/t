@@ -7,9 +7,6 @@ import {
   INJECTOR,
   signal,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-
-import { AuthActions } from '../../../state/actions/auth.action';
 import { ProfileFacade } from '../../services/profile-facade.service';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { ChengePasswordDialogComponent } from '../chenge-password-dialog/chenge-password-dialog.component';
@@ -28,6 +25,7 @@ import {
 import { emailValidator } from '../../../auth/validators/email/email.validator';
 import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { AuthFacade } from '../../../core/services/auth-facade.service';
 
 @Component({
   selector: 'tra-profile',
@@ -46,10 +44,10 @@ import { TuiFieldErrorPipe } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-  private store = inject(Store);
   private profileFacade = inject(ProfileFacade);
   private readonly dialogs = inject(TuiDialogService);
   private formBuilder = inject(NonNullableFormBuilder);
+  private authFacade = inject(AuthFacade);
 
   private readonly injector = inject(INJECTOR);
 
@@ -120,7 +118,7 @@ export class ProfileComponent {
   }
 
   public logout() {
-    this.store.dispatch(AuthActions.logout());
+    this.authFacade.logout();
   }
 
   public openChangePasswordDialog() {

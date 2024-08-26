@@ -18,7 +18,6 @@ import {
 } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
-import { Router } from '@angular/router';
 import { ProfileActions } from '../actions/profile.action';
 
 @Injectable()
@@ -26,7 +25,6 @@ export class AuthEffects {
   private actions = inject(Actions);
   private authService = inject(AuthService);
   private storageService = inject(StorageService);
-  private router = inject(Router);
 
   private getToken() {
     return this.storageService.get(tokenKey);
@@ -77,12 +75,7 @@ export class AuthEffects {
 
   public logoutSuccessEffect = createEffect(
     () =>
-      this.actions.pipe(
-        ofType(AuthActions.logoutSuccess),
-        tap(() => {
-          this.router.navigate(['/search']);
-        }),
-      ),
+      this.actions.pipe(ofType(AuthActions.logoutSuccess)),
     { dispatch: false },
   );
 
