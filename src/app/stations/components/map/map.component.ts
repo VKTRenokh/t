@@ -79,10 +79,29 @@ export class MapComponent
 
   constructor() {
     effect(() => {
-      this.addVisibleMarkers(this.stations());
+      const stations = this.stations();
+
+      this.updateConnections(stations);
+      this.addVisibleMarkers(stations);
       this.removeCurrentMarker();
-      console.log('updates');
     });
+  }
+
+  private updateConnections(stations?: Station[]) {
+    if (!this.selectedStation || !stations) {
+      return;
+    }
+
+    const station = stations.find(
+      station => station.id === this.selectedStation?.id,
+    );
+
+    if (!station) {
+      return;
+    }
+
+    this.selectedStation = station;
+    this.drawConnections(station);
   }
 
   private emitChanges() {
@@ -281,7 +300,6 @@ export class MapComponent
   }
 
   private addVisibleMarkers(stations?: Station[]) {
-    console.log(stations);
     if (!stations || !this.map) {
       return;
     }
@@ -295,16 +313,6 @@ export class MapComponent
         !this.isStationVisible(station, bounds) ||
         !this.shouldShowIfSelectedStation(station)
       ) {
-        if (station.city === 'HARK0')
-          // FIX: bug here... the new station is ignored because of
-          // shouldShowIfSelectedStation check, possible to fix, should fix
-          // later
-          console.log(
-            !this.isStationVisible(station, bounds),
-            !this.shouldShowIfSelectedStation(station),
-            !this.isStationVisible(station, bounds) ||
-              !this.shouldShowIfSelectedStation(station),
-          );
         return;
       }
 
