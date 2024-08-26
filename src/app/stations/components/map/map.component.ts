@@ -256,7 +256,6 @@ export class MapComponent
     }
     this.connectionMap.forEach(line => line.remove());
     this.connectionMap.clear();
-    this.addVisibleMarkers(this.stations());
   }
 
   private drawConnections(station: Station) {
