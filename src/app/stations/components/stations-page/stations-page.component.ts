@@ -37,7 +37,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest } from 'rxjs';
 import { LatLng } from 'leaflet';
 import { StationsFacade } from '../../../state/facades/stations.facade';
-import { FilterByArrayPipe } from '../../pipes/filter-by-array/filter-by-array.pipe';
 import { TuiBooleanHandler } from '@taiga-ui/cdk/types';
 import { cityValidator } from '../../validators/city/city.validator';
 
@@ -56,7 +55,6 @@ import { cityValidator } from '../../validators/city/city.validator';
     TuiFieldErrorPipe,
     TuiNumberFormat,
     TuiSelectModule,
-    FilterByArrayPipe,
     TuiComboBoxModule,
     TuiDataListWrapper,
     TuiFilterByInputPipe,
