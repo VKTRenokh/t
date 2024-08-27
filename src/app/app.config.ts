@@ -32,11 +32,13 @@ export const appConfig: ApplicationConfig = {
       auth: authReducer,
       user: userReducer,
       stations: stationsReducer,
+      carriages: carriagesReducer,
     }),
     provideEffects(
       AuthEffects,
       UserEffects,
       StationsEffects,
+      CarriagesEffects,
     ),
     provideStoreDevtools({
       maxAge: 25,

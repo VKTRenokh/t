@@ -60,6 +60,13 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'carriages',
+    loadComponent: () =>
+      import(
+        './carriages/components/carriages-page/carriages-page.component.js'
+      ).then(M => M.CarriagesPageComponent),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import(
