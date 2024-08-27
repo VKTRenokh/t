@@ -180,10 +180,12 @@ export class MapComponent
     station: Station,
     bounds: LatLngBounds,
   ) {
-    return bounds.contains([
-      station.latitude,
-      station.longitude,
-    ]);
+    return (
+      bounds.contains([
+        station.latitude,
+        station.longitude,
+      ]) || this.isSelectedStation(station)
+    );
   }
 
   private addStationMarker(station: Station) {
