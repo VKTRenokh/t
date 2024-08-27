@@ -15,25 +15,20 @@ import { StationsFacade } from '../../state/facades/stations.facade';
 export class ConnectedNamesPipe implements PipeTransform {
   private stationsFacade = inject(StationsFacade);
 
-  private stations = this.stationsFacade.stations;
+  private stations = this.stationsFacade.stations();
 
-  private idToCityMap = computed(() => {
-    const stations = this.stations();
-    return new Map(
-      stations
-        ? stations.map(station => [
-            station.id,
-            station.city,
-          ])
-        : [],
-    );
-  });
+  private map = new Map(
+    this.stations
+      ? this.stations.map(station => [
+          station.id,
+          station.city,
+        ])
+      : [],
+  );
 
   public transform(currentStation: Station): string {
-    const map = this.idToCityMap();
-
     const connectedNames = currentStation.connectedTo
-      .map(station => map.get(station.id))
+      .map(station => this.map.get(station.id))
       .filter(Boolean);
 
     return connectedNames.join(', ');
