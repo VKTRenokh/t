@@ -56,17 +56,19 @@ import { AsyncPipe } from '@angular/common';
 })
 export class ChangePasswordDialogComponent {
   private profileFacade = inject(ProfileFacade);
-  private formGroup = inject(NonNullableFormBuilder);
+  private formBuilder = inject(NonNullableFormBuilder);
   protected isLoading = this.profileFacade.isLoading;
   protected error = this.profileFacade.error;
 
-  protected changePasswordForm = this.formGroup.group(
+  protected changePasswordForm = this.formBuilder.group(
     {
-      password: [
-        '',
-        [Validators.required, Validators.minLength(8)],
-      ],
-      passwordRepeat: ['', [Validators.required]],
+      password: this.formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
+      passwordRepeat: this.formBuilder.control('', [
+        Validators.required,
+      ]),
     },
     {
       validators: isPasswordsMatch(
@@ -77,6 +79,9 @@ export class ChangePasswordDialogComponent {
   );
 
   protected onSubmit() {
+    if (this.changePasswordForm.invalid) {
+      return;
+    }
     const { password } =
       this.changePasswordForm.getRawValue();
     this.profileFacade.updatePassword(password);

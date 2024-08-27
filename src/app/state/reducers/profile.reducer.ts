@@ -9,14 +9,14 @@ export interface ProfileState {
   error: ApiError | null;
 }
 
-export const initialState: ProfileState = {
+export const profileInitialState: ProfileState = {
   profile: null,
   loading: false,
   error: null,
 };
 
 export const profileReducer = createReducer(
-  initialState,
+  profileInitialState,
   on(
     ProfileActions.fetchProfile,
     ProfileActions.updateProfile,
@@ -43,9 +43,7 @@ export const profileReducer = createReducer(
     error: null,
   })),
   on(
-    ProfileActions.fetchProfileFailure,
-    ProfileActions.updateProfileFailure,
-    ProfileActions.updatePasswordFailure,
+    ProfileActions.profileFailure,
     (state, { error }) => ({
       ...state,
       error,

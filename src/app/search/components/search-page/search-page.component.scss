@@ -41,14 +41,14 @@
   flex-direction: column;
 
   &__city {
-    color: #000000;
+    color: var(--tui-text-primary);
   }
 
   &__state {
-    color: #36454f;
+    color: var(--tui-text-secondary);
   }
 
   &__country {
-    color: #71797e;
+    color: var(--tui-text-tertiary);
   }
 }

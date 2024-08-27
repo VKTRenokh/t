@@ -14,6 +14,7 @@ import {
 import { ProfileActions } from '../../state/actions/profile.action';
 import { Profile } from '../models/profile.model';
 import { Actions, ofType } from '@ngrx/effects';
+import { profileInitialState } from '../../state/reducers/profile.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +32,9 @@ export class ProfileFacade {
   );
   public isLoading = toSignal(
     this.store.select(selectProfileLoading),
-    { initialValue: false },
+    { initialValue: profileInitialState.loading },
   );
+
   public error = toSignal(
     this.store.select(selectProfileError),
     { initialValue: null },
@@ -60,14 +62,5 @@ export class ProfileFacade {
 
   public updateProfileSuccess$ = this.actions$.pipe(
     ofType(ProfileActions.updateProfileSuccess),
-  );
-  public updateProfileFailure$ = this.actions$.pipe(
-    ofType(ProfileActions.updateProfileFailure),
-  );
-  public updatePasswordSuccess$ = this.actions$.pipe(
-    ofType(ProfileActions.updatePasswordSuccess),
-  );
-  public updatePasswordFailure$ = this.actions$.pipe(
-    ofType(ProfileActions.updatePasswordFailure),
   );
 }

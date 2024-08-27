@@ -25,7 +25,7 @@ export class ProfileEffects {
           ),
           catchError(response =>
             of(
-              ProfileActions.fetchProfileFailure({
+              ProfileActions.profileFailure({
                 error: response.error,
               }),
             ),
@@ -47,7 +47,7 @@ export class ProfileEffects {
           ),
           catchError(response =>
             of(
-              ProfileActions.updateProfileFailure({
+              ProfileActions.profileFailure({
                 error: response.error,
               }),
             ),
@@ -69,7 +69,7 @@ export class ProfileEffects {
             ),
             catchError(response =>
               of(
-                ProfileActions.updatePasswordFailure({
+                ProfileActions.profileFailure({
                   error: response.error,
                 }),
               ),
@@ -100,11 +100,7 @@ export class ProfileEffects {
   public showErrorToast = createEffect(
     () =>
       this.actions.pipe(
-        ofType(
-          ProfileActions.fetchProfileFailure,
-          ProfileActions.updateProfileFailure,
-          ProfileActions.updatePasswordFailure,
-        ),
+        ofType(ProfileActions.profileFailure),
         tap(({ error }) =>
           this.showToast('Error', error.message, 'error'),
         ),

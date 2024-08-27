@@ -11,18 +11,16 @@ export const ProfileActions = createActionGroup({
   events: {
     fetchProfile: emptyProps(),
     fetchProfileSuccess: props<{ profile: Profile }>(),
-    fetchProfileFailure: props<{ error: ApiError }>(),
 
     updateProfile: props<{ profile: Partial<Profile> }>(),
     updateProfileSuccess: props<{ profile: Profile }>(),
-    updateProfileFailure: props<{ error: ApiError }>(),
 
     updatePassword: props<{
       password: string;
     }>(),
     updatePasswordSuccess: emptyProps(),
-    updatePasswordFailure: props<{ error: ApiError }>(),
 
+    profileFailure: props<{ error: ApiError }>(),
     resetError: emptyProps(),
   },
 });
