@@ -9,12 +9,12 @@ import { AppState } from '../../state/app.state';
 import {
   selectProfile,
   selectProfileLoading,
-  selectProfileError,
-} from '../../state/selectors/profile.selector';
-import { ProfileActions } from '../../state/actions/profile.action';
-import { Profile } from '../models/profile.model';
+  selectError,
+} from '../../state/selectors/user.selector';
+import { UserActions } from '../../state/actions/user.action';
+import { Profile } from '../../core/models/profile/profile.model';
 import { Actions, ofType } from '@ngrx/effects';
-import { profileInitialState } from '../../state/reducers/profile.reducer';
+import { initialState } from '../../state/reducers/user.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -32,35 +32,30 @@ export class ProfileFacade {
   );
   public isLoading = toSignal(
     this.store.select(selectProfileLoading),
-    { initialValue: profileInitialState.loading },
+    { initialValue: initialState.loading },
   );
 
-  public error = toSignal(
-    this.store.select(selectProfileError),
-    { initialValue: null },
-  );
+  public error = toSignal(this.store.select(selectError), {
+    initialValue: null,
+  });
 
-  public fetchProfile() {
-    this.store.dispatch(ProfileActions.fetchProfile());
-  }
-
-  public updateProfile(profile: Partial<Profile>) {
+  public updateProfile(user: Partial<Profile>) {
     this.store.dispatch(
-      ProfileActions.updateProfile({ profile }),
+      UserActions.updateProfile({ user }),
     );
   }
 
   public updatePassword(password: string) {
     this.store.dispatch(
-      ProfileActions.updatePassword({ password }),
+      UserActions.updatePassword({ password }),
     );
   }
 
   public resetError() {
-    this.store.dispatch(ProfileActions.resetError());
+    this.store.dispatch(UserActions.resetError());
   }
 
   public updateProfileSuccess$ = this.actions$.pipe(
-    ofType(ProfileActions.updateProfileSuccess),
+    ofType(UserActions.updateProfileSuccess),
   );
 }

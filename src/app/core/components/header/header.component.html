@@ -1,26 +1,33 @@
+@let isAdmin = isAdmin$ | async;
+
 <header class="header-content-wrapper">
   <nav tuiNavigationNav [style.position]="'sticky'">
     <tui-tabs tuiFade>
-      <button tuiTab routerLink="/search" routerLinkActive>
+      <a tuiTab routerLink="/search" routerLinkActive>
         Home
-      </button>
+      </a>
       @if (isLoggedIn()) {
-        <button
-          tuiTab
-          routerLink="/profile"
-          routerLinkActive
-        >
+        <a tuiTab routerLink="/profile" routerLinkActive>
           Profile
-        </button>
+        </a>
       } @else {
-        <button
+        <a
           tuiTab
           routerLink="/login"
           routerLinkActive
           style="margin-left: auto"
         >
           Login
-        </button>
+        </a>
+      }
+      @if (isAdmin) {
+        <a
+          tuiTab
+          routerLink="/manager/stations"
+          routerLinkActive
+        >
+          Stations
+        </a>
       }
     </tui-tabs>
   </nav>

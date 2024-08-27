@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest/guest.guard.js';
 import { authGuard } from './core/guards/auth/auth.guard.js';
+import { managerGuard } from './core/guards/manager/manager.guard.js';
+import { profileResolver } from './core/resolvers/profile/profile.resolver.js';
 
 export const routes: Routes = [
   {
@@ -44,11 +46,18 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
-    path: 'stations',
-    loadComponent: () =>
-      import(
-        './stations/components/stations-page/stations-page.component.js'
-      ).then(M => M.StationsPageComponent),
+    path: 'manager',
+    canMatch: [managerGuard],
+    resolve: { profile: profileResolver },
+    children: [
+      {
+        path: 'stations',
+        loadComponent: () =>
+          import(
+            './stations/components/stations-page/stations-page.component.js'
+          ).then(M => M.StationsPageComponent),
+      },
+    ],
   },
   {
     path: '**',

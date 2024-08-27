@@ -3,29 +3,30 @@ import {
   Actions,
   createEffect,
   ofType,
+  ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
-import { ProfileApiService } from '../../profile/services/profile-api.services';
-import { exhaustMap, map, catchError, of, tap } from 'rxjs';
-import { ProfileActions } from '../actions/profile.action';
+import { UserService } from '../../core/services/user/user.service';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { UserActions } from '../actions/user.action';
 import { TuiAlertService } from '@taiga-ui/core';
 
 @Injectable()
-export class ProfileEffects {
+export class UserEffects {
   private actions = inject(Actions);
-  private profileApiService = inject(ProfileApiService);
+  private userService = inject(UserService);
   private alertService = inject(TuiAlertService);
 
-  public fetchProfile = createEffect(() =>
+  public initEffect = createEffect(() =>
     this.actions.pipe(
-      ofType(ProfileActions.fetchProfile),
+      ofType(ROOT_EFFECTS_INIT),
       exhaustMap(() =>
-        this.profileApiService.getProfile().pipe(
-          map(profile =>
-            ProfileActions.fetchProfileSuccess({ profile }),
+        this.userService.profile().pipe(
+          map(user =>
+            UserActions.loadProfileSuccess({ user }),
           ),
           catchError(response =>
             of(
-              ProfileActions.profileFailure({
+              UserActions.failure({
                 error: response.error,
               }),
             ),
@@ -37,17 +38,17 @@ export class ProfileEffects {
 
   public updateProfile = createEffect(() =>
     this.actions.pipe(
-      ofType(ProfileActions.updateProfile),
-      exhaustMap(({ profile }) =>
-        this.profileApiService.updateProfile(profile).pipe(
+      ofType(UserActions.updateProfile),
+      exhaustMap(({ user }) =>
+        this.userService.updateProfile(user).pipe(
           map(updatedProfile =>
-            ProfileActions.updateProfileSuccess({
-              profile: updatedProfile,
+            UserActions.updateProfileSuccess({
+              user: updatedProfile,
             }),
           ),
           catchError(response =>
             of(
-              ProfileActions.profileFailure({
+              UserActions.failure({
                 error: response.error,
               }),
             ),
@@ -59,22 +60,18 @@ export class ProfileEffects {
 
   public updatePassword = createEffect(() =>
     this.actions.pipe(
-      ofType(ProfileActions.updatePassword),
+      ofType(UserActions.updatePassword),
       exhaustMap(({ password }) =>
-        this.profileApiService
-          .updatePassword(password)
-          .pipe(
-            map(() =>
-              ProfileActions.updatePasswordSuccess(),
-            ),
-            catchError(response =>
-              of(
-                ProfileActions.profileFailure({
-                  error: response.error,
-                }),
-              ),
+        this.userService.updatePassword(password).pipe(
+          map(() => UserActions.updatePasswordSuccess()),
+          catchError(response =>
+            of(
+              UserActions.failure({
+                error: response.error,
+              }),
             ),
           ),
+        ),
       ),
     ),
   );
@@ -83,8 +80,8 @@ export class ProfileEffects {
     () =>
       this.actions.pipe(
         ofType(
-          ProfileActions.updateProfileSuccess,
-          ProfileActions.updatePasswordSuccess,
+          UserActions.updateProfileSuccess,
+          UserActions.updatePasswordSuccess,
         ),
         tap(() =>
           this.showToast(
@@ -100,7 +97,7 @@ export class ProfileEffects {
   public showErrorToast = createEffect(
     () =>
       this.actions.pipe(
-        ofType(ProfileActions.profileFailure),
+        ofType(UserActions.failure),
         tap(({ error }) =>
           this.showToast('Error', error.message, 'error'),
         ),

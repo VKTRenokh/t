@@ -2,17 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
 } from '@angular/core';
 
 import { StationComponent } from '../station/station.component';
 
 import { StationsFacade } from '../../../state/facades/stations.facade';
-import { StationsService } from '../../services/stations.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app.state';
 
-import { StationsActions } from '../../../state/actions/stations.action';
 import { TuiPagination } from '@taiga-ui/kit';
 
 import { TuiError } from '@taiga-ui/core';
@@ -35,10 +32,8 @@ import { selectStationsError } from '../../../state/selectors/stations.selector'
   styleUrl: './stations-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsListComponent implements OnInit {
+export class StationsListComponent {
   private stationsFacade = inject(StationsFacade);
-
-  public service = inject(StationsService);
 
   public store = inject(Store<AppState>);
 
@@ -58,15 +53,7 @@ export class StationsListComponent implements OnInit {
 
   public totalPages = this.stationsFacade.totalPages;
 
-  public ngOnInit(): void {
-    this.store.dispatch(StationsActions.getStations());
-  }
-
   public goToPage(pageNumber: number) {
-    this.store.dispatch(
-      StationsActions.changePage({
-        pageNumber: pageNumber,
-      }),
-    );
+    this.stationsFacade.changePage(pageNumber);
   }
 }
