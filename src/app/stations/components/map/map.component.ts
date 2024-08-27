@@ -276,13 +276,6 @@ export class MapComponent
     );
   }
 
-  private shouldShowIfSelectedStation(station: Station) {
-    return this.selectedStation
-      ? this.isConnectedToSelectedStation(station) ||
-          this.selectedStation.id === station.id
-      : true;
-  }
-
   private removeMarker(marker: Marker, id: number) {
     this.markers.removeLayer(marker);
     marker.off();
@@ -299,6 +292,27 @@ export class MapComponent
     });
   }
 
+  private isSelectedStation(station: Station) {
+    return this.selectedStation?.id === station.id;
+  }
+
+  private shouldShowIfConnectedTo(station: Station) {
+    return this.selectedStation
+      ? this.isConnectedToSelectedStation(station) ||
+          this.isSelectedStation(station)
+      : true;
+  }
+
+  private shouldShow(
+    station: Station,
+    bounds: LatLngBounds,
+  ) {
+    return (
+      !this.isStationVisible(station, bounds) ||
+      !this.shouldShowIfConnectedTo(station)
+    );
+  }
+
   private addVisibleMarkers(stations?: Station[]) {
     if (!stations || !this.map) {
       return;
@@ -309,13 +323,9 @@ export class MapComponent
     const bounds = this.map.getBounds();
 
     stations.forEach(station => {
-      if (
-        !this.isStationVisible(station, bounds) &&
-        !this.shouldShowIfSelectedStation(station)
-      ) {
+      if (this.shouldShow(station, bounds)) {
         return;
       }
-
       stationsToKeep.add(station.id);
 
       if (this.markerMap.has(station.id)) {

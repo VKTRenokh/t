@@ -46,7 +46,6 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
-    pathMatch: 'full',
     path: 'manager',
     canMatch: [managerGuard],
     resolve: { profile: profileResolver },
