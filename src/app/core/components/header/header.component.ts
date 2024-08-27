@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
-import { AuthFacade } from '../../../state/facades/auth.facade';
+import { AuthFacade } from '../../services/auth-facade.service';
 
 @Component({
   selector: 'tra-header',

@@ -1,0 +1,111 @@
+@if (profile()) {
+  <div class="content-wrapper">
+    <h2 tuititle>Profile</h2>
+    <h3 tuititle>Profile role: {{ profile()?.role }}</h3>
+
+    <div class="input-container">
+      <tui-input
+        [formControl]="nameControl"
+        [readOnly]="editingField !== 'name'"
+      >
+        Name
+      </tui-input>
+      @if (editingField !== 'name') {
+        <button
+          appearance="outline"
+          iconStart="@tui.pencil"
+          size="s"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="startEditing('name')"
+        >
+          Edit
+        </button>
+      } @else {
+        <button
+          size="s"
+          iconStart="@tui.save"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="saveChanges('name')"
+        >
+          Save
+        </button>
+        <button
+          size="s"
+          appearance="destructive"
+          iconStart="@tui.circle-x"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="cancelEditing('name')"
+        >
+          Cancel
+        </button>
+      }
+    </div>
+
+    <div class="input-container">
+      <tui-input
+        [formControl]="emailControl"
+        [readOnly]="editingField !== 'email'"
+      >
+        Email
+        <span class="tui-required"></span>
+      </tui-input>
+      @if (editingField !== 'email') {
+        <button
+          appearance="outline"
+          iconStart="@tui.pencil"
+          size="s"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="startEditing('email')"
+        >
+          Edit
+        </button>
+      } @else {
+        <button
+          size="s"
+          iconStart="@tui.save"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="saveChanges('email')"
+        >
+          Save
+        </button>
+        <button
+          size="s"
+          appearance="destructive"
+          iconStart="@tui.circle-x"
+          tuiIconButton
+          [style.border-radius.%]="100"
+          (click)="cancelEditing('email')"
+        >
+          Cancel
+        </button>
+      }
+    </div>
+
+    <div class="buttons-container">
+      <button
+        tuiButton
+        type="button"
+        (click)="openChangePasswordDialog()"
+      >
+        Change Password
+      </button>
+      <button
+        tuiButton
+        type="button"
+        appearance="outline"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+}
+
+@if (isLoading()) {
+  <tui-loader></tui-loader>
+}

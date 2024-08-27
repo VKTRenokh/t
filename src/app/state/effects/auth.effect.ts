@@ -9,6 +9,7 @@ import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
 import {
   catchError,
+  concatMap,
   EMPTY,
   exhaustMap,
   map,
@@ -17,6 +18,7 @@ import {
 } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
+import { ProfileActions } from '../actions/profile.action';
 
 @Injectable()
 export class AuthEffects {
@@ -35,27 +37,49 @@ export class AuthEffects {
   public loginEffect = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.login),
-      exhaustMap(data =>
-        this.authService
-          .login(data.email, data.password)
-          .pipe(
-            tap(response => this.saveToken(response.token)),
-            map(response =>
-              AuthActions.loginSuccess(response),
-            ),
-            catchError(response =>
-              of(
-                AuthActions.failure({
-                  error: response.error,
-                }),
-              ),
-            ),
+      exhaustMap(({ email, password }) =>
+        this.authService.login(email, password).pipe(
+          tap(response => this.saveToken(response.token)),
+          concatMap(response => [
+            AuthActions.loginSuccess(response),
+            ProfileActions.fetchProfile(),
+          ]),
+          catchError(error =>
+            of(AuthActions.failure({ error: error.error })),
           ),
+        ),
       ),
     ),
   );
 
-  public ragistrationEffect = createEffect(() =>
+  public logoutEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(AuthActions.logout),
+      exhaustMap(() =>
+        this.authService.logout().pipe(
+          map(() => {
+            this.storageService.remove(tokenKey);
+            return AuthActions.logoutSuccess();
+          }),
+          catchError(response =>
+            of(
+              AuthActions.failure({
+                error: response.error,
+              }),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  public logoutSuccessEffect = createEffect(
+    () =>
+      this.actions.pipe(ofType(AuthActions.logoutSuccess)),
+    { dispatch: false },
+  );
+
+  public registrationEffect = createEffect(() =>
     this.actions.pipe(
       ofType(AuthActions.registration),
       exhaustMap(data =>
@@ -83,7 +107,10 @@ export class AuthEffects {
         if (!token) {
           return EMPTY;
         }
-        return of(AuthActions.loginSuccess({ token }));
+        return of(
+          AuthActions.loginSuccess({ token }),
+          ProfileActions.fetchProfile(),
+        );
       }),
     ),
   );

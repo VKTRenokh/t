@@ -18,5 +18,7 @@ export const AuthActions = createActionGroup({
     registrationSuccess: emptyProps(),
 
     resetError: emptyProps(),
+    logout: emptyProps(),
+    logoutSuccess: emptyProps(),
   },
 });

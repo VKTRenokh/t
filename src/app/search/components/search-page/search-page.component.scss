@@ -19,8 +19,6 @@
         width: 100%;
       }
 
-
-
       @media screen and (max-width: 63.9625em) {
         flex-direction: column;
         align-items: stretch;
@@ -43,14 +41,14 @@
   flex-direction: column;
 
   &__city {
-    color: #000000;
+    color: var(--tui-text-primary);
   }
 
   &__state {
-    color: #36454F;
+    color: var(--tui-text-secondary);
   }
 
   &__country {
-    color: #71797E;
+    color: var(--tui-text-tertiary);
   }
 }

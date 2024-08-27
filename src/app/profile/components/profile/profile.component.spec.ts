@@ -3,18 +3,18 @@ import {
   TestBed,
 } from '@angular/core/testing';
 
-import { StationComponent } from './station.component';
+import { ProfileComponent } from './profile.component';
 
-describe('StationComponent', () => {
-  let component: StationComponent;
-  let fixture: ComponentFixture<StationComponent>;
+describe('ProfileComponent', () => {
+  let component: ProfileComponent;
+  let fixture: ComponentFixture<ProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StationComponent],
+      imports: [ProfileComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StationComponent);
+    fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
