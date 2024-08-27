@@ -21,11 +21,24 @@ export const userReducer = createReducer(
     user,
   })),
   on(
-    UserActions.loadProfileFailure,
-    (state, { error }) => ({
+    UserActions.updateProfileSuccess,
+    (state, { user }) => ({
       ...state,
-      error,
+      user,
       loading: false,
     }),
   ),
+  on(UserActions.updatePasswordSuccess, state => ({
+    ...state,
+    loading: false,
+  })),
+  on(UserActions.failure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(UserActions.resetError, state => ({
+    ...state,
+    error: undefined,
+  })),
 );

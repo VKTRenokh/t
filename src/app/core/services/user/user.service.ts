@@ -11,4 +11,14 @@ export class UserService {
   public profile() {
     return this.http.get<Profile>('/api/profile');
   }
+
+  public updateProfile(profile: Partial<Profile>) {
+    return this.http.put<Profile>('/api/profile', profile);
+  }
+
+  public updatePassword(password: string) {
+    return this.http.put('/api/profile/password', {
+      password,
+    });
+  }
 }

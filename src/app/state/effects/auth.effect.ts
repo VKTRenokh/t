@@ -18,7 +18,6 @@ import {
 } from 'rxjs';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { tokenKey } from '../../shared/constants/token-key.constant';
-import { ProfileActions } from '../actions/profile.action';
 
 @Injectable()
 export class AuthEffects {
@@ -40,10 +39,9 @@ export class AuthEffects {
       exhaustMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
           tap(response => this.saveToken(response.token)),
-          concatMap(response => [
+          map(response =>
             AuthActions.loginSuccess(response),
-            ProfileActions.fetchProfile(),
-          ]),
+          ),
           catchError(error =>
             of(AuthActions.failure({ error: error.error })),
           ),
@@ -107,10 +105,7 @@ export class AuthEffects {
         if (!token) {
           return EMPTY;
         }
-        return of(
-          AuthActions.loginSuccess({ token }),
-          ProfileActions.fetchProfile(),
-        );
+        return of(AuthActions.loginSuccess({ token }));
       }),
     ),
   );

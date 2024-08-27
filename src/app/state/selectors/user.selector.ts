@@ -4,9 +4,19 @@ import { AppState } from '../app.state';
 export const selectFeature = (state: AppState) =>
   state.user;
 
-export const selectRole = createSelector(
+export const selectProfile = createSelector(
   selectFeature,
-  state => state.user?.role,
+  state => state.user,
+);
+
+export const selectProfileLoading = createSelector(
+  selectFeature,
+  state => state.loading,
+);
+
+export const selectRole = createSelector(
+  selectProfile,
+  state => state?.role,
 );
 
 export const selectError = createSelector(
