@@ -15,7 +15,7 @@ export class CarriagesFacade {
     this.store.select(selectAllCarriages),
   );
 
-  public getCarriages = this.store.dispatch(
-    CarriagesActions.getCarriages(),
-  );
+  public getCarriages() {
+    this.store.dispatch(CarriagesActions.getCarriages());
+  }
 }

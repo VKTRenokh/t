@@ -1,0 +1,6 @@
+<div>
+  <h2>Carriages list</h2>
+  @for (carriage of carriages(); track $index) {
+    <tra-carriage [carriageProps]="carriage" />
+  }
+</div>

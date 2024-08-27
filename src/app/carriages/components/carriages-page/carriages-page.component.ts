@@ -1,26 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
-  OnInit,
 } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
-import { CarriagesService } from '../../services/carriages.service';
+
+import { CarriagesListComponent } from '../carriages-list/carriages-list.component';
 
 @Component({
   selector: 'tra-carriages-page',
   standalone: true,
-  imports: [TuiButton],
+  imports: [TuiButton, CarriagesListComponent],
   templateUrl: './carriages-page.component.html',
   styleUrl: './carriages-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriagesPageComponent implements OnInit {
-  private service = inject(CarriagesService);
-
-  public ngOnInit(): void {
-    this.service.getCarriages().subscribe(carriages => {
-      console.log(carriages);
-    });
-  }
-}
+export class CarriagesPageComponent {}
