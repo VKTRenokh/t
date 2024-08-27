@@ -310,7 +310,7 @@ export class MapComponent
 
     stations.forEach(station => {
       if (
-        !this.isStationVisible(station, bounds) ||
+        !this.isStationVisible(station, bounds) &&
         !this.shouldShowIfSelectedStation(station)
       ) {
         return;
