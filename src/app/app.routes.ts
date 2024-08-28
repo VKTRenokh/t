@@ -4,6 +4,23 @@ import { authGuard } from './core/guards/auth/auth.guard.js';
 import { managerGuard } from './core/guards/manager/manager.guard.js';
 import { profileResolver } from './core/resolvers/profile/profile.resolver.js';
 
+const adminRoutes: Routes = [
+  {
+    path: 'stations',
+    loadComponent: () =>
+      import(
+        './stations/components/stations-page/stations-page.component.js'
+      ).then(M => M.StationsPageComponent),
+  },
+  {
+    path: 'routes',
+    loadComponent: () =>
+      import(
+        './routes/components/routes-page/routes-page.component.js'
+      ).then(M => M.RoutesPageComponent),
+  },
+];
+
 export const routes: Routes = [
   {
     redirectTo: 'search',
@@ -49,15 +66,7 @@ export const routes: Routes = [
     path: 'manager',
     canMatch: [managerGuard],
     resolve: { profile: profileResolver },
-    children: [
-      {
-        path: 'stations',
-        loadComponent: () =>
-          import(
-            './stations/components/stations-page/stations-page.component.js'
-          ).then(M => M.StationsPageComponent),
-      },
-    ],
+    children: adminRoutes,
   },
   {
     path: 'carriages',
