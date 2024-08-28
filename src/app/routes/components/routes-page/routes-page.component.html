@@ -1,1 +1,9 @@
-<p>routes-page works!</p>
+@for (route of routes | async; track route.id) {
+  <a
+    tuiButton
+    tuibutton
+    [routerLink]="['/manager/routes', route.id]"
+    appearance="flat"
+    >Assign ride</a
+  >
+}

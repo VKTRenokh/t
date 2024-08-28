@@ -18,6 +18,14 @@ const adminRoutes: Routes = [
       import(
         './routes/components/routes-page/routes-page.component.js'
       ).then(M => M.RoutesPageComponent),
+    children: [],
+  },
+  {
+    path: 'routes/:id',
+    loadComponent: () =>
+      import(
+        './routes/components/ride-page/ride-page.component.js'
+      ).then(M => M.RidePageComponent),
   },
 ];
 

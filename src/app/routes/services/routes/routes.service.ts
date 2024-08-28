@@ -8,6 +8,7 @@ export class RoutesService {
   private http = inject(HttpClient);
 
   public get() {
-    return this.http.get('/api/route');
+    // FIXME: add route model
+    return this.http.get<any[]>('/api/route');
   }
 }
