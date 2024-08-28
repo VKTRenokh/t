@@ -1,9 +1,17 @@
-@for (route of routes | async; track route.id) {
-  <a
-    tuiButton
-    tuibutton
-    [routerLink]="['/manager/routes', route.id]"
-    appearance="flat"
-    >Assign ride</a
-  >
+<button tuiButton (click)="create()">Create</button>
+
+@if (isCreating()) {
+  <tra-create-form />
 }
+
+<div class="tui-space_top-5">
+  @for (route of routes | async; track route.id) {
+    <a
+      tuiButton
+      tuibutton
+      [routerLink]="['/manager/routes', route.id]"
+      appearance="flat"
+      >Assign ride</a
+    >
+  }
+</div>
