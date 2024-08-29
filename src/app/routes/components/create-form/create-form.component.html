@@ -1,1 +1,27 @@
-<p>create-form works!</p>
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="tui-form"
+>
+  <form formArrayName="stations">
+    @for (
+      station of stationsFormArray.controls;
+      let i = $index;
+      track i
+    ) {
+      <tui-select [formControlName]="i">
+        Station {{ i + 1 }}
+        <input tuiTextfieldLegacy />
+        @let _stations = stations();
+        @if (_stations) {
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="_stations"
+            [itemContent]="stringifyStation"
+          ></tui-data-list-wrapper>
+        }
+      </tui-select>
+    }
+  </form>
+  <button tuiButton type="submit">Save</button>
+</form>
