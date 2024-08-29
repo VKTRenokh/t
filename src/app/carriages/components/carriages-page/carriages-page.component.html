@@ -1,6 +1,44 @@
 <div class="tui-container tui-space_top-5">
-  <button tuiButton title="Delete" size="l">
+  <button
+    tuiButton
+    title="Create carriage"
+    size="l"
+    (click)="toggleDisplayForm()"
+  >
     Create carriage
   </button>
+  @if (displayForm) {
+    <form [formGroup]="carriagesForm" class="tui-form">
+      <h3 class="tui-form__header">Create Carriage</h3>
+      <div class="tui-form__row">
+        <tui-input formControlName="name">
+          Carriage name
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="rows">
+          Number of rows
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="leftSeats">
+          Left seats
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="rightSeats">
+          Right seats
+        </tui-input>
+      </div>
+      <button
+        type="submit"
+        [disabled]="carriagesForm.invalid"
+        tuiButton
+      >
+        Save
+      </button>
+    </form>
+  }
+
   <tra-carriages-list />
 </div>
