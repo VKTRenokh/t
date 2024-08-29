@@ -2,7 +2,7 @@ import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  input,
   OnInit,
 } from '@angular/core';
 import { Carriage } from '../../interfaces/carriages.interface';
@@ -17,7 +17,7 @@ import { CreateCarriageSeats } from '../../utils/createCarriageSeats';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarriageComponent implements OnInit {
-  @Input() public carriageProps!: Carriage;
+  public carriageProps = input.required<Carriage>();
 
   public rows: {
     leftSeats: number[];
@@ -26,9 +26,9 @@ export class CarriageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.rows = CreateCarriageSeats(
-      this.carriageProps.rows,
-      this.carriageProps.leftSeats,
-      this.carriageProps.rightSeats,
+      this.carriageProps().rows,
+      this.carriageProps().leftSeats,
+      this.carriageProps().rightSeats,
     );
   }
 }
