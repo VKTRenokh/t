@@ -22,6 +22,7 @@ import type {
 } from '@taiga-ui/cdk';
 import { Station } from '../../../stations/models/station/station.model';
 import { TuiHeader } from '@taiga-ui/layout';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'tra-create-form',
@@ -42,15 +43,15 @@ import { TuiHeader } from '@taiga-ui/layout';
 export class CreateFormComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private stationsFacade = inject(StationsFacade);
+  private http = inject(HttpClient);
 
   public form = this.formBuilder.group({
     stations: this.formBuilder.control<string[]>([]),
   });
 
-  public stationsNonNullable = computed(() => {
-    const stations = this.stationsFacade.stations();
-    return stations ? stations : [];
-  });
+  public stationsNonNullable = computed(
+    () => this.stationsFacade.stations() ?? [],
+  );
 
   public ids = computed(() =>
     this.stationsNonNullable().map(station => station.id),
@@ -72,10 +73,8 @@ export class CreateFormComponent {
     this.form.controls.stations.valueChanges.subscribe(
       console.log,
     );
-  }
 
-  private createStationFormControl() {
-    return this.formBuilder.control<Station | null>(null);
+    this.http.get('/api/carriage').subscribe(console.log);
   }
 
   public get stationsFormArray() {
@@ -90,9 +89,7 @@ export class CreateFormComponent {
     this.stationsFormArray.at(i).patchValue(null);
   }
 
-  protected stringify: TuiStringHandler<
+  protected stringifyStation: TuiStringHandler<
     TuiContext<number>
-  > = item => {
-    return this.idToNameMap().get(item.$implicit)!;
-  };
+  > = item => this.idToNameMap().get(item.$implicit)!;
 }
