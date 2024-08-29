@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
+  Signal,
 } from '@angular/core';
 import {
   RouterLink,
@@ -10,10 +12,8 @@ import {
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
 import { AuthFacade } from '../../../core/services/auth-facade.service';
-import { UserFacadeService } from '../../services/user-facade/user-facade.service';
-import { map } from 'rxjs';
-import { Roles } from '../../enums/role/role.enum';
 import { AsyncPipe } from '@angular/common';
+import { ProfileFacade } from '../../../profile/services/profile-facade.service';
 
 @Component({
   selector: 'tra-header',
@@ -32,10 +32,10 @@ import { AsyncPipe } from '@angular/common';
 })
 export class HeaderComponent {
   private authFacade = inject(AuthFacade);
-  private userFacade = inject(UserFacadeService);
+  private profileFacade = inject(ProfileFacade);
 
   public isLoggedIn = this.authFacade.isLoggedIn;
-  public isAdmin$ = this.userFacade
-    .getRole()
-    .pipe(map(role => role === Roles.Manager));
+  public isAdmin: Signal<boolean> = computed(
+    () => this.profileFacade.userRole() === 'manager',
+  );
 }
