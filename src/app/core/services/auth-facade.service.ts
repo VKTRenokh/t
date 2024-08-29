@@ -27,6 +27,7 @@ export class AuthFacade {
     this.actions$
       .pipe(ofType(AuthActions.logoutSuccess), take(1))
       .subscribe(() => {
+        localStorage.clear();
         this.router.navigate(['/search']);
       });
   }
