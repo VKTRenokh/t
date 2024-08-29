@@ -14,13 +14,13 @@ import { StationsFacade } from '../../../state/facades/stations.facade';
 import {
   TuiMultiSelectModule,
   TuiSelectModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
 import { TuiDataListWrapper } from '@taiga-ui/kit';
 import type {
   TuiContext,
   TuiStringHandler,
 } from '@taiga-ui/cdk';
-import { Station } from '../../../stations/models/station/station.model';
 import { TuiHeader } from '@taiga-ui/layout';
 import { HttpClient } from '@angular/common/http';
 
@@ -34,6 +34,7 @@ import { HttpClient } from '@angular/common/http';
     TuiDataList,
     TuiDataListWrapper,
     TuiMultiSelectModule,
+    TuiTextfieldControllerModule,
     TuiHeader,
   ],
   templateUrl: './create-form.component.html',
@@ -47,6 +48,7 @@ export class CreateFormComponent {
 
   public form = this.formBuilder.group({
     stations: this.formBuilder.control<string[]>([]),
+    carriages: this.formBuilder.control<number[]>([]),
   });
 
   public stationsNonNullable = computed(
