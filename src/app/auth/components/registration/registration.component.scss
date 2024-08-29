@@ -18,9 +18,10 @@
       }
 
       &__buttons {
-        display: flex;
         align-items: center;
-        gap: 10px;
+        flex-direction: row;
+        justify-content: end;
+        gap: 2rem;
       }
     }
   }
