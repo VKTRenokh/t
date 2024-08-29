@@ -21,6 +21,8 @@ import { stationsReducer } from './state/reducers/stations.reducer';
 import { UserEffects } from './state/effects/user.effect';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
+import { carriagesReducer } from './state/reducers/carriages.reducer';
+import { CarriagesEffects } from './state/effects/carriages.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [

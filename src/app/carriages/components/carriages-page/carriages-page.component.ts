@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
 } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
 
-import { CarriagesListComponent } from '../carriages-list/carriages-list.component';
 import {
   FormsModule,
   NonNullableFormBuilder,
@@ -13,32 +13,42 @@ import {
   Validators,
 } from '@angular/forms';
 import { TuiInputModule } from '@taiga-ui/legacy';
+import { CarriagesFacade } from '../../../state/facades/carriages.facade';
+import { CarriageComponent } from '../carriage/carriage.component';
 
 @Component({
   selector: 'tra-carriages-page',
   standalone: true,
   imports: [
     TuiButton,
-    CarriagesListComponent,
     ReactiveFormsModule,
     FormsModule,
     TuiInputModule,
+    CarriageComponent,
   ],
   templateUrl: './carriages-page.component.html',
   styleUrl: './carriages-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriagesPageComponent {
+export class CarriagesPageComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
+
+  private carriagesFacade = inject(CarriagesFacade);
+
+  public carriages = this.carriagesFacade.carriages;
 
   public displayForm = false;
 
   protected carriagesForm = this.fb.group({
-    name: ['', Validators.required],
-    rows: ['', Validators.required],
-    leftSeats: ['', Validators.required],
-    rightSeats: ['', Validators.required],
+    name: this.fb.control(['', Validators.required]),
+    rows: this.fb.control(['', Validators.required]),
+    leftSeats: this.fb.control(['', Validators.required]),
+    rightSeats: this.fb.control(['', Validators.required]),
   });
+
+  public ngOnInit(): void {
+    this.carriagesFacade.getCarriages();
+  }
 
   public toggleDisplayForm() {
     this.displayForm = !this.displayForm;
