@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
 } from '@angular/core';
 import {
@@ -10,9 +11,17 @@ import {
 } from '@angular/forms';
 import { TuiButton, TuiDataList } from '@taiga-ui/core';
 import { StationsFacade } from '../../../state/facades/stations.facade';
-import { TuiSelectModule } from '@taiga-ui/legacy';
+import {
+  TuiHideSelectedPipe,
+  TuiMultiSelectModule,
+  TuiSelectModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/legacy';
 import { TuiDataListWrapper } from '@taiga-ui/kit';
-import type { TuiStringHandler } from '@taiga-ui/cdk';
+import type {
+  TuiContext,
+  TuiStringHandler,
+} from '@taiga-ui/cdk';
 import { Station } from '../../../stations/models/station/station.model';
 
 @Component({
@@ -24,6 +33,8 @@ import { Station } from '../../../stations/models/station/station.model';
     TuiSelectModule,
     TuiDataList,
     TuiDataListWrapper,
+    TuiMultiSelectModule,
+    TuiTextfieldControllerModule,
   ],
   templateUrl: './create-form.component.html',
   styleUrl: './create-form.component.scss',
@@ -34,12 +45,27 @@ export class CreateFormComponent {
   private stationsFacade = inject(StationsFacade);
 
   public form = this.formBuilder.group({
-    stations: this.formBuilder.array([
-      this.createStationFormControl(),
-    ]),
+    stations: this.formBuilder.control<string[]>([]),
   });
 
-  public stations = this.stationsFacade.stations;
+  public stationsNonNullable = computed(() => {
+    const stations = this.stationsFacade.stations();
+    return stations ? stations : [];
+  });
+
+  public ids = computed(() =>
+    this.stationsNonNullable().map(station => station.id),
+  );
+
+  public idToNameMap = computed(
+    () =>
+      new Map(
+        this.stationsNonNullable().map(station => [
+          station.id,
+          station.city,
+        ]),
+      ),
+  );
 
   constructor() {
     this.stationsFacade.getStations();
@@ -65,6 +91,9 @@ export class CreateFormComponent {
     this.stationsFormArray.at(i).patchValue(null);
   }
 
-  protected stringify: TuiStringHandler<Station> = item =>
-    item.city;
+  protected stringify: TuiStringHandler<
+    TuiContext<number>
+  > = item => {
+    return this.idToNameMap().get(item.$implicit)!;
+  };
 }
