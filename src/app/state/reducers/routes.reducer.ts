@@ -4,14 +4,19 @@ import { ApiError } from '../../shared/models/api-error.model';
 import { RoutesActions } from '../actions/routes.action';
 
 export interface RoutesState {
-  error?: ApiError;
+  routesList: Route[];
+  paginationPage: number;
   loading: boolean;
-  routes: Route[];
+  itemsPerPage: number;
+  totalPages: number;
+  error?: ApiError;
 }
 
 export const initialState: RoutesState = {
-  loading: false,
-  routes: [],
+  routesList: [],
+  paginationPage: 0,
+  itemsPerPage: 5,
+  totalPages: 0,
 };
 
 export const routesReducer = createReducer(
@@ -32,5 +37,31 @@ export const routesReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(
+    RoutesActions.deleteRoutesSuccess,
+    (state, { id }) => ({
+      ...state,
+      stationsList: state.routesList.filter(
+        routes => routes.id !== id,
+      ),
+    }),
+  ),
+  on(
+    RoutesActions.updateRoutes,
+    (state, { id, route }) => ({
+      ...state,
+      routesList: state.routesList.map(item =>
+        item.id === id ? route : item,
+      ),
+    }),
+  ),
+  on(RoutesActions.changePage, (state, { pageNumber }) => ({
+    ...state,
+    paginationPage: pageNumber,
+  })),
+  on(RoutesActions.failure, (state, { error }) => ({
+    ...state,
+    error: error,
   })),
 );
