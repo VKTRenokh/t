@@ -77,7 +77,6 @@ export class AuthEffects {
       this.actions.pipe(
         ofType(AuthActions.logoutSuccess),
         tap(() => {
-          localStorage.clear();
           this.router.navigate(['/search']);
         }),
       ),
