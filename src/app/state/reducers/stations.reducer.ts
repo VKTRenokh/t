@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Station } from '../../stations/models/station/station.model';
 import { StationsActions } from '../actions/stations.action';
 import { ApiError } from '../../shared/models/api-error.model';
+import { AuthActions } from '../actions/auth.action';
 
 export interface StationsState {
   stationsList: Station[];
@@ -51,4 +52,5 @@ export const stationsReducer = createReducer(
     ...state,
     error: error,
   })),
+  on(AuthActions.logoutSuccess, () => initialState),
 );
