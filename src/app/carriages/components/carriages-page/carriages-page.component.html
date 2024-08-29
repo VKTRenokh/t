@@ -8,7 +8,11 @@
     Create carriage
   </button>
   @if (displayForm) {
-    <form [formGroup]="carriagesForm" class="tui-form">
+    <form
+      [formGroup]="carriagesForm"
+      class="tui-form"
+      (submit)="onSubmit()"
+    >
       <h3 class="tui-form__header">Create Carriage</h3>
       <div class="tui-form__row">
         <tui-input formControlName="name">
@@ -39,7 +43,6 @@
       </button>
     </form>
   }
-
   <div class="carriages__list">
     <h2>Carriages list</h2>
     @for (carriage of carriages(); track $index) {

@@ -40,10 +40,25 @@ export class CarriagesPageComponent implements OnInit {
   public displayForm = false;
 
   protected carriagesForm = this.fb.group({
-    name: this.fb.control(['', Validators.required]),
-    rows: this.fb.control(['', Validators.required]),
-    leftSeats: this.fb.control(['', Validators.required]),
-    rightSeats: this.fb.control(['', Validators.required]),
+    name: this.fb.control('', [Validators.required]),
+    rows: this.fb.control('', [
+      Validators.required,
+      Validators.max(20),
+      Validators.min(1),
+      Validators.pattern('^[0-9]*$'),
+    ]),
+    leftSeats: this.fb.control('', [
+      Validators.required,
+      Validators.max(4),
+      Validators.min(1),
+      Validators.pattern('^[0-9]*$'),
+    ]),
+    rightSeats: this.fb.control('', [
+      Validators.required,
+      Validators.max(4),
+      Validators.min(1),
+      Validators.pattern('^[0-9]*$'),
+    ]),
   });
 
   public ngOnInit(): void {
@@ -52,5 +67,11 @@ export class CarriagesPageComponent implements OnInit {
 
   public toggleDisplayForm() {
     this.displayForm = !this.displayForm;
+  }
+
+  public onSubmit() {
+    const formData = this.carriagesForm.getRawValue();
+    console.log(formData);
+    this.carriagesForm.reset();
   }
 }
