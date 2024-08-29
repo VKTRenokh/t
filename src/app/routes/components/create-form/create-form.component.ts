@@ -12,10 +12,8 @@ import {
 import { TuiButton, TuiDataList } from '@taiga-ui/core';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import {
-  TuiHideSelectedPipe,
   TuiMultiSelectModule,
   TuiSelectModule,
-  TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
 import { TuiDataListWrapper } from '@taiga-ui/kit';
 import type {
@@ -23,6 +21,7 @@ import type {
   TuiStringHandler,
 } from '@taiga-ui/cdk';
 import { Station } from '../../../stations/models/station/station.model';
+import { TuiHeader } from '@taiga-ui/layout';
 
 @Component({
   selector: 'tra-create-form',
@@ -34,7 +33,7 @@ import { Station } from '../../../stations/models/station/station.model';
     TuiDataList,
     TuiDataListWrapper,
     TuiMultiSelectModule,
-    TuiTextfieldControllerModule,
+    TuiHeader,
   ],
   templateUrl: './create-form.component.html',
   styleUrl: './create-form.component.scss',

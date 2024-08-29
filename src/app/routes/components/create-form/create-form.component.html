@@ -3,16 +3,22 @@
   (ngSubmit)="submit()"
   class="tui-form"
 >
-  <tui-multi-select
-    [editable]="true"
-    formControlName="stations"
-  >
-    <tui-data-list-wrapper
-      *tuiDataList
-      [items]="ids() | tuiHideSelected"
-      [itemContent]="stringify"
-    >
-    </tui-data-list-wrapper>
-  </tui-multi-select>
+  <div class="tui-form__sections">
+    <div class="tui-form__section">
+      <h3 tuiTitle class="tui-space_botom-3">Stations</h3>
+      <tui-multi-select
+        [editable]="true"
+        formControlName="stations"
+      >
+        Select stations
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="ids() | tuiHideSelected"
+          [itemContent]="stringify"
+        >
+        </tui-data-list-wrapper>
+      </tui-multi-select>
+    </div>
+  </div>
   <button tuiButton type="submit">Save</button>
 </form>

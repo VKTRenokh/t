@@ -1,0 +1,12 @@
+.tui-form {
+  &__sections {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+}
