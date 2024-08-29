@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
 } from '@angular/core';
 import {
@@ -13,10 +12,7 @@ import { TuiButton, TuiDataList } from '@taiga-ui/core';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import { TuiSelectModule } from '@taiga-ui/legacy';
 import { TuiDataListWrapper } from '@taiga-ui/kit';
-import {
-  TuiBooleanHandler,
-  TuiStringHandler,
-} from '@taiga-ui/cdk/types';
+import type { TuiStringHandler } from '@taiga-ui/cdk';
 import { Station } from '../../../stations/models/station/station.model';
 
 @Component({
@@ -47,10 +43,14 @@ export class CreateFormComponent {
 
   constructor() {
     this.stationsFacade.getStations();
+
+    this.form.controls.stations.valueChanges.subscribe(
+      console.log,
+    );
   }
 
   private createStationFormControl() {
-    return this.formBuilder.control<string | null>('');
+    return this.formBuilder.control<Station | null>(null);
   }
 
   public get stationsFormArray() {
@@ -61,6 +61,10 @@ export class CreateFormComponent {
     console.log('submit');
   }
 
-  protected stringifyStation: TuiStringHandler<Station> =
-    item => item.city;
+  public resetStationValue(i: number) {
+    this.stationsFormArray.at(i).patchValue(null);
+  }
+
+  protected stringify: TuiStringHandler<Station> = item =>
+    item.city;
 }

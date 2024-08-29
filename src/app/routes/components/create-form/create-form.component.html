@@ -9,18 +9,26 @@
       let i = $index;
       track i
     ) {
-      <tui-select [formControlName]="i">
-        Station {{ i + 1 }}
-        <input tuiTextfieldLegacy />
-        @let _stations = stations();
-        @if (_stations) {
-          <tui-data-list-wrapper
-            *tuiDataList
-            [items]="_stations"
-            [itemContent]="stringifyStation"
-          ></tui-data-list-wrapper>
-        }
-      </tui-select>
+      @let _stations = stations();
+      @if (_stations) {
+        <tui-select
+          [formControlName]="i"
+          [stringify]="stringify"
+        >
+          Station {{ i + 1 }}
+          <input tuiTextfieldLegacy />
+          <select tuiSelect [items]="_stations"></select>
+          <button
+            appearance="icon"
+            size="xs"
+            tabindex="-1"
+            tuiIconButton
+            iconStart="@tui.x"
+            [style.pointer-events]="'auto'"
+            (click)="resetStationValue(i)"
+          ></button>
+        </tui-select>
+      }
     }
   </form>
   <button tuiButton type="submit">Save</button>
