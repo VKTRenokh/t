@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { UserActions } from '../actions/user.action';
 import { ApiError } from '../../shared/models/api-error.model';
 import { Profile } from '../../core/models/profile/profile.model';
+import { AuthActions } from '../actions/auth.action';
 
 export interface UserState {
   error?: ApiError;
@@ -41,4 +42,5 @@ export const userReducer = createReducer(
     ...state,
     error: undefined,
   })),
+  on(AuthActions.logoutSuccess, () => initialState),
 );

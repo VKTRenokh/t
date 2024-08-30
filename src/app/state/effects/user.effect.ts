@@ -9,6 +9,7 @@ import { UserService } from '../../core/services/user/user.service';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { UserActions } from '../actions/user.action';
 import { TuiAlertService } from '@taiga-ui/core';
+import { AuthActions } from '../actions/auth.action';
 
 @Injectable()
 export class UserEffects {
@@ -18,7 +19,7 @@ export class UserEffects {
 
   public initEffect = createEffect(() =>
     this.actions.pipe(
-      ofType(ROOT_EFFECTS_INIT),
+      ofType(ROOT_EFFECTS_INIT, AuthActions.loginSuccess),
       exhaustMap(() =>
         this.userService.profile().pipe(
           map(user =>
