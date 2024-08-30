@@ -26,6 +26,8 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
 import { carriagesReducer } from './state/reducers/carriages.reducer';
 import { CarriagesEffects } from './state/effects/carriages.effect';
+import { RoutesEffects } from './state/effects/routes.effect';
+import { routesReducer } from './state/reducers/routes.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,12 +40,14 @@ export const appConfig: ApplicationConfig = {
       user: userReducer,
       stations: stationsReducer,
       carriages: carriagesReducer,
+      routes: routesReducer,
     }),
     provideEffects(
       AuthEffects,
       UserEffects,
       StationsEffects,
       CarriagesEffects,
+      RoutesEffects,
     ),
     provideStoreDevtools({
       maxAge: 25,

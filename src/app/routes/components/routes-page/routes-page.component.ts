@@ -4,12 +4,11 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { RoutesService } from '../../services/routes/routes.service';
 import { TuiButton, TuiExpand } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { CreateFormComponent } from '../create-form/create-form.component';
-import { map } from 'rxjs';
+import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 
 @Component({
   selector: 'tra-routes-page',
@@ -26,15 +25,12 @@ import { map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutesPageComponent {
-  private routesService = inject(RoutesService);
-  public routes = this.routesService
-    .get()
-    .pipe(map(arr => arr.slice(-10)));
+  private routesFacade = inject(RoutesFacadeService);
 
   public isCreating = signal(false);
 
   constructor() {
-    this.routesService.get().subscribe(console.log);
+    this.routesFacade.getRoutes();
   }
 
   public create() {
