@@ -6,7 +6,6 @@ import {
   output,
 } from '@angular/core';
 import {
-  FormArray,
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -30,13 +29,12 @@ import type {
   TuiStringHandler,
 } from '@taiga-ui/cdk';
 import { TuiHeader } from '@taiga-ui/layout';
-import { HttpClient } from '@angular/common/http';
-import { CreateRoute } from '../../models/create-route/create-route.model';
 import { AsyncPipe } from '@angular/common';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 import { requiredArray } from '../../validators/required-array/required-array.validator';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { map } from 'rxjs';
+import { FilterByConnectionPipe } from '../../pipes/filter-by-connection/filter-by-connection.pipe';
 
 @Component({
   selector: 'tra-create-form',
@@ -53,6 +51,7 @@ import { map } from 'rxjs';
     TuiError,
     TuiFieldErrorPipe,
     AsyncPipe,
+    FilterByConnectionPipe,
   ],
   templateUrl: './create-form.component.html',
   styleUrl: './create-form.component.scss',
@@ -63,16 +62,15 @@ export class CreateFormComponent {
   private stationsFacade = inject(StationsFacade);
   private routesFacade = inject(RoutesFacadeService);
   private carriagesFacade = inject(CarriagesFacade);
-  private http = inject(HttpClient);
 
   public create = output();
 
   public form = this.formBuilder.group({
-    stations: this.formBuilder.control<number[]>(
+    path: this.formBuilder.control<number[]>(
       [],
       [requiredArray],
     ),
-    carriages: this.formBuilder.control<number[]>(
+    carriages: this.formBuilder.control<string[]>(
       [],
       [requiredArray],
     ),
@@ -103,29 +101,10 @@ export class CreateFormComponent {
 
   constructor() {
     this.stationsFacade.getStations();
-
-    this.form.controls.stations.valueChanges.subscribe(
-      console.log,
-    );
-
-    this.http.get('/api/carriage').subscribe(console.log);
-  }
-
-  public get stationsFormArray() {
-    return this.form.get('stations') as FormArray;
-  }
-
-  public getValue(): CreateRoute {
-    const value = this.form.getRawValue();
-
-    return {
-      carriages: ['carriage_type_a'],
-      path: value.stations,
-    };
   }
 
   public submit() {
-    this.routesFacade.createRoute(this.getValue());
+    this.routesFacade.createRoute(this.form.getRawValue());
 
     this.create.emit();
   }

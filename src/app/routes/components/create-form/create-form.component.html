@@ -8,20 +8,23 @@
       <h3 tuiTitle class="tui-space_bottom-3">Stations</h3>
       <tui-multi-select
         [editable]="true"
-        formControlName="stations"
+        formControlName="path"
         [tuiTextfieldLabelOutside]="true"
       >
         Select stations
         <tui-data-list-wrapper
           *tuiDataList
           tuiMultiSelectGroup
-          [items]="stationIds()"
+          [items]="
+            stationIds()
+              | filterByConnection: stationsNonNullable()
+          "
           [itemContent]="stringifyStation"
         >
         </tui-data-list-wrapper>
       </tui-multi-select>
       <tui-error
-        formControlName="stations"
+        formControlName="path"
         [error]="[] | tuiFieldError | async"
       />
     </div>
