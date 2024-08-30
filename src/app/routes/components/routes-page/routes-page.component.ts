@@ -8,6 +8,7 @@ import { TuiButton, TuiExpand } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { CreateFormComponent } from '../create-form/create-form.component';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
+import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 
 @Component({
   selector: 'tra-routes-page',
@@ -24,12 +25,14 @@ import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.
 })
 export class RoutesPageComponent {
   private routesFacade = inject(RoutesFacadeService);
+  private carriagesFacade = inject(CarriagesFacade);
 
   public isCreating = signal(false);
   public routes = this.routesFacade.routes;
 
   constructor() {
     this.routesFacade.getRoutes();
+    this.carriagesFacade.getCarriages();
   }
 
   public create() {

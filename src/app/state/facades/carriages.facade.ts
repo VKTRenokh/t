@@ -8,7 +8,6 @@ import {
   Carriage,
   CarriageObject,
 } from '../../carriages/interfaces/carriages.interface';
-import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +15,7 @@ import { tap } from 'rxjs';
 export class CarriagesFacade {
   private store = inject(Store<AppState>);
 
-  public carriages = this.store
-    .select(selectAllCarriages)
-    .pipe(tap(console.log));
+  public carriages = this.store.select(selectAllCarriages);
 
   public getCarriages() {
     this.store.dispatch(CarriagesActions.getCarriages());

@@ -15,7 +15,7 @@
         <tui-data-list-wrapper
           *tuiDataList
           tuiMultiSelectGroup
-          [items]="ids()"
+          [items]="stationIds()"
           [itemContent]="stringifyStation"
         >
         </tui-data-list-wrapper>
@@ -35,8 +35,7 @@
         Select carriages
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="ids()"
-          [itemContent]="stringifyStation"
+          [items]="carriages | async"
         >
         </tui-data-list-wrapper>
       </tui-multi-select>

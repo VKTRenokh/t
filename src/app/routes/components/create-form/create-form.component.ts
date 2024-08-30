@@ -35,6 +35,8 @@ import { CreateRoute } from '../../models/create-route/create-route.model';
 import { AsyncPipe } from '@angular/common';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 import { requiredArray } from '../../validators/required-array/required-array.validator';
+import { CarriagesFacade } from '../../../state/facades/carriages.facade';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'tra-create-form',
@@ -60,6 +62,7 @@ export class CreateFormComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private stationsFacade = inject(StationsFacade);
   private routesFacade = inject(RoutesFacadeService);
+  private carriagesFacade = inject(CarriagesFacade);
   private http = inject(HttpClient);
 
   public create = output();
@@ -79,8 +82,13 @@ export class CreateFormComponent {
     () => this.stationsFacade.stations() ?? [],
   );
 
-  public ids = computed(() =>
+  public stationIds = computed(() =>
     this.stationsNonNullable().map(station => station.id),
+  );
+  public carriages = this.carriagesFacade.carriages.pipe(
+    map(carriages =>
+      carriages.map(carriage => carriage.code),
+    ),
   );
 
   public idToNameMap = computed(
@@ -97,9 +105,7 @@ export class CreateFormComponent {
     this.stationsFacade.getStations();
 
     this.form.controls.stations.valueChanges.subscribe(
-      () => {
-        console.log(this.form.invalid);
-      },
+      console.log,
     );
 
     this.http.get('/api/carriage').subscribe(console.log);
