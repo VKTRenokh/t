@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
-  OnInit,
   output,
 } from '@angular/core';
 import { Carriage } from '../../interfaces/carriages.interface';
-import { CreateCarriageSeats } from '../../utils/createCarriageSeats';
+import { CreateCarriageSeats as сreateCarriageSeats } from '../../utils/createCarriageSeats';
 import { TuiButton } from '@taiga-ui/core';
 
 @Component({
@@ -17,25 +17,20 @@ import { TuiButton } from '@taiga-ui/core';
   styleUrl: './carriage.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriageComponent implements OnInit {
+export class CarriageComponent {
   public carriageProps = input.required<Carriage>();
 
   public updateCarriage = output<Carriage>({
     alias: 'updataeCarriage',
   });
 
-  public rows: {
-    leftSeats: number[];
-    rightSeats: number[];
-  }[] = [];
-
-  public ngOnInit(): void {
-    this.rows = CreateCarriageSeats(
+  public rows = computed(() => {
+    return сreateCarriageSeats(
       this.carriageProps().rows,
       this.carriageProps().leftSeats,
       this.carriageProps().rightSeats,
     );
-  }
+  });
 
   public onUpdate() {
     this.updateCarriage.emit(this.carriageProps());

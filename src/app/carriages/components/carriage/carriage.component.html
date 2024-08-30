@@ -14,7 +14,7 @@
   <div class="seats">
     <h2>Left seats:</h2>
     <div class="seats__rows">
-      @for (row of rows; track $index) {
+      @for (row of rows(); track $index) {
         <div class="seat">
           @for (leftSeat of row.leftSeats; track $index) {
             <div class="seats__seat">{{ leftSeat }}</div>
@@ -26,7 +26,7 @@
   <div class="seats">
     <h2>Right seats:</h2>
     <div class="seats__rows">
-      @for (row of rows; track $index) {
+      @for (row of rows(); track $index) {
         <div class="seat">
           @for (rightSeat of row.rightSeats; track $index) {
             <div class="seats__seat">{{ rightSeat }}</div>

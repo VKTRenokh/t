@@ -16,6 +16,7 @@ import { TuiInputModule } from '@taiga-ui/legacy';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { CarriageComponent } from '../carriage/carriage.component';
 import { Carriage } from '../../interfaces/carriages.interface';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -26,6 +27,7 @@ import { Carriage } from '../../interfaces/carriages.interface';
     FormsModule,
     TuiInputModule,
     CarriageComponent,
+    AsyncPipe,
   ],
   templateUrl: './carriages-page.component.html',
   styleUrl: './carriages-page.component.scss',
