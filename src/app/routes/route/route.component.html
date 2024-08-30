@@ -1,0 +1,42 @@
+@let route = routeInput();
+@let carriagesLength = route.carriages.length - 1;
+@let citiesLength = route.path.length - 1;
+
+
+<div class="route__container" tuiSurface="elevated" tuiCardLarge>
+  <div class="header" tuiHeader="l">
+    <h3>Route {{route.id}}</h3>
+    <div>
+      <button class="button-update" iconStart="@tui.square-pen" appearance="flat" tuiButton>Update</button>
+      <button class="button-assign-ride" iconStart="@tui.bus-front" appearance="flat" tuiButton>Assign ride</button>
+      <button class="button-trash" iconStart="@tui.trash" appearance="flat" tuiButton></button>
+    </div>
+  </div>
+  <div class="route-information">
+    <div class="cities__container">
+      <p>Cities:</p>
+      <div class="cities information__container">
+        @for (city of convertPathToStations(); track $index; let i = $index) {
+        <p>{{city}}</p>
+        @if(citiesLength !== i) {
+        <span> - </span>
+        }
+        }
+      </div>
+
+    </div>
+    <div class="carriages__container">
+      <p>Carriage Types:</p>
+      <div class="carriages information__container">
+        @for (carriage of route.carriages; track $index; let i = $index) {
+        <p>{{carriage}}</p>
+        @if(carriagesLength !== i) {
+        <span> - </span>
+        }
+        }
+      </div>
+
+    </div>
+  </div>
+
+</div>

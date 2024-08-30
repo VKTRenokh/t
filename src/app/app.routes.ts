@@ -92,7 +92,6 @@ export const routes: Routes = [
     resolve: { profile: profileResolver },
     children: adminRoutes,
   },
-
   {
     path: '**',
     loadComponent: () =>

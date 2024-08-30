@@ -1,0 +1,21 @@
+.route__container {
+  border-radius: 0.75rem;
+  border: 2px solid var(--tui-border-normal);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cities__container,
+  .carriages__container {
+    .information__container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+    }
+  }
+}

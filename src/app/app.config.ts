@@ -26,13 +26,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
 import { carriagesReducer } from './state/reducers/carriages.reducer';
 import { CarriagesEffects } from './state/effects/carriages.effect';
-import { RoutesEffects } from './state/effects/routes.effect';
-import { routesReducer } from './state/reducers/routes.reducer';
 import { rideReducer } from './state/reducers/rides.reducer';
 import { RideEffects } from './state/effects/ride.effect';
 import { ordersReducer } from './state/reducers/orders.reducer';
 import { OrdersEffects } from './state/effects/orders.effect';
 import { ToastsEffects } from './state/effects/toasts.effect';
+import { RoutesEffects } from './state/effects/routes.effect';
+import { routesReducer } from './state/reducers/routes.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -58,6 +58,7 @@ export const appConfig: ApplicationConfig = {
       RoutesEffects,
       RideEffects,
       OrdersEffects,
+      RoutesEffects,
     ),
     provideStoreDevtools({
       maxAge: 25,
