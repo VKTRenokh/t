@@ -10,7 +10,7 @@ import {
   providedIn: 'root',
 })
 export class CarriagesService {
-  private url = '/api/carriage';
+  private url = '/api/carriage/';
 
   private httpClient = inject(HttpClient);
 
@@ -23,9 +23,17 @@ export class CarriagesService {
   }
 
   public updateCarriage(carriage: Carriage) {
+    console.log(carriage.code);
+    const newCarriage = {
+      name: carriage.name,
+      rows: carriage.rows,
+      leftSeats: carriage.leftSeats,
+      rightSeats: carriage.rightSeats,
+    };
+
     return this.httpClient.put<string>(
       `${this.url}${carriage.code}`,
-      carriage,
+      newCarriage,
     );
   }
 }

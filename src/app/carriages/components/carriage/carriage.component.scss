@@ -7,6 +7,11 @@
   color: var(--tui-text-primary);
   padding: 20px;
 }
+.carriage__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 h1 {
   font-size: 18px;
 }

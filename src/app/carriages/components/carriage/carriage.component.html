@@ -1,9 +1,14 @@
-<h1>
-  {{
-    carriageProps().name[0].toUpperCase() +
-      carriageProps().name.slice(1)
-  }}
-</h1>
+<div class="carriage__title">
+  <h1>
+    {{
+      carriageProps().name[0].toUpperCase() +
+        carriageProps().name.slice(1)
+    }}
+  </h1>
+  <button tuiButton size="s" (click)="onUpdate()">
+    Update
+  </button>
+</div>
 <div class="seats__title"></div>
 <div class="seats__container">
   <div class="seats">

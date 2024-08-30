@@ -39,14 +39,17 @@
         [disabled]="carriagesForm.invalid"
         tuiButton
       >
-        Save
+        {{ updateMode ? 'Update' : 'Save' }}
       </button>
     </form>
   }
   <div class="carriages__list">
     <h2>Carriages list</h2>
     @for (carriage of carriages(); track $index) {
-      <tra-carriage [carriageProps]="carriage" />
+      <tra-carriage
+        [carriageProps]="carriage"
+        (updataeCarriage)="upadateCarriage($event)"
+      />
     }
   </div>
 </div>

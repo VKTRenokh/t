@@ -15,6 +15,7 @@ import {
 import { TuiInputModule } from '@taiga-ui/legacy';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { CarriageComponent } from '../carriage/carriage.component';
+import { Carriage } from '../../interfaces/carriages.interface';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -38,6 +39,10 @@ export class CarriagesPageComponent implements OnInit {
   public carriages = this.carriagesFacade.carriages;
 
   public displayForm = false;
+
+  public updateMode = false;
+
+  public codeForUpdate = '';
 
   protected carriagesForm = this.fb.group({
     name: this.fb.control('', [Validators.required]),
@@ -72,8 +77,30 @@ export class CarriagesPageComponent implements OnInit {
   public onSubmit() {
     const formData = this.carriagesForm.getRawValue();
 
-    this.carriagesFacade.createCarriage(formData);
-
+    if (this.updateMode) {
+      this.carriagesFacade.updateCarriage({
+        ...formData,
+        code: this.codeForUpdate,
+      });
+      this.updateMode = false;
+      this.displayForm = false;
+    } else {
+      this.carriagesFacade.createCarriage(formData);
+    }
     this.carriagesForm.reset();
+  }
+
+  public upadateCarriage(carriage: Carriage) {
+    this.carriagesForm.patchValue({
+      name: carriage.name,
+      rows: carriage.rows,
+      leftSeats: carriage.leftSeats,
+      rightSeats: carriage.rightSeats,
+    });
+
+    this.updateMode = true;
+    this.displayForm = true;
+
+    this.codeForUpdate = carriage.code;
   }
 }
