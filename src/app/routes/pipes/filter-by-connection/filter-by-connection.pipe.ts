@@ -8,17 +8,18 @@ import { Station } from '../../../stations/models/station/station.model';
 export class FilterByConnectionPipe
   implements PipeTransform
 {
-  public transform(
+  private getConnectedTo(station: Station) {
+    return station.connectedTo.map(
+      connection => connection.id,
+    );
+  }
+
+  private filter(
     ids: number[],
     selectedIds: number[],
     stations: Station[],
-  ): number[] {
-    if (selectedIds.length === 0) {
-      return ids;
-    }
-
-    const lastSelectedId =
-      selectedIds[selectedIds.length - 1];
+  ) {
+    const lastSelectedId = selectedIds.at(-1);
 
     const lastSelectedStation = stations.find(
       station => station.id === lastSelectedId,
@@ -28,13 +29,24 @@ export class FilterByConnectionPipe
       return [];
     }
 
-    const connectedStationIds =
-      lastSelectedStation.connectedTo.map(
-        connection => connection.id,
-      );
+    const connectedStationIds = this.getConnectedTo(
+      lastSelectedStation,
+    );
 
     return ids.filter(id =>
       connectedStationIds.includes(id),
     );
+  }
+
+  public transform(
+    ids: number[],
+    selectedIds: number[],
+    stations: Station[],
+  ): number[] {
+    if (selectedIds.length === 0) {
+      return ids;
+    }
+
+    return this.filter(ids, selectedIds, stations);
   }
 }
