@@ -35,4 +35,8 @@ export class RoutesPageComponent {
   public create() {
     this.isCreating.set(true);
   }
+
+  public closeCreationForm() {
+    this.isCreating.set(false);
+  }
 }

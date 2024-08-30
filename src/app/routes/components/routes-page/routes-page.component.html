@@ -1,7 +1,7 @@
 <button tuiButton (click)="create()">Create</button>
 
 @if (isCreating()) {
-  <tra-create-form />
+  <tra-create-form (create)="closeCreationForm()" />
 }
 
 <div class="tui-space_top-5">

@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  output,
 } from '@angular/core';
 import {
   FormArray,
@@ -46,6 +47,8 @@ export class CreateFormComponent {
   private stationsFacade = inject(StationsFacade);
   private http = inject(HttpClient);
 
+  public create = output();
+
   public form = this.formBuilder.group({
     stations: this.formBuilder.control<string[]>([]),
     carriages: this.formBuilder.control<number[]>([]),
@@ -85,6 +88,7 @@ export class CreateFormComponent {
 
   public submit() {
     console.log('submit');
+    this.create.emit();
   }
 
   public resetStationValue(i: number) {
