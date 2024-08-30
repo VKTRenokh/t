@@ -44,6 +44,18 @@
     </form>
   }
   <div class="carriages__list">
+    @if (displayForm) {
+      <h2>Carriages prototype</h2>
+      <tra-carriage
+        [carriageProps]="{
+          name: carriagesForm.value.name!,
+          rows: carriagesForm.value.rows!,
+          leftSeats: carriagesForm.value.leftSeats!,
+          rightSeats: carriagesForm.value.rightSeats!,
+          code: '',
+        }"
+      />
+    }
     <h2>Carriages list</h2>
     @for (carriage of carriages | async; track $index) {
       <tra-carriage

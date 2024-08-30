@@ -6,13 +6,14 @@ import {
   output,
 } from '@angular/core';
 import { Carriage } from '../../interfaces/carriages.interface';
-import { CreateCarriageSeats as сreateCarriageSeats } from '../../utils/createCarriageSeats';
+import { createCarriagesSeats as сreateCarriageSeats } from '../../utils/createCarriageSeats';
 import { TuiButton } from '@taiga-ui/core';
+import { CapitalizeWordsPipe } from '../../pipes/capitalize-words.pipe';
 
 @Component({
   selector: 'tra-carriage',
   standalone: true,
-  imports: [TuiButton],
+  imports: [TuiButton, CapitalizeWordsPipe],
   templateUrl: './carriage.component.html',
   styleUrl: './carriage.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

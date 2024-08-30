@@ -85,11 +85,11 @@ export class CarriagesPageComponent implements OnInit {
         code: this.codeForUpdate,
       });
       this.updateMode = false;
-      this.displayForm = false;
     } else {
       this.carriagesFacade.createCarriage(formData);
     }
     this.carriagesForm.reset();
+    this.displayForm = false;
   }
 
   public upadateCarriage(carriage: Carriage) {

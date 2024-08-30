@@ -1,4 +1,4 @@
-export const CreateCarriageSeats = (
+export const createCarriagesSeats = (
   rows: number,
   leftSeatsNumber: number,
   rightSeatsNumber: number,
