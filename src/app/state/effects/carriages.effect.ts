@@ -35,4 +35,56 @@ export class CarriagesEffects {
       ),
     ),
   );
+
+  public createCarriage = createEffect(() =>
+    this.actions.pipe(
+      ofType(CarriagesActions.createCarriage),
+      exhaustMap(action =>
+        this.carriagesService
+          .createCarriage(action.carriage)
+          .pipe(
+            map(
+              response =>
+                CarriagesActions.createCarriageSuccess({
+                  carriage: {
+                    ...action.carriage,
+                    code: response,
+                  },
+                }),
+              catchError(response =>
+                of(
+                  CarriagesActions.failure({
+                    error: response.error,
+                  }),
+                ),
+              ),
+            ),
+          ),
+      ),
+    ),
+  );
+  public updateCarriage = createEffect(() =>
+    this.actions.pipe(
+      ofType(CarriagesActions.updateCarriage),
+      exhaustMap(action =>
+        this.carriagesService
+          .updateCarriage(action.carriage)
+          .pipe(
+            map(
+              () =>
+                CarriagesActions.updateCarriage({
+                  carriage: action.carriage,
+                }),
+              catchError(response =>
+                of(
+                  CarriagesActions.failure({
+                    error: response.error,
+                  }),
+                ),
+              ),
+            ),
+          ),
+      ),
+    ),
+  );
 }

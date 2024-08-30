@@ -5,3 +5,4 @@ export interface Carriage {
   leftSeats: number;
   rightSeats: number;
 }
+export type CarriageObject = Omit<Carriage, 'code'>;

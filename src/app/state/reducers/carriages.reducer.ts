@@ -23,6 +23,24 @@ export const carriagesReducer = createReducer(
       carriagesList: carriages,
     }),
   ),
+  on(
+    CarriagesActions.createCarriageSuccess,
+    (state, { carriage }) => ({
+      ...state,
+      carriagesList: [...state.carriagesList, carriage],
+    }),
+  ),
+  on(
+    CarriagesActions.updateCarriageSuccess,
+    (state, { carriage }) => ({
+      ...state,
+      carriagesList: state.carriagesList.map(oldCarriage =>
+        carriage.code === oldCarriage.code
+          ? { ...oldCarriage, ...carriage }
+          : oldCarriage,
+      ),
+    }),
+  ),
   on(StationsActions.failure, (state, { error }) => ({
     ...state,
     error: error,

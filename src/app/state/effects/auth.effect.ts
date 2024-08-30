@@ -9,7 +9,6 @@ import { AuthService } from '../../auth/services/auth/auth.service';
 import { AuthActions } from '../actions/auth.action';
 import {
   catchError,
-  concatMap,
   EMPTY,
   exhaustMap,
   map,

@@ -41,19 +41,19 @@ export class CarriagesPageComponent implements OnInit {
 
   protected carriagesForm = this.fb.group({
     name: this.fb.control('', [Validators.required]),
-    rows: this.fb.control('', [
+    rows: this.fb.control(1, [
       Validators.required,
       Validators.max(20),
       Validators.min(1),
       Validators.pattern('^[0-9]*$'),
     ]),
-    leftSeats: this.fb.control('', [
+    leftSeats: this.fb.control(1, [
       Validators.required,
       Validators.max(4),
       Validators.min(1),
       Validators.pattern('^[0-9]*$'),
     ]),
-    rightSeats: this.fb.control('', [
+    rightSeats: this.fb.control(1, [
       Validators.required,
       Validators.max(4),
       Validators.min(1),
@@ -71,7 +71,9 @@ export class CarriagesPageComponent implements OnInit {
 
   public onSubmit() {
     const formData = this.carriagesForm.getRawValue();
-    console.log(formData);
+
+    this.carriagesFacade.createCarriage(formData);
+
     this.carriagesForm.reset();
   }
 }
