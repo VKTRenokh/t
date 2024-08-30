@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Route } from '../../models/route/route.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,6 @@ export class RoutesService {
   private http = inject(HttpClient);
 
   public get() {
-    // FIXME: add route model
-    return this.http.get<any[]>('/api/route');
+    return this.http.get<Route[]>('/api/route');
   }
 }

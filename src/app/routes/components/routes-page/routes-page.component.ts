@@ -9,6 +9,7 @@ import { TuiButton, TuiExpand } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { CreateFormComponent } from '../create-form/create-form.component';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'tra-routes-page',
@@ -26,7 +27,10 @@ import { CreateFormComponent } from '../create-form/create-form.component';
 })
 export class RoutesPageComponent {
   private routesService = inject(RoutesService);
-  public routes = this.routesService.get();
+  public routes = this.routesService
+    .get()
+    .pipe(map(arr => arr.slice(-10)));
+
   public isCreating = signal(false);
 
   constructor() {
