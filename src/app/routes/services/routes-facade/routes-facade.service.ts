@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RoutesActions } from '../../../state/actions/routes.action';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { selectRoutes } from '../../../state/selectors/routes.selector';
+import { CreateRoute } from '../../models/create-route/create-route.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +15,11 @@ export class RoutesFacadeService {
 
   public getRoutes() {
     this.store.dispatch(RoutesActions.getRoutes());
+  }
+
+  public createRoute(data: CreateRoute) {
+    this.store.dispatch(
+      RoutesActions.createRoute({ data }),
+    );
   }
 }

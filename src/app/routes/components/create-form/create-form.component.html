@@ -20,6 +20,10 @@
         >
         </tui-data-list-wrapper>
       </tui-multi-select>
+      <tui-error
+        formControlName="stations"
+        [error]="[] | tuiFieldError | async"
+      />
     </div>
     <div class="tui-form__section">
       <h3 tuiTitle class="tui-space_botom-3">Carriages</h3>
@@ -36,6 +40,10 @@
         >
         </tui-data-list-wrapper>
       </tui-multi-select>
+      <tui-error
+        formControlName="carriages"
+        [error]="[] | tuiFieldError | async"
+      />
     </div>
   </div>
   <button
