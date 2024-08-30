@@ -106,7 +106,9 @@ export class CreateFormComponent {
   public submit() {
     this.routesFacade.createRoute(this.form.getRawValue());
 
-    this.create.emit();
+    console.log(this.form.getRawValue());
+
+    //this.create.emit();
   }
 
   protected stringifyStation: TuiStringHandler<
