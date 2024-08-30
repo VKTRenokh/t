@@ -17,7 +17,10 @@
           tuiMultiSelectGroup
           [items]="
             stationIds()
-              | filterByConnection: stationsNonNullable()
+              | filterByConnection
+                : form.controls.path.value
+                : stationsNonNullable()
+              | tuiHideSelected
           "
           [itemContent]="stringifyStation"
         >
