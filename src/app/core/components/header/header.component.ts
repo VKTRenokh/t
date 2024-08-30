@@ -14,6 +14,7 @@ import { TuiBadge, TuiTabs } from '@taiga-ui/kit';
 import { AuthFacade } from '../../../core/services/auth-facade.service';
 import { AsyncPipe } from '@angular/common';
 import { ProfileFacade } from '../../../profile/services/profile-facade.service';
+import { Roles } from '../../enums/role/role.enum';
 
 @Component({
   selector: 'tra-header',
@@ -36,6 +37,6 @@ export class HeaderComponent {
 
   public isLoggedIn = this.authFacade.isLoggedIn;
   public isAdmin: Signal<boolean> = computed(
-    () => this.profileFacade.userRole() === 'manager',
+    () => this.profileFacade.userRole() === Roles.Manager,
   );
 }
