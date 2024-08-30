@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { TuiButton, TuiExpand } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { CreateFormComponent } from '../create-form/create-form.component';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 
@@ -16,7 +15,6 @@ import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.
   imports: [
     TuiButton,
     RouterLink,
-    AsyncPipe,
     CreateFormComponent,
     TuiExpand,
   ],
@@ -28,6 +26,7 @@ export class RoutesPageComponent {
   private routesFacade = inject(RoutesFacadeService);
 
   public isCreating = signal(false);
+  public routes = this.routesFacade.routes;
 
   constructor() {
     this.routesFacade.getRoutes();
