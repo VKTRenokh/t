@@ -87,7 +87,6 @@ export class CreateFormComponent {
   }
 
   public submit() {
-    console.log('submit');
     this.create.emit();
   }
 

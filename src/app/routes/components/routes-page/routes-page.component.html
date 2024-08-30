@@ -1,8 +1,8 @@
 <button tuiButton (click)="create()">Create</button>
 
-@if (isCreating()) {
+<tui-expand [expanded]="isCreating()">
   <tra-create-form (create)="closeCreationForm()" />
-}
+</tui-expand>
 
 <div class="tui-space_top-5">
   @for (route of routes | async; track route.id) {

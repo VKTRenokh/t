@@ -5,7 +5,7 @@ import {
   signal,
 } from '@angular/core';
 import { RoutesService } from '../../services/routes/routes.service';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiExpand } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { CreateFormComponent } from '../create-form/create-form.component';
@@ -18,6 +18,7 @@ import { CreateFormComponent } from '../create-form/create-form.component';
     RouterLink,
     AsyncPipe,
     CreateFormComponent,
+    TuiExpand,
   ],
   templateUrl: './routes-page.component.html',
   styleUrl: './routes-page.component.scss',

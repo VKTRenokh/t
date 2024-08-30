@@ -7,14 +7,15 @@
     <div class="tui-form__section">
       <h3 tuiTitle class="tui-space_bottom-3">Stations</h3>
       <tui-multi-select
-        tuiTextfieldSize="m"
         [editable]="true"
         formControlName="stations"
+        [tuiTextfieldLabelOutside]="true"
       >
         Select stations
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="ids() | tuiHideSelected"
+          tuiMultiSelectGroup
+          [items]="ids()"
           [itemContent]="stringifyStation"
         >
         </tui-data-list-wrapper>
@@ -23,14 +24,14 @@
     <div class="tui-form__section">
       <h3 tuiTitle class="tui-space_botom-3">Carriages</h3>
       <tui-multi-select
-        tuiTextfieldSize="m"
         [editable]="true"
         formControlName="carriages"
+        [tuiTextfieldLabelOutside]="true"
       >
         Select carriages
         <tui-data-list-wrapper
           *tuiDataList
-          [items]="ids() | tuiHideSelected"
+          [items]="ids()"
           [itemContent]="stringifyStation"
         >
         </tui-data-list-wrapper>
