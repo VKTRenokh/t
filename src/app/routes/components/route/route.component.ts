@@ -10,9 +10,9 @@ import {
   TuiIcon,
 } from '@taiga-ui/core';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
-import { Route } from '../models/routes.model';
-import { RoutesFacade } from '../../state/facades/routes.facade';
-import { StationsFacade } from '../../state/facades/stations.facade';
+import { Route } from '../../models/routes.model';
+import { RoutesFacade } from '../../../state/facades/routes.facade';
+import { StationsFacade } from '../../../state/facades/stations.facade';
 import { TUI_CONFIRM, TuiConfirmData } from '@taiga-ui/kit';
 import { tap } from 'rxjs';
 

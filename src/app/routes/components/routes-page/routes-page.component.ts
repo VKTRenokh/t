@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import { CreateFormComponent } from '../create-form/create-form.component';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
+import { StationsFacade } from '../../../state/facades/stations.facade';
 
 @Component({
   selector: 'tra-routes-page',
@@ -39,6 +40,7 @@ export class RoutesPageComponent {
     TuiExpandComponent,
     { read: ChangeDetectorRef },
   );
+  private stationsFacade = inject(StationsFacade);
 
   public isCreating = signal(false);
   public routes = this.routesFacade.routes;
@@ -46,6 +48,7 @@ export class RoutesPageComponent {
   constructor() {
     this.routesFacade.getRoutes();
     this.carriagesFacade.getCarriages();
+    this.stationsFacade.getStations();
   }
 
   public create() {
