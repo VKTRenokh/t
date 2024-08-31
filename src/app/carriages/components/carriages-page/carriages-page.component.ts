@@ -18,6 +18,7 @@ import { CarriageComponent } from '../carriage/carriage.component';
 import { Carriage } from '../../interfaces/carriages.interface';
 import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -41,6 +42,8 @@ export class CarriagesPageComponent implements OnInit {
 
   private carriagesFacade = inject(CarriagesFacade);
 
+  private store = inject(Store);
+
   public carriages = this.carriagesFacade.carriages;
 
   public displayForm = false;
@@ -48,6 +51,8 @@ export class CarriagesPageComponent implements OnInit {
   public updateMode = false;
 
   public codeForUpdate = '';
+
+  public error = this.carriagesFacade.error;
 
   protected carriagesForm = this.fb.group({
     name: this.fb.control('', [Validators.required]),
