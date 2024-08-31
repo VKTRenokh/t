@@ -4,7 +4,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiError } from '@taiga-ui/core';
 
 import {
   FormsModule,
@@ -17,6 +17,7 @@ import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { CarriageComponent } from '../carriage/carriage.component';
 import { Carriage } from '../../interfaces/carriages.interface';
 import { AsyncPipe } from '@angular/common';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -28,6 +29,8 @@ import { AsyncPipe } from '@angular/common';
     TuiInputModule,
     CarriageComponent,
     AsyncPipe,
+    TuiError,
+    TuiFieldErrorPipe,
   ],
   templateUrl: './carriages-page.component.html',
   styleUrl: './carriages-page.component.scss',

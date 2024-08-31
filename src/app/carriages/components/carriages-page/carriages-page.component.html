@@ -18,21 +18,37 @@
         <tui-input formControlName="name">
           Carriage name
         </tui-input>
+        <tui-error
+          formControlName="name"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="rows">
           Number of rows
         </tui-input>
+        <tui-error
+          formControlName="rows"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="leftSeats">
           Left seats
         </tui-input>
+        <tui-error
+          formControlName="leftSeats"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="rightSeats">
           Right seats
         </tui-input>
+        <tui-error
+          formControlName="rightSeats"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <button
         type="submit"

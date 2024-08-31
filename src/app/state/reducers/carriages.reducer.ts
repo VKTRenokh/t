@@ -27,7 +27,7 @@ export const carriagesReducer = createReducer(
     CarriagesActions.createCarriageSuccess,
     (state, { carriage }) => ({
       ...state,
-      carriagesList: [...state.carriagesList, carriage],
+      carriagesList: [carriage, ...state.carriagesList],
     }),
   ),
   on(
