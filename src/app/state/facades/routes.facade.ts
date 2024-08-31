@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AppState } from '../app.state';
 
-import { StationsActions } from '../actions/stations.action';
 import {
   selectAllRoutes,
   selectPaginatedRoutes,
@@ -22,16 +21,6 @@ import {
 export class RoutesFacade {
   private store = inject(Store<AppState>);
 
-  constructor() {
-    this.store
-      .select(selectAllRoutes)
-      .subscribe(item => console.log(item));
-
-    this.store
-      .select(selectPaginatedRoutes)
-      .subscribe(item => console.log(item));
-  }
-
   public routes = toSignal(
     this.store.select(selectAllRoutes),
   );
@@ -48,9 +37,9 @@ export class RoutesFacade {
     this.store.select(selectTotalPages),
   );
 
-  public changePage(page: number) {
+  public changePage(pageNumber: number) {
     this.store.dispatch(
-      StationsActions.changePage({ pageNumber: page }),
+      RoutesActions.changePage({ pageNumber }),
     );
   }
 
@@ -58,19 +47,19 @@ export class RoutesFacade {
     this.store.dispatch(RoutesActions.getRoutes());
   }
 
-  public deleteRoutes(id: number) {
-    this.store.dispatch(RoutesActions.deleteRoutes({ id }));
+  public deleteRoute(id: number) {
+    this.store.dispatch(RoutesActions.deleteRoute({ id }));
   }
 
-  public updateRoutes(id: number, route: Route) {
+  public updateRoute(id: number, route: Route) {
     this.store.dispatch(
-      RoutesActions.updateRoutes({ id, route }),
+      RoutesActions.updateRoute({ id, route }),
     );
   }
 
-  public createRoutes(route: PostRoute) {
+  public createRoute(route: PostRoute) {
     this.store.dispatch(
-      RoutesActions.createRoutes({ route }),
+      RoutesActions.createRoute({ route }),
     );
   }
 }

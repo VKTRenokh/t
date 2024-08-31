@@ -4,11 +4,17 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
+import {
+  TuiButton,
+  TuiDialogService,
+  TuiIcon,
+} from '@taiga-ui/core';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 import { Route } from '../models/routes.model';
 import { RoutesFacade } from '../../state/facades/routes.facade';
 import { StationsFacade } from '../../state/facades/stations.facade';
+import { TUI_CONFIRM, TuiConfirmData } from '@taiga-ui/kit';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'tra-route',
@@ -20,13 +26,10 @@ import { StationsFacade } from '../../state/facades/stations.facade';
 })
 export class RouteComponent {
   public routeInput = input.required<Route>();
+
+  private dialogs = inject(TuiDialogService);
   private routesFacade = inject(RoutesFacade);
   private stationsFacade = inject(StationsFacade);
-
-  constructor() {
-    const a = this.stationsFacade.stations;
-    console.log(a());
-  }
 
   protected convertPathToStations() {
     const stations = this.stationsFacade.stations();
@@ -40,11 +43,31 @@ export class RouteComponent {
   }
 
   protected handleDelete() {
-    this.routesFacade.deleteRoutes(this.routeInput().id);
+    const data: TuiConfirmData = {
+      content:
+        'If you delete it, you will not be able to restore it',
+      yes: 'I`m sure!',
+      no: 'I`m not sure!',
+    };
+
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: 'Are you sure in deleting route?',
+        size: 's',
+        data,
+      })
+      .pipe(
+        tap(() => {
+          this.routesFacade.deleteRoute(
+            this.routeInput().id,
+          );
+        }),
+      )
+      .subscribe();
   }
 
   protected handleUpdate() {
-    this.routesFacade.updateRoutes(
+    this.routesFacade.updateRoute(
       this.routeInput().id,
       this.routeInput(),
     );

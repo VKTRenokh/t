@@ -14,6 +14,7 @@ export interface RoutesState {
 
 export const initialState: RoutesState = {
   routesList: [],
+  loading: false,
   paginationPage: 0,
   itemsPerPage: 5,
   totalPages: 0,

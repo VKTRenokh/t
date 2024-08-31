@@ -42,10 +42,6 @@ export class RoutesListComponent {
   protected currentPage = this.routesFacade.currentPage;
   protected totalPages = this.routesFacade.totalPages;
 
-  constructor() {
-    console.log(this.paginatedRoutes());
-  }
-
   protected goToPage(pageNumber: number) {
     this.routesFacade.changePage(pageNumber);
   }
