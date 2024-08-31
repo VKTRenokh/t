@@ -15,11 +15,18 @@ import { RoutesFacade } from '../../../state/facades/routes.facade';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import { TUI_CONFIRM, TuiConfirmData } from '@taiga-ui/kit';
 import { tap } from 'rxjs';
+import { RouteInformationComponent } from '../../shared/route-information/route-information.component';
 
 @Component({
   selector: 'tra-route',
   standalone: true,
-  imports: [TuiButton, TuiIcon, TuiCardLarge, TuiHeader],
+  imports: [
+    TuiButton,
+    TuiIcon,
+    TuiCardLarge,
+    TuiHeader,
+    RouteInformationComponent,
+  ],
   templateUrl: './route.component.html',
   styleUrl: './route.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

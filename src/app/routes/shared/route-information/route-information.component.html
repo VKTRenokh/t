@@ -1,1 +1,10 @@
-<p>route-information works!</p>
+@let route = routeInput();
+@let informationLength = route.length - 1;
+<div class="cities information__container">
+  @for (city of routeInput(); track $index; let i = $index) {
+  <p>{{city}}</p>
+  @if(informationLength !== i) {
+  <span> - </span>
+  }
+  }
+</div>

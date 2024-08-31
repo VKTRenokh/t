@@ -7,15 +7,4 @@
     align-items: center;
     justify-content: space-between;
   }
-
-  .cities__container,
-  .carriages__container {
-    .information__container {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      align-items: center;
-      gap: 15px;
-    }
-  }
 }
