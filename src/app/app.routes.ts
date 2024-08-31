@@ -78,6 +78,7 @@ export const routes: Routes = [
   },
   {
     path: 'carriages',
+    canMatch: [managerGuard],
     loadComponent: () =>
       import(
         './carriages/components/carriages-page/carriages-page.component.js'
