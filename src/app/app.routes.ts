@@ -21,6 +21,13 @@ const adminRoutes: Routes = [
     children: [],
   },
   {
+    path: 'carriages',
+    loadComponent: () =>
+      import(
+        './carriages/components/carriages-page/carriages-page.component.js'
+      ).then(M => M.CarriagesPageComponent),
+  },
+  {
     path: 'routes/:id',
     loadComponent: () =>
       import(
@@ -76,14 +83,7 @@ export const routes: Routes = [
     resolve: { profile: profileResolver },
     children: adminRoutes,
   },
-  {
-    path: 'carriages',
-    canMatch: [managerGuard],
-    loadComponent: () =>
-      import(
-        './carriages/components/carriages-page/carriages-page.component.js'
-      ).then(M => M.CarriagesPageComponent),
-  },
+
   {
     path: '**',
     loadComponent: () =>
