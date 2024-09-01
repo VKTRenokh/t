@@ -1,23 +1,51 @@
 @let route = routeInput();
 
-<div class="route__container" tuiSurface="elevated" tuiCardLarge>
+<div
+  class="route__container"
+  tuiSurface="elevated"
+  tuiCardLarge
+>
   <div class="header" tuiHeader="l">
-    <h3>Route {{route.id}}</h3>
+    <h3>Route {{ route.id }}</h3>
     <div>
-      <button class="button-update" iconStart="@tui.square-pen" appearance="flat" tuiButton>Update</button>
-      <button class="button-assign-ride" iconStart="@tui.bus-front" appearance="flat" tuiButton>Assign ride</button>
-      <button (click)="handleDelete()" class="button-trash" iconStart="@tui.trash" appearance="flat" tuiButton></button>
+      <button
+        class="button-update"
+        iconStart="@tui.square-pen"
+        appearance="flat"
+        tuiButton
+      >
+        Update
+      </button>
+      <a
+        class="button-assign-ride"
+        iconStart="@tui.bus-front"
+        appearance="flat"
+        [routerLink]="['/manager/routes', route.id]"
+        tuiButton
+      >
+        Assign ride
+      </a>
+      <button
+        (click)="handleDelete()"
+        class="button-trash"
+        iconStart="@tui.trash"
+        appearance="flat"
+        tuiButton
+      ></button>
     </div>
   </div>
   <div class="route-information">
     <div class="cities__container">
       <p>Cities:</p>
-      <tra-route-information [routeInput]="convertPathToStations()" />
+      <tra-route-information
+        [routeInput]="convertPathToStations()"
+      />
     </div>
     <div class="carriages__container">
       <p>Carriage Types:</p>
-      <tra-route-information [routeInput]="route.carriages" />
+      <tra-route-information
+        [routeInput]="route.carriages"
+      />
     </div>
   </div>
-
 </div>

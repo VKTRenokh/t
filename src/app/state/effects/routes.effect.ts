@@ -17,7 +17,7 @@ export class RoutesEffects {
     this.actions.pipe(
       ofType(RoutesActions.getRoutes),
       exhaustMap(() =>
-        this.routesService.getRoutes().pipe(
+        this.routesService.get().pipe(
           map(routes =>
             RoutesActions.getRoutesSuccess({
               routes,
@@ -40,7 +40,7 @@ export class RoutesEffects {
       ofType(RoutesActions.updateRoute),
       exhaustMap(({ id, route }) =>
         this.routesService
-          .updateRoute(id, route)
+          .update(id, route)
           .pipe(map(() => RoutesActions.getRoutes())),
       ),
     ),
@@ -50,7 +50,7 @@ export class RoutesEffects {
     this.actions.pipe(
       ofType(RoutesActions.deleteRoute),
       exhaustMap(data =>
-        this.routesService.deleteRoute(data.id).pipe(
+        this.routesService.delete(data.id).pipe(
           map(() =>
             RoutesActions.deleteRouteSuccess({
               id: data.id,
@@ -64,9 +64,9 @@ export class RoutesEffects {
   public createRouteEffect = createEffect(() =>
     this.actions.pipe(
       ofType(RoutesActions.createRoute),
-      exhaustMap(({ data }) =>
+      exhaustMap(({ route }) =>
         this.routesService
-          .createRoute(data)
+          .create(route)
           .pipe(map(() => RoutesActions.getRoutes())),
       ),
     ),

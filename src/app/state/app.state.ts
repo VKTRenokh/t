@@ -9,9 +9,9 @@ import { UserState } from './reducers/user.reducer';
 export interface AppState {
   auth: AuthState;
   stations: StationsState;
-  routes: RoutesState;
   user: UserState;
   carriages: CarriagesState;
   ride: RideState;
   orders: OrdersState;
+  routes: RoutesState;
 }

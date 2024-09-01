@@ -4,9 +4,9 @@ import { AppState } from '../app.state';
 export const selectFeature = (state: AppState) =>
   state.routes;
 
-export const selectAllRoutes = createSelector(
+export const selectRoutes = createSelector(
   selectFeature,
-  routes => routes.routesList,
+  state => state.routes,
 );
 
 export const selectRoutesError = createSelector(
@@ -25,7 +25,7 @@ export const selectItemsPerPage = createSelector(
 );
 
 export const selectPaginatedRoutes = createSelector(
-  selectAllRoutes,
+  selectRoutes,
   selectPaginationPageNumber,
   selectItemsPerPage,
   (routes, pageNumber, itemsPerPage) => {

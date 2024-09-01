@@ -16,6 +16,7 @@ import { CreateFormComponent } from '../create-form/create-form.component';
 import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { StationsFacade } from '../../../state/facades/stations.facade';
+import { RoutesListComponent } from '../routes-list/routes-list.component';
 
 @Component({
   selector: 'tra-routes-page',
@@ -25,6 +26,7 @@ import { StationsFacade } from '../../../state/facades/stations.facade';
     RouterLink,
     CreateFormComponent,
     TuiExpand,
+    RoutesListComponent,
   ],
   templateUrl: './routes-page.component.html',
   styleUrl: './routes-page.component.scss',
@@ -42,12 +44,9 @@ export class RoutesPageComponent {
   );
   private stationsFacade = inject(StationsFacade);
 
-<<<<<<< HEAD
   public isCreating = signal(false);
   public routes = this.routesFacade.routes;
 
-=======
->>>>>>> 44eae0c (feat: resolve converstations)
   constructor() {
     this.routesFacade.getRoutes();
     this.carriagesFacade.getCarriages();

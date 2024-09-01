@@ -8,19 +8,19 @@ import { PostRoute, Route } from '../models/routes.model';
 export class RoutesService {
   private http = inject(HttpClient);
 
-  public getRoutes() {
+  public get() {
     return this.http.get<Route[]>('/api/route');
   }
 
-  public createRoute(route: PostRoute) {
+  public create(route: PostRoute) {
     return this.http.post('/api/route', route);
   }
 
-  public updateRoute(id: number, route: Route) {
+  public update(id: number, route: Route) {
     return this.http.put(`/api/route/${id}`, route);
   }
 
-  public deleteRoute(id: number) {
+  public delete(id: number) {
     return this.http.delete(`/api/route/${id}`);
   }
 }

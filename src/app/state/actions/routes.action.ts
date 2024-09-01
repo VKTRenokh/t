@@ -12,8 +12,12 @@ export const RoutesActions = createActionGroup({
   events: {
     getRoutes: emptyProps(),
     getRoutesSuccess: props<{ routes: Route[] }>(),
-    createRoute: props<{ data: CreateRoute }>(),
+    updateRoute: props<{ id: number; route: Route }>(),
+    deleteRoute: props<{ id: number }>(),
+    deleteRouteSuccess: props<{ id: number }>(),
+    createRoute: props<{ route: CreateRoute }>(),
     createRouteSuccess: emptyProps(),
+    changePage: props<{ pageNumber: number }>(),
     failure: props<{ error: ApiError }>(),
   },
 });

@@ -14,8 +14,8 @@ import { Route } from '../../models/routes.model';
 import { RoutesFacade } from '../../../state/facades/routes.facade';
 import { StationsFacade } from '../../../state/facades/stations.facade';
 import { TUI_CONFIRM, TuiConfirmData } from '@taiga-ui/kit';
-import { tap } from 'rxjs';
 import { RouteInformationComponent } from '../../shared/route-information/route-information.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tra-route',
@@ -25,6 +25,7 @@ import { RouteInformationComponent } from '../../shared/route-information/route-
     TuiIcon,
     TuiCardLarge,
     TuiHeader,
+    RouterLink,
     RouteInformationComponent,
   ],
   templateUrl: './route.component.html',

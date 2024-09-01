@@ -1,25 +1,7 @@
-<<<<<<< HEAD
 <button tuiButton (click)="create()">Create</button>
 
 <tui-expand [expanded]="isCreating()">
   <tra-create-form (create)="closeCreationForm()" />
 </tui-expand>
 
-<div class="tui-space_top-5">
-  @let _routes = routes();
-  @if (_routes) {
-    @for (route of _routes; track route.id) {
-      <a
-        tuiButton
-        tuibutton
-        [routerLink]="['/admin/routes', route.id]"
-        appearance="flat"
-        >Assign ride {{ route.id }}</a
-      >
-    }
-  }
-</div>
-=======
-<tra-routes-form />
 <tra-routes-list />
->>>>>>> 4214b3d (feat: create folder component in routess and move all componentsm)

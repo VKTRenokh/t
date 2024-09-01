@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AppState } from '../app.state';
 
 import {
-  selectAllRoutes,
+  selectRoutes,
   selectPaginatedRoutes,
   selectPaginationPageNumber,
   selectRoutesError,
@@ -24,9 +24,7 @@ import { filter, map } from 'rxjs';
 export class RoutesFacade {
   private store = inject(Store<AppState>);
 
-  public routes = toSignal(
-    this.store.select(selectAllRoutes),
-  );
+  public routes = toSignal(this.store.select(selectRoutes));
 
   public paginatedRoutes = toSignal(
     this.store.select(selectPaginatedRoutes),

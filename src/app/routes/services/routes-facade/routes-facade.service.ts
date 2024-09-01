@@ -17,9 +17,9 @@ export class RoutesFacadeService {
     this.store.dispatch(RoutesActions.getRoutes());
   }
 
-  public createRoute(data: CreateRoute) {
+  public createRoute(route: CreateRoute) {
     this.store.dispatch(
-      RoutesActions.createRoute({ data }),
+      RoutesActions.createRoute({ route }),
     );
   }
 }
