@@ -1,0 +1,55 @@
+<div class="tui-container tui-space_top-5">
+  <button
+    tuiButton
+    title="Create carriage"
+    size="l"
+    (click)="toggleDisplayForm()"
+  >
+    Create carriage
+  </button>
+  @if (displayForm) {
+    <form
+      [formGroup]="carriagesForm"
+      class="tui-form"
+      (submit)="onSubmit()"
+    >
+      <h3 class="tui-form__header">Create Carriage</h3>
+      <div class="tui-form__row">
+        <tui-input formControlName="name">
+          Carriage name
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="rows">
+          Number of rows
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="leftSeats">
+          Left seats
+        </tui-input>
+      </div>
+      <div class="tui-form__row">
+        <tui-input formControlName="rightSeats">
+          Right seats
+        </tui-input>
+      </div>
+      <button
+        type="submit"
+        [disabled]="carriagesForm.invalid"
+        tuiButton
+      >
+        {{ updateMode ? 'Update' : 'Save' }}
+      </button>
+    </form>
+  }
+  <div class="carriages__list">
+    <h2>Carriages list</h2>
+    @for (carriage of carriages | async; track $index) {
+      <tra-carriage
+        [carriageProps]="carriage"
+        (updataeCarriage)="upadateCarriage($event)"
+      />
+    }
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="tui-form"
+>
+  <div class="tui-form__sections">
+    <div class="tui-form__section">
+      <h3 tuiTitle class="tui-space_bottom-3">Stations</h3>
+      <tui-multi-select
+        [editable]="true"
+        formControlName="path"
+        [tuiTextfieldLabelOutside]="true"
+      >
+        Select stations
+        <tui-data-list-wrapper
+          *tuiDataList
+          tuiMultiSelectGroup
+          [items]="
+            stationIds()
+              | filterByConnection
+                : form.controls.path.value
+                : stationsNonNullable()
+              | tuiHideSelected
+          "
+          [itemContent]="stringifyStation"
+        >
+        </tui-data-list-wrapper>
+      </tui-multi-select>
+      <tui-error
+        formControlName="path"
+        [error]="[] | tuiFieldError | async"
+      />
+    </div>
+    <div class="tui-form__section">
+      <h3 tuiTitle class="tui-space_botom-3">Carriages</h3>
+      <tui-multi-select
+        [editable]="true"
+        formControlName="carriages"
+        [tuiTextfieldLabelOutside]="true"
+      >
+        Select carriages
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="carriages | async"
+        >
+        </tui-data-list-wrapper>
+      </tui-multi-select>
+      <tui-error
+        formControlName="carriages"
+        [error]="[] | tuiFieldError | async"
+      />
+    </div>
+  </div>
+  <button
+    tuiButton
+    type="submit"
+    size="m"
+    [disabled]="form.invalid"
+    class="tui-form__submit tui-space_top-5"
+  >
+    Save
+  </button>
+</form>

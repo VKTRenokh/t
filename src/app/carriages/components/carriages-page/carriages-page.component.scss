@@ -1,0 +1,29 @@
+.tui-container {
+  width: 100%;
+  max-width: 51.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin-top: 20px;
+  }
+}
+.tui__form {
+  width: 100%;
+}
+.tui-form__row {
+  width: 100%;
+  min-width: 300px;
+  max-width: 500px;
+}
+.carriages__list {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  max-width: 100%;
+  padding: 10px 15px;
+}

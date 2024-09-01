@@ -4,7 +4,10 @@ import {
   provideZoneChangeDetection,
   isDevMode,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
@@ -21,22 +24,30 @@ import { stationsReducer } from './state/reducers/stations.reducer';
 import { UserEffects } from './state/effects/user.effect';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
+import { carriagesReducer } from './state/reducers/carriages.reducer';
+import { CarriagesEffects } from './state/effects/carriages.effect';
+import { RoutesEffects } from './state/effects/routes.effect';
+import { routesReducer } from './state/reducers/routes.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore({
       auth: authReducer,
       user: userReducer,
       stations: stationsReducer,
+      carriages: carriagesReducer,
+      routes: routesReducer,
     }),
     provideEffects(
       AuthEffects,
       UserEffects,
       StationsEffects,
+      CarriagesEffects,
+      RoutesEffects,
     ),
     provideStoreDevtools({
       maxAge: 25,
