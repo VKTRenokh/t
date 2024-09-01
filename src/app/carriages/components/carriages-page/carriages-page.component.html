@@ -7,32 +7,52 @@
   >
     Create carriage
   </button>
-  @if (displayForm) {
+  @if (displayForm()) {
     <form
       [formGroup]="carriagesForm"
       class="tui-form"
       (submit)="onSubmit()"
     >
+      @if (error(); as error) {
+        <tui-error [error]="error" />
+      }
+
       <h3 class="tui-form__header">Create Carriage</h3>
       <div class="tui-form__row">
         <tui-input formControlName="name">
           Carriage name
         </tui-input>
+        <tui-error
+          formControlName="name"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="rows">
           Number of rows
         </tui-input>
+        <tui-error
+          formControlName="rows"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="leftSeats">
           Left seats
         </tui-input>
+        <tui-error
+          formControlName="leftSeats"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <div class="tui-form__row">
         <tui-input formControlName="rightSeats">
           Right seats
         </tui-input>
+        <tui-error
+          formControlName="rightSeats"
+          [error]="[] | tuiFieldError | async"
+        />
       </div>
       <button
         type="submit"
@@ -44,11 +64,24 @@
     </form>
   }
   <div class="carriages__list">
+    @if (displayForm()) {
+      <h2>Carriages prototype</h2>
+      <tra-carriage
+        [name]="this.carriagesForm.value.name!"
+        [rows]="this.carriagesForm.value.rows!"
+        [leftSeats]="this.carriagesForm.value.leftSeats!"
+        [rightSeats]="this.carriagesForm.value.rightSeats!"
+      />
+    }
     <h2>Carriages list</h2>
     @for (carriage of carriages | async; track $index) {
       <tra-carriage
-        [carriageProps]="carriage"
-        (updataeCarriage)="upadateCarriage($event)"
+        [name]="carriage.name"
+        [rows]="carriage.rows"
+        [leftSeats]="carriage.leftSeats"
+        [rightSeats]="carriage.rightSeats"
+        [code]="carriage.code"
+        (updateCarriage)="updateCarriage($event)"
       />
     }
   </div>

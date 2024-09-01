@@ -1,21 +1,38 @@
-export const CreateCarriageSeats = (
+const MAX_ROWS_COUNT = 20;
+
+const MAX_SEATS_COUNT = 4;
+
+export const createCarriagesSeats = (
   rows: number,
   leftSeatsNumber: number,
   rightSeatsNumber: number,
 ) => {
   let seatNumber = 1;
 
-  return Array.from({ length: rows }, () => {
-    const leftSeats = Array.from(
-      { length: leftSeatsNumber },
+  const generateSeats = (
+    seatCount: number,
+    maxCount: number,
+  ) =>
+    Array.from(
+      {
+        length: seatCount > maxCount ? maxCount : seatCount,
+      },
       () => seatNumber++,
     );
 
-    const rightSeats = Array.from(
-      { length: rightSeatsNumber },
-      () => seatNumber++,
-    );
-
-    return { leftSeats, rightSeats };
-  });
+  return Array.from(
+    {
+      length: rows > MAX_ROWS_COUNT ? MAX_ROWS_COUNT : rows,
+    },
+    () => ({
+      leftSeats: generateSeats(
+        leftSeatsNumber,
+        MAX_SEATS_COUNT,
+      ),
+      rightSeats: generateSeats(
+        rightSeatsNumber,
+        MAX_SEATS_COUNT,
+      ),
+    }),
+  );
 };

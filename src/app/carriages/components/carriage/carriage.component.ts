@@ -6,33 +6,46 @@ import {
   output,
 } from '@angular/core';
 import { Carriage } from '../../interfaces/carriages.interface';
-import { CreateCarriageSeats as сreateCarriageSeats } from '../../utils/createCarriageSeats';
+import { createCarriagesSeats as сreateCarriageSeats } from '../../utils/createCarriageSeats';
 import { TuiButton } from '@taiga-ui/core';
+import { CapitalizeWordsPipe } from '../../pipes/capitalize-words.pipe';
 
 @Component({
   selector: 'tra-carriage',
   standalone: true,
-  imports: [TuiButton],
+  imports: [TuiButton, CapitalizeWordsPipe],
   templateUrl: './carriage.component.html',
   styleUrl: './carriage.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarriageComponent {
-  public carriageProps = input.required<Carriage>();
+  public name = input.required<string>();
 
-  public updateCarriage = output<Carriage>({
-    alias: 'updataeCarriage',
-  });
+  public code = input<string>();
 
-  public rows = computed(() => {
+  public leftSeats = input.required<number>();
+
+  public rightSeats = input.required<number>();
+
+  public rows = input.required<number>();
+
+  public updateCarriage = output<Carriage>();
+
+  public rowsList = computed(() => {
     return сreateCarriageSeats(
-      this.carriageProps().rows,
-      this.carriageProps().leftSeats,
-      this.carriageProps().rightSeats,
+      this.rows(),
+      this.leftSeats(),
+      this.rightSeats(),
     );
   });
 
   public onUpdate() {
-    this.updateCarriage.emit(this.carriageProps());
+    this.updateCarriage.emit({
+      name: this.name(),
+      code: this.code(),
+      leftSeats: this.leftSeats(),
+      rightSeats: this.rightSeats(),
+      rows: this.rows(),
+    });
   }
 }

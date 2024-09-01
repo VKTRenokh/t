@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
+  signal,
 } from '@angular/core';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiError } from '@taiga-ui/core';
 
 import {
   FormsModule,
@@ -17,6 +17,7 @@ import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { CarriageComponent } from '../carriage/carriage.component';
 import { Carriage } from '../../interfaces/carriages.interface';
 import { AsyncPipe } from '@angular/common';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -28,23 +29,27 @@ import { AsyncPipe } from '@angular/common';
     TuiInputModule,
     CarriageComponent,
     AsyncPipe,
+    TuiError,
+    TuiFieldErrorPipe,
   ],
   templateUrl: './carriages-page.component.html',
   styleUrl: './carriages-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriagesPageComponent implements OnInit {
+export class CarriagesPageComponent {
   private fb = inject(NonNullableFormBuilder);
 
   private carriagesFacade = inject(CarriagesFacade);
 
   public carriages = this.carriagesFacade.carriages;
 
-  public displayForm = false;
+  public displayForm = signal(false);
 
   public updateMode = false;
 
-  public codeForUpdate = '';
+  public codeForUpdate: string | undefined = '';
+
+  public error = this.carriagesFacade.error;
 
   protected carriagesForm = this.fb.group({
     name: this.fb.control('', [Validators.required]),
@@ -68,14 +73,13 @@ export class CarriagesPageComponent implements OnInit {
     ]),
   });
 
-  public ngOnInit(): void {
+  constructor() {
     this.carriagesFacade.getCarriages();
   }
 
   public toggleDisplayForm() {
-    this.displayForm = !this.displayForm;
+    this.displayForm.update(value => !value);
   }
-
   public onSubmit() {
     const formData = this.carriagesForm.getRawValue();
 
@@ -85,23 +89,18 @@ export class CarriagesPageComponent implements OnInit {
         code: this.codeForUpdate,
       });
       this.updateMode = false;
-      this.displayForm = false;
     } else {
       this.carriagesFacade.createCarriage(formData);
     }
     this.carriagesForm.reset();
+    this.displayForm.set(false);
   }
 
-  public upadateCarriage(carriage: Carriage) {
-    this.carriagesForm.patchValue({
-      name: carriage.name,
-      rows: carriage.rows,
-      leftSeats: carriage.leftSeats,
-      rightSeats: carriage.rightSeats,
-    });
+  public updateCarriage(carriage: Carriage) {
+    this.carriagesForm.patchValue({ ...carriage });
 
     this.updateMode = true;
-    this.displayForm = true;
+    this.displayForm.set(true);
 
     this.codeForUpdate = carriage.code;
   }

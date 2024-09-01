@@ -1,20 +1,19 @@
 <div class="carriage__title">
-  <h1>
-    {{
-      carriageProps().name[0].toUpperCase() +
-        carriageProps().name.slice(1)
-    }}
-  </h1>
-  <button tuiButton size="s" (click)="onUpdate()">
-    Update
-  </button>
+  <h2>
+    {{ name() | capitalizeWords }}
+  </h2>
+  @if (code()) {
+    <button tuiButton size="s" (click)="onUpdate()">
+      Update
+    </button>
+  }
 </div>
 <div class="seats__title"></div>
 <div class="seats__container">
   <div class="seats">
-    <h2>Left seats:</h2>
+    <h3>Left seats:</h3>
     <div class="seats__rows">
-      @for (row of rows(); track $index) {
+      @for (row of rowsList(); track $index) {
         <div class="seat">
           @for (leftSeat of row.leftSeats; track $index) {
             <div class="seats__seat">{{ leftSeat }}</div>
@@ -24,9 +23,9 @@
     </div>
   </div>
   <div class="seats">
-    <h2>Right seats:</h2>
+    <h3>Right seats:</h3>
     <div class="seats__rows">
-      @for (row of rows(); track $index) {
+      @for (row of rowsList(); track $index) {
         <div class="seat">
           @for (rightSeat of row.rightSeats; track $index) {
             <div class="seats__seat">{{ rightSeat }}</div>
