@@ -7,6 +7,7 @@ import {
   selectAllRoutes,
   selectPaginatedRoutes,
   selectPaginationPageNumber,
+  selectRoutesError,
   selectTotalPages,
 } from '../selectors/routes.selector';
 import { RoutesActions } from '../actions/routes.actoin';
@@ -14,6 +15,8 @@ import {
   PostRoute,
   Route,
 } from '../../routes/models/routes.model';
+import { isNotNullable } from '../../shared/utils/is-not-nullables';
+import { filter, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +38,10 @@ export class RoutesFacade {
 
   public totalPages = toSignal(
     this.store.select(selectTotalPages),
+  );
+  public error$ = this.store.select(selectRoutesError).pipe(
+    filter(isNotNullable),
+    map(error => error.message),
   );
 
   public changePage(pageNumber: number) {

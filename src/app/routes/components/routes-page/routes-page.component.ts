@@ -42,9 +42,12 @@ export class RoutesPageComponent {
   );
   private stationsFacade = inject(StationsFacade);
 
+<<<<<<< HEAD
   public isCreating = signal(false);
   public routes = this.routesFacade.routes;
 
+=======
+>>>>>>> 44eae0c (feat: resolve converstations)
   constructor() {
     this.routesFacade.getRoutes();
     this.carriagesFacade.getCarriages();

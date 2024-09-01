@@ -59,18 +59,14 @@ export class RouteComponent {
 
     this.dialogs
       .open<boolean>(TUI_CONFIRM, {
-        label: 'Are you sure in deleting route?',
+        label:
+          'Are you sure you want to delete this route?',
         size: 's',
         data,
       })
-      .pipe(
-        tap(() => {
-          this.routesFacade.deleteRoute(
-            this.routeInput().id,
-          );
-        }),
-      )
-      .subscribe();
+      .subscribe(() =>
+        this.routesFacade.deleteRoute(this.routeInput().id),
+      );
   }
 
   protected handleUpdate() {
