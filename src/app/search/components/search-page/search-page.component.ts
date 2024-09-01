@@ -35,6 +35,7 @@ import {
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NominatimResponse } from '../../../core/models/geocoding-response';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'tra-search-page',
@@ -50,6 +51,7 @@ import { NominatimResponse } from '../../../core/models/geocoding-response';
     TuiComboBoxModule,
     TuiFilterByInputPipe,
     TuiDataListWrapper,
+    FilterComponent,
     AsyncPipe,
   ],
   templateUrl: './search-page.component.html',
