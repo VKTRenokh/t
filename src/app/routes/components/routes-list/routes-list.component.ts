@@ -32,7 +32,7 @@ export class RoutesListComponent {
     this.routesFacade.paginatedRoutes;
   protected currentPage = this.routesFacade.currentPage;
   protected totalPages = this.routesFacade.totalPages;
-  protected error = this.routesFacade.error$;
+  protected error$ = this.routesFacade.error$;
 
   protected goToPage(pageNumber: number) {
     this.routesFacade.changePage(pageNumber);
