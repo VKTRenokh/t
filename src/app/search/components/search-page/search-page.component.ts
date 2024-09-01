@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -36,6 +38,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NominatimResponse } from '../../../core/models/geocoding-response';
 import { FilterComponent } from '../filter/filter.component';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'tra-search-page',
@@ -60,6 +63,7 @@ import { FilterComponent } from '../filter/filter.component';
 })
 export class SearchPageComponent {
   private formBuilder = inject(FormBuilder);
+  private searchService = inject(SearchService);
   protected geocodingHttpService = inject(
     GeocodingHttpService,
   );
@@ -86,8 +90,15 @@ export class SearchPageComponent {
     );
   }
 
-  public submit() {
-    console.log('Submit');
+  private from = signal<NominatimResponse | undefined>(
+    undefined,
+  );
+  private to = signal<NominatimResponse | undefined>(
+    undefined,
+  );
+
+  public async submit() {
+    console.log(this.from(), this.to());
   }
 
   protected fromAddress$ =
@@ -100,12 +111,25 @@ export class SearchPageComponent {
       this.autocompleteRequest.bind(this),
     );
 
+  private stringifyAddress(address: NominatimResponse) {
+    return `${address.address.city || ''} ${address.address.state || ''} ${address.address.country || ''}`;
+  }
+
+  private getCitySignal(
+    control: string,
+  ): WritableSignal<NominatimResponse | undefined> {
+    //@ts-expect-error !!!!!!!!!
+    return this[control];
+  }
+
   protected onSelect(
     address: NominatimResponse,
     control: string,
   ) {
-    const fullAddress = `${address.address.city || ''} ${address.address.state || ''} ${address.address.country || ''}`;
+    const fullAddress = this.stringifyAddress(address);
     this.form.get(control)!.setValue(fullAddress);
+
+    this.getCitySignal(control).set(address);
   }
 
   private autocompleteRequest(
