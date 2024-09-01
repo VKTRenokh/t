@@ -46,6 +46,15 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
+    path: 'orders',
+    loadComponent: () =>
+      import(
+        './orders/components/order-page/order-page.component.js'
+      ).then(M => M.OrderPageComponent),
+    canMatch: [authGuard],
+  },
+
+  {
     path: 'manager',
     canMatch: [managerGuard],
     resolve: { profile: profileResolver },
