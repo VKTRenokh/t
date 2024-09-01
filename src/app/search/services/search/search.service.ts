@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LatLng } from 'leaflet';
+import { LatLngTuple } from 'leaflet';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,13 @@ export class SearchService {
   private path = '/api/search';
   private http = inject(HttpClient);
 
-  public search(from: LatLng, to: LatLng, time: Date) {
-    //return this.http.get(this.path, {params:});
+  public search(
+    from: LatLngTuple,
+    to: LatLngTuple,
+    time: number,
+  ) {
+    return this.http.get(
+      `${this.path}?fromLatitude=${from[0]}&fromLongitude=${from[1]}&toLatitude=${to[0]}&toLongitude=${to[1]}&time=${time}`,
+    );
   }
 }

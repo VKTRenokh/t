@@ -97,8 +97,43 @@ export class SearchPageComponent {
     undefined,
   );
 
+  private getTime() {
+    const value = this.form.getRawValue();
+
+    if (!value.date) {
+      return;
+    }
+
+    const day = value.date[0];
+    const time = value.date[0];
+
+    console.log(time.valueOf(), 'dafasdfads');
+
+    if (
+      !('toLocalNativeDate' in day) ||
+      !('toAbsoluteMilliseconds' in time)
+    ) {
+      return;
+    }
+
+    const nativeTime = day.toLocalNativeDate().getTime();
+
+    return time
+      ? nativeTime + time.toAbsoluteMilliseconds()
+      : nativeTime;
+  }
+
   public async submit() {
-    console.log(this.from(), this.to());
+    const from = this.from();
+    const to = this.to();
+    const value = this.form.getRawValue();
+
+    console.log(new Date(this.getTime()!).toString());
+    //this.searchService.search(
+    //  [from.lat, from.lon],
+    //  [to.lat, to.lon],
+    //  value.date!.
+    //);
   }
 
   protected fromAddress$ =
