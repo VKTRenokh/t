@@ -77,9 +77,7 @@ export class CarriagesEffects {
           .pipe(
             switchMap(() =>
               of(
-                CarriagesActions.updateCarriageSuccess({
-                  carriage: action.carriage,
-                }),
+                CarriagesActions.updateCarriageSuccess(),
                 CarriagesActions.getCarriages(),
               ),
             ),

@@ -30,17 +30,9 @@ export const carriagesReducer = createReducer(
       carriagesList: [carriage, ...state.carriagesList],
     }),
   ),
-  on(
-    CarriagesActions.updateCarriageSuccess,
-    (state, { carriage }) => ({
-      ...state,
-      carriagesList: state.carriagesList.map(oldCarriage =>
-        carriage.code === oldCarriage.code
-          ? { ...oldCarriage, ...carriage }
-          : oldCarriage,
-      ),
-    }),
-  ),
+  on(CarriagesActions.updateCarriageSuccess, state => ({
+    ...state,
+  })),
   on(StationsActions.failure, (state, { error }) => ({
     ...state,
     error: error,

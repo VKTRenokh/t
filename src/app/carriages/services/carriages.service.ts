@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import {
-  Carriage,
-  CarriageObject,
-} from '../interfaces/carriages.interface';
+import { Carriage } from '../interfaces/carriages.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +15,7 @@ export class CarriagesService {
     return this.httpClient.get<Carriage[]>(this.url);
   }
 
-  public createCarriage(carriage: CarriageObject) {
+  public createCarriage(carriage: Carriage) {
     return this.httpClient.post<string>(this.url, carriage);
   }
 

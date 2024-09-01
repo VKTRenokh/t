@@ -64,20 +64,21 @@
     @if (displayForm) {
       <h2>Carriages prototype</h2>
       <tra-carriage
-        [carriageProps]="{
-          name: carriagesForm.value.name!,
-          rows: carriagesForm.value.rows!,
-          leftSeats: carriagesForm.value.leftSeats!,
-          rightSeats: carriagesForm.value.rightSeats!,
-          code: '',
-        }"
+        [name]="this.carriagesForm.value.name!"
+        [rows]="this.carriagesForm.value.rows!"
+        [leftSeats]="this.carriagesForm.value.leftSeats!"
+        [rightSeats]="this.carriagesForm.value.rightSeats!"
       />
     }
     <h2>Carriages list</h2>
     @for (carriage of carriages | async; track $index) {
       <tra-carriage
-        [carriageProps]="carriage"
-        (updataeCarriage)="upadateCarriage($event)"
+        [name]="carriage.name"
+        [rows]="carriage.rows"
+        [leftSeats]="carriage.leftSeats"
+        [rightSeats]="carriage.rightSeats"
+        [code]="carriage.code"
+        (updateCarriage)="updateCarriage($event)"
       />
     }
   </div>

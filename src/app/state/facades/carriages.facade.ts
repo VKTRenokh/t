@@ -7,10 +7,7 @@ import {
   selectCarriagesError,
 } from '../selectors/carriages.selector';
 import { CarriagesActions } from '../actions/carriages.action';
-import {
-  Carriage,
-  CarriageObject,
-} from '../../carriages/interfaces/carriages.interface';
+import { Carriage } from '../../carriages/interfaces/carriages.interface';
 import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { isNotNullable } from '../../shared/utils/is-not-nullables';
@@ -27,7 +24,7 @@ export class CarriagesFacade {
     this.store.dispatch(CarriagesActions.getCarriages());
   }
 
-  public createCarriage(carriage: CarriageObject) {
+  public createCarriage(carriage: Carriage) {
     this.store.dispatch(
       CarriagesActions.createCarriage({ carriage }),
     );

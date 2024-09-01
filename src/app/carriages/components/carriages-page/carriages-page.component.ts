@@ -18,7 +18,6 @@ import { CarriageComponent } from '../carriage/carriage.component';
 import { Carriage } from '../../interfaces/carriages.interface';
 import { AsyncPipe } from '@angular/common';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'tra-carriages-page',
@@ -42,15 +41,13 @@ export class CarriagesPageComponent implements OnInit {
 
   private carriagesFacade = inject(CarriagesFacade);
 
-  private store = inject(Store);
-
   public carriages = this.carriagesFacade.carriages;
 
   public displayForm = false;
 
   public updateMode = false;
 
-  public codeForUpdate = '';
+  public codeForUpdate: string | undefined = '';
 
   public error = this.carriagesFacade.error;
 
@@ -100,13 +97,8 @@ export class CarriagesPageComponent implements OnInit {
     this.displayForm = false;
   }
 
-  public upadateCarriage(carriage: Carriage) {
-    this.carriagesForm.patchValue({
-      name: carriage.name,
-      rows: carriage.rows,
-      leftSeats: carriage.leftSeats,
-      rightSeats: carriage.rightSeats,
-    });
+  public updateCarriage(carriage: Carriage) {
+    this.carriagesForm.patchValue({ ...carriage });
 
     this.updateMode = true;
     this.displayForm = true;

@@ -1,8 +1,7 @@
 export interface Carriage {
-  code: string;
+  code?: string;
   name: string;
   rows: number;
   leftSeats: number;
   rightSeats: number;
 }
-export type CarriageObject = Omit<Carriage, 'code'>;
