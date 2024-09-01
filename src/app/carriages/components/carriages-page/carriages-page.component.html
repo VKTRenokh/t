@@ -7,13 +7,16 @@
   >
     Create carriage
   </button>
-  @if (displayForm) {
+  @if (displayForm()) {
     <form
       [formGroup]="carriagesForm"
       class="tui-form"
       (submit)="onSubmit()"
     >
-      <tui-error [error]="error()!" />
+      @if (error(); as error) {
+        <tui-error [error]="error" />
+      }
+
       <h3 class="tui-form__header">Create Carriage</h3>
       <div class="tui-form__row">
         <tui-input formControlName="name">
@@ -61,7 +64,7 @@
     </form>
   }
   <div class="carriages__list">
-    @if (displayForm) {
+    @if (displayForm()) {
       <h2>Carriages prototype</h2>
       <tra-carriage
         [name]="this.carriagesForm.value.name!"
