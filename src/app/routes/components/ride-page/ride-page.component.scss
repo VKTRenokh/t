@@ -1,0 +1,22 @@
+:host {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.ride {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 1rem;
+    margin-bottom: 1rem;
+
+    button {
+      margin-left: auto;
+    }
+  }
+
+  &__main {
+    padding-inline: 1rem;
+  }
+}
