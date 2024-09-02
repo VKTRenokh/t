@@ -15,7 +15,7 @@ export interface NominatimResponse {
   address: Address;
 }
 
-interface Address {
+export interface Address {
   city: string;
   state?: string;
   country: string;

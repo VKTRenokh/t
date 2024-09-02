@@ -31,7 +31,10 @@ import { GeocodingHttpService } from '../../services/geocoding-http.service';
 import { AsyncPipe } from '@angular/common';
 import { debounceTime, Observable, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NominatimResponse } from '../../../core/models/geocoding-response';
+import {
+  Address,
+  NominatimResponse,
+} from '../../../core/models/geocoding-response';
 import { FilterComponent } from '../filter/filter.component';
 import { SearchFacadeService } from '../../services/search-facade/search-facade.service';
 import { addSpace } from '../../utils/add-space/add-space.util';
@@ -138,7 +141,16 @@ export class SearchPageComponent {
     );
 
   private stringifyAddress(address: NominatimResponse) {
-    return `${address.address.city ?? ''}${addSpace(address.address.state) ?? ''}${addSpace(address.address.country) ?? ''}`.trim();
+    const keys: (keyof Address)[] = [
+      'city',
+      'state',
+      'country',
+    ];
+
+    return keys
+      .map(key => addSpace(address.address[key]))
+      .join('')
+      .trim();
   }
 
   private getCitySignal(
