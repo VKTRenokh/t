@@ -15,8 +15,6 @@ export class SearchService {
     to: LatLngStringTuple,
     time: number,
   ) {
-    console.log(from, to, time, 'request');
-
     return this.http.get(
       `${this.path}?fromLatitude=${from[0]}&fromLongitude=${from[1]}&toLatitude=${to[0]}&toLongitude=${to[1]}&time=${time}`,
     );
