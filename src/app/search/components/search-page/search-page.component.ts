@@ -75,7 +75,7 @@ export class SearchPageComponent {
     to: this.formBuilder.control<
       NominatimResponse | string
     >('', [Validators.required]),
-    date: this.formBuilder.control(
+    date: this.formBuilder.control<[TuiDay, TuiTime]>(
       [this.getNextTuiDay(), TuiTime.currentLocal()],
       [Validators.required, futureDateValidator],
     ),
@@ -105,16 +105,7 @@ export class SearchPageComponent {
     }
 
     const day = value.date[0];
-    const time = value.date[0];
-
-    console.log(time.valueOf(), 'dafasdfads');
-
-    if (
-      !('toLocalNativeDate' in day) ||
-      !('toAbsoluteMilliseconds' in time)
-    ) {
-      return;
-    }
+    const time = value.date[1];
 
     const nativeTime = day.toLocalNativeDate().getTime();
 
@@ -126,14 +117,16 @@ export class SearchPageComponent {
   public async submit() {
     const from = this.from();
     const to = this.to();
-    const value = this.form.getRawValue();
 
-    console.log(new Date(this.getTime()!).toString());
-    //this.searchService.search(
-    //  [from.lat, from.lon],
-    //  [to.lat, to.lon],
-    //  value.date!.
-    //);
+    if (!from || !to) {
+      return;
+    }
+
+    const time = this.getTime()!;
+
+    this.searchService
+      .search([from.lat, from.lon], [to.lat, to.lon], time)
+      .subscribe(console.log);
   }
 
   protected fromAddress$ =
