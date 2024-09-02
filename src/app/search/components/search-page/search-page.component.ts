@@ -39,6 +39,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NominatimResponse } from '../../../core/models/geocoding-response';
 import { FilterComponent } from '../filter/filter.component';
 import { SearchService } from '../../services/search/search.service';
+import { SearchFacadeService } from '../../services/search-facade/search-facade.service';
 
 @Component({
   selector: 'tra-search-page',
@@ -63,7 +64,7 @@ import { SearchService } from '../../services/search/search.service';
 })
 export class SearchPageComponent {
   private formBuilder = inject(FormBuilder);
-  private searchService = inject(SearchService);
+  private searchFacade = inject(SearchFacadeService);
   protected geocodingHttpService = inject(
     GeocodingHttpService,
   );
@@ -124,9 +125,11 @@ export class SearchPageComponent {
 
     const time = this.getTime()!;
 
-    this.searchService
-      .search([from.lat, from.lon], [to.lat, to.lon], time)
-      .subscribe(console.log);
+    this.searchFacade.search(
+      [from.lat, from.lon],
+      [to.lat, to.lon],
+      time,
+    );
   }
 
   protected fromAddress$ =
