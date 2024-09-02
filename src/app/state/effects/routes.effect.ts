@@ -4,9 +4,9 @@ import {
   createEffect,
   ofType,
 } from '@ngrx/effects';
-import { RoutesService } from '../../routes/services/routes.service';
 import { RoutesActions } from '../actions/routes.action';
 import { catchError, exhaustMap, map, of } from 'rxjs';
+import { RoutesService } from '../../routes/services/routes.service';
 
 @Injectable()
 export class RoutesEffects {

@@ -18,7 +18,6 @@ const adminRoutes: Routes = [
       import(
         './routes/components/routes-page/routes-page.component.js'
       ).then(M => M.RoutesPageComponent),
-    children: [],
   },
   {
     path: 'carriages',
