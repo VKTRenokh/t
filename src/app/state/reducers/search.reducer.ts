@@ -24,8 +24,8 @@ export const searchReducer = createReducer(
     data,
     loading: false,
   })),
-  on(SearchActions.failure, state => ({
-    ...state,
-    loading: false,
-  })),
+  on(SearchActions.failure, (state, { error }) => {
+    console.log(error);
+    return { ...state, loading: false, error };
+  }),
 );

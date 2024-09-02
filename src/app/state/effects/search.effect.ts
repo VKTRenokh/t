@@ -6,7 +6,7 @@ import {
 } from '@ngrx/effects';
 import { SearchService } from '../../search/services/search/search.service';
 import { SearchActions } from '../actions/search.action';
-import { exhaustMap, map } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 
 @Injectable()
 export class SearchEffects {
@@ -22,6 +22,13 @@ export class SearchEffects {
           .pipe(
             map(data =>
               SearchActions.searchSuccess({ data }),
+            ),
+            catchError(error =>
+              of(
+                SearchActions.failure({
+                  error: error.error,
+                }),
+              ),
             ),
           ),
       ),
