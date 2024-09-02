@@ -91,4 +91,8 @@
     </div>
   </form>
   <tra-filter />
+  @let _data = data();
+  @if (_data) {
+    {{ _data.from.city }} - {{ _data.to.city }}
+  }
 </div>

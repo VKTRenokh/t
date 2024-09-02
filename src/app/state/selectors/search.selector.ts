@@ -8,3 +8,8 @@ export const selectError = createSelector(
   selectFeature,
   (state: SearchState) => state.error,
 );
+
+export const selectData = createSelector(
+  selectFeature,
+  (state: SearchState) => state.data,
+);

@@ -6,7 +6,7 @@ import {
 } from '@ngrx/effects';
 import { SearchService } from '../../search/services/search/search.service';
 import { SearchActions } from '../actions/search.action';
-import { exhaustMap, map, tap } from 'rxjs';
+import { exhaustMap, map } from 'rxjs';
 
 @Injectable()
 export class SearchEffects {
@@ -23,7 +23,6 @@ export class SearchEffects {
             map(data =>
               SearchActions.searchSuccess({ data }),
             ),
-            tap(data => console.log('Hello', data)),
           ),
       ),
     ),

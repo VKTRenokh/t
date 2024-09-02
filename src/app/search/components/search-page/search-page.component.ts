@@ -63,9 +63,12 @@ import { addSpace } from '../../utils/add-space/add-space.util';
 export class SearchPageComponent {
   private formBuilder = inject(FormBuilder);
   private searchFacade = inject(SearchFacadeService);
+
   protected geocodingHttpService = inject(
     GeocodingHttpService,
   );
+
+  public data = this.searchFacade.data;
 
   public form = this.formBuilder.group({
     from: this.formBuilder.control<
