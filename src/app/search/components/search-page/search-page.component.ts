@@ -167,7 +167,6 @@ export class SearchPageComponent {
     value: Observable<NominatimResponse | string | null>,
   ) {
     return value.pipe(
-      distinctUntilChanged(),
       debounceTime(300),
       switchMap(value =>
         this.geocodingHttpService.getAddress(value),
