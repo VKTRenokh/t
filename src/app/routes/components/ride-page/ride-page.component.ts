@@ -1,5 +1,4 @@
 import { DatePipe, NgFor, NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,29 +6,12 @@ import {
   inject,
   input,
   OnInit,
-  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/kit';
-import { tap } from 'rxjs';
-
-interface Segment {
-  time: [string, string];
-  price: Record<string, number>;
-}
-
-interface Ride {
-  rideId: number;
-  segments: Segment[];
-}
-
-interface Route {
-  id: number;
-  path: number[];
-  carriages: string[];
-  schedule: Ride[];
-}
+import { RideFacadeService } from '../../services/ride/ride-facade.service';
+import { Segment } from '../../models/ride/ride.model';
 
 @Component({
   selector: 'tra-ride-page',
@@ -47,26 +29,16 @@ interface Route {
   providers: [DatePipe],
 })
 export class RidePageComponent implements OnInit {
-  private datePipe = inject(DatePipe);
   public id = input<string>();
-  public route = signal<Route | null>(null);
 
+  private datePipe = inject(DatePipe);
+  private rideFacade = inject(RideFacadeService);
+
+  public ride = this.rideFacade.ride;
   public listOfStations = computed(() => {
-    const route = this.route();
+    const route = this.ride();
     return route ? route.path : [];
   });
-
-  private http = inject(HttpClient);
-
-  public getRoute() {
-    return this.http
-      .get<Route>(`/api/route/${this.id()}`)
-      .pipe(
-        tap(result =>
-          console.log('Profile fetched:', result),
-        ),
-      );
-  }
 
   public getPriceEntries(
     segment: Segment,
@@ -79,18 +51,7 @@ export class RidePageComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.getRoute().subscribe({
-      next: data => {
-        this.route.set(data);
-        console.log('Profile data:', data);
-        console.log(
-          'List of stations:',
-          this.listOfStations(),
-        );
-      },
-      error: error =>
-        console.error('Error fetching profile:', error),
-    });
+    this.rideFacade.getRide(Number(this.id()));
   }
 
   public createRide() {

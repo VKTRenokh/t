@@ -20,7 +20,7 @@
 
 <div class="ride__main">
   <tui-accordion class="container">
-    @for (ride of route()?.schedule; track ride.rideId) {
+    @for (ride of ride()?.schedule; track ride.rideId) {
       <tui-accordion-item>
         <h3>Ride {{ ride.rideId }}</h3>
         <ng-template tuiAccordionItemContent>
