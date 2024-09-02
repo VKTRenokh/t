@@ -64,13 +64,18 @@
                   >
                     <button>Edit</button>
                     @for (
-                      pricePair of getPriceEntries(segment);
+                      pricePair of segment.price | keyvalue;
                       track pricePair
                     ) {
                       <div>
-                        {{ pricePair[0] }}:
-                        {{ pricePair[1] }} €
-                        <button>Edit</button>
+                        {{ pricePair.key }} -
+                        {{
+                          pricePair.value
+                            | currency
+                              : 'EUR'
+                              : 'symbol'
+                              : '1.2-2'
+                        }}
                       </div>
                     }
                   </td>

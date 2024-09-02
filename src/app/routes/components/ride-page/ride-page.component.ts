@@ -1,4 +1,4 @@
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,11 +17,10 @@ import { Segment } from '../../models/ride/ride.model';
   selector: 'tra-ride-page',
   standalone: true,
   imports: [
+    CommonModule,
     TuiAccordion,
     TuiButton,
     RouterLink,
-    NgIf,
-    NgFor,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
