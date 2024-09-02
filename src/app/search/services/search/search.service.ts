@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-type LatLngStringTuple = [string, string];
+export type LatLngStringTuple = [string, string];
 
 @Injectable({
   providedIn: 'root',
