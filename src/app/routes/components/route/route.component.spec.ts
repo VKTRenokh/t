@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { RouteComponent } from './route.component';
 
@@ -8,9 +11,8 @@ describe('RouteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouteComponent]
-    })
-    .compileComponents();
+      imports: [RouteComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RouteComponent);
     component = fixture.componentInstance;

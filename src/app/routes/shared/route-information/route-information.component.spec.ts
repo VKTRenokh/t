@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { RouteInformationComponent } from './route-information.component';
 
@@ -8,11 +11,12 @@ describe('RouteInformationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouteInformationComponent]
-    })
-    .compileComponents();
+      imports: [RouteInformationComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(RouteInformationComponent);
+    fixture = TestBed.createComponent(
+      RouteInformationComponent,
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

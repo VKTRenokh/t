@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { CarriagesPageComponent } from './carriages-page.component';
 
@@ -8,11 +11,12 @@ describe('CarriagesPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CarriagesPageComponent]
-    })
-    .compileComponents();
+      imports: [CarriagesPageComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(CarriagesPageComponent);
+    fixture = TestBed.createComponent(
+      CarriagesPageComponent,
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
