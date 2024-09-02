@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   signal,
   WritableSignal,
@@ -38,6 +39,7 @@ import {
 import { FilterComponent } from '../filter/filter.component';
 import { SearchFacadeService } from '../../services/search-facade/search-facade.service';
 import { addSpace } from '../../utils/add-space/add-space.util';
+import { isNotFoundError } from '../../utils/is-not-found-error/is-not-found-error.util';
 
 @Component({
   selector: 'tra-search-page',
@@ -69,6 +71,9 @@ export class SearchPageComponent {
   );
 
   public data = this.searchFacade.data;
+  public isNotFound = computed(() =>
+    isNotFoundError(this.searchFacade.error()),
+  );
 
   public form = this.formBuilder.group({
     from: this.formBuilder.control<
