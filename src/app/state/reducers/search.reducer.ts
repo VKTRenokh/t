@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { ApiError } from '../../shared/models/api-error.model';
 import { SearchActions } from '../actions/search.action';
+import { Search } from '../../search/models/search/search.model';
 
 export interface SearchState {
   loading: boolean;
   error?: ApiError;
-  data?: unknown[];
+  data?: Search;
 }
 
 export const initialState: SearchState = {
@@ -20,8 +21,6 @@ export const searchReducer = createReducer(
   })),
   on(SearchActions.searchSuccess, (state, { data }) => ({
     ...state,
-    // TODO: Add search response models
-    // @ts-expect-error Add search response models
     data,
     loading: false,
   })),

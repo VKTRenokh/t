@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Search } from '../../models/search/search.model';
 
 export type LatLngStringTuple = [string, string];
 
@@ -15,7 +16,7 @@ export class SearchService {
     to: LatLngStringTuple,
     time: number,
   ) {
-    return this.http.get(
+    return this.http.get<Search>(
       `${this.path}?fromLatitude=${from[0]}&fromLongitude=${from[1]}&toLatitude=${to[0]}&toLongitude=${to[1]}&time=${time}`,
     );
   }
