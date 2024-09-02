@@ -14,7 +14,10 @@
           From city
           @if (fromAddress) {
             <tui-data-list *tuiDataList class="data-list">
-              @for (item of fromAddress; track item) {
+              @for (
+                item of fromAddress;
+                track item.place_id
+              ) {
                 <button
                   tuiOption
                   [value]="item"

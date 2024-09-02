@@ -29,16 +29,10 @@ import {
 } from '@taiga-ui/kit';
 import { GeocodingHttpService } from '../../services/geocoding-http.service';
 import { AsyncPipe } from '@angular/common';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  Observable,
-  switchMap,
-} from 'rxjs';
+import { debounceTime, Observable, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NominatimResponse } from '../../../core/models/geocoding-response';
 import { FilterComponent } from '../filter/filter.component';
-import { SearchService } from '../../services/search/search.service';
 import { SearchFacadeService } from '../../services/search-facade/search-facade.service';
 
 @Component({
