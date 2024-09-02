@@ -93,9 +93,13 @@
   <tra-filter />
   @let _data = data();
   @if (_data) {
-    {{ _data.from.city }} - {{ _data.to.city }}
+    @for (route of _data.routes; track route.id) {
+      <tra-available-ride />
+    } @empty {
+      <h2>No routes for these stations :(</h2>
+    }
   }
   @if (isNotFound()) {
-    <h2>No routes found :(</h2>
+    <h2>No stations found :(</h2>
   }
 </div>

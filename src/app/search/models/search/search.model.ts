@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import { Route } from '../../../routes/models/route/route.model';
 
 export interface SearchGeolocation {
   latitude: number;

@@ -26,4 +26,8 @@ export class SearchFacadeService {
       SearchActions.search({ from, to, time }),
     );
   }
+
+  public resetError() {
+    this.store.dispatch(SearchActions.resetError());
+  }
 }

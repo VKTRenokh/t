@@ -28,4 +28,8 @@ export const searchReducer = createReducer(
     console.log(error);
     return { ...state, loading: false, error };
   }),
+  on(SearchActions.resetError, state => ({
+    ...state,
+    error: undefined,
+  })),
 );

@@ -40,6 +40,7 @@ import { FilterComponent } from '../filter/filter.component';
 import { SearchFacadeService } from '../../services/search-facade/search-facade.service';
 import { addSpace } from '../../utils/add-space/add-space.util';
 import { isNotFoundError } from '../../utils/is-not-found-error/is-not-found-error.util';
+import { AvailableRideComponent } from '../available-ride/available-ride.component';
 
 @Component({
   selector: 'tra-search-page',
@@ -56,6 +57,7 @@ import { isNotFoundError } from '../../utils/is-not-found-error/is-not-found-err
     TuiFilterByInputPipe,
     TuiDataListWrapper,
     FilterComponent,
+    AvailableRideComponent,
     AsyncPipe,
   ],
   templateUrl: './search-page.component.html',
@@ -97,6 +99,10 @@ export class SearchPageComponent {
     );
   }
 
+  constructor() {
+    this.searchFacade.resetError();
+  }
+
   private from = signal<NominatimResponse | undefined>(
     undefined,
   );
@@ -122,6 +128,8 @@ export class SearchPageComponent {
   }
 
   public async submit() {
+    this.searchFacade.resetError();
+
     const from = this.from();
     const to = this.to();
 

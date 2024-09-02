@@ -1,4 +1,8 @@
-import { createActionGroup, props } from '@ngrx/store';
+import {
+  createActionGroup,
+  emptyProps,
+  props,
+} from '@ngrx/store';
 import { LatLngStringTuple } from '../../search/services/search/search.service';
 import { ApiError } from '../../shared/models/api-error.model';
 import { Search } from '../../search/models/search/search.model';
@@ -13,5 +17,6 @@ export const SearchActions = createActionGroup({
     }>(),
     searchSuccess: props<{ data: Search }>(),
     failure: props<{ error: ApiError }>(),
+    resetError: emptyProps(),
   },
 });
