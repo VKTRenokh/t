@@ -28,6 +28,8 @@ import { carriagesReducer } from './state/reducers/carriages.reducer';
 import { CarriagesEffects } from './state/effects/carriages.effect';
 import { RoutesEffects } from './state/effects/routes.effect';
 import { routesReducer } from './state/reducers/routes.reducer';
+import { rideReducer } from './state/reducers/rides.reducer';
+import { RideEffects } from './state/effects/ride.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,6 +43,7 @@ export const appConfig: ApplicationConfig = {
       stations: stationsReducer,
       carriages: carriagesReducer,
       routes: routesReducer,
+      ride: rideReducer,
     }),
     provideEffects(
       AuthEffects,
@@ -48,6 +51,7 @@ export const appConfig: ApplicationConfig = {
       StationsEffects,
       CarriagesEffects,
       RoutesEffects,
+      RideEffects,
     ),
     provideStoreDevtools({
       maxAge: 25,
