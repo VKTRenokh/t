@@ -19,19 +19,34 @@
           <td class="tui-table__td tui-table__td_first">
             Station: {{ order.stationStart }}
             <br />
-            {{ getDepartureTime(order) | date: 'medium' }}
+            {{
+              calculateJourneyDetails(order).departureTime
+                | date: 'medium'
+            }}
           </td>
           <td class="tui-table__td">
             Station: {{ order.stationEnd }}
             <br />
-            {{ getArrivalsTime(order) | date: 'medium' }}
+            {{
+              calculateJourneyDetails(order).arrivalTime
+                | date: 'medium'
+            }}
           </td>
-          <td class="tui-table__td">TBD trip time</td>
-          <td class="tui-table__td">TBD calc carriage</td>
-          <td class="tui-table__td">TBD calc car number</td>
-          <td class="tui-table__td">TBD calc place</td>
+          <td class="tui-table__td">
+            {{
+              formatDuration(
+                calculateJourneyDetails(order).totalTimeMs
+              )
+            }}
+          </td>
+          <td class="tui-table__td">TBD</td>
+          <td class="tui-table__td">TBD</td>
+          <td class="tui-table__td">TBD</td>
           <td class="tui-table__td tui-table__td_last">
-            TBD calc price
+            {{
+              calculateJourneyDetails(order).totalPrice
+                | currency: 'EUR'
+            }}
           </td>
         </tr>
       }
