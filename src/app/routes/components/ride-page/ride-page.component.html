@@ -50,14 +50,24 @@
                   >
                     {{ listOfStations()[index] }}
                   </td>
+
                   <td class="tui-table__td">
+                    <button
+                      appearance="outline"
+                      iconStart="@tui.pencil"
+                      size="s"
+                      tuiIconButton
+                      [style.border-radius.%]="100"
+                      disabled="true"
+                    >
+                      Edit
+                    </button>
                     Arrival:
                     {{ formatDate(segment.time[0]) }}
-                    <button>Edit</button>
+
                     <br />
                     Departure:
                     {{ formatDate(segment.time[1]) }}
-                    <button>Edit</button>
                   </td>
                   <td
                     class="tui-table__td tui-table__td_last"
@@ -70,6 +80,11 @@
                       )
                     ) {
                       <button
+                        appearance="outline"
+                        iconStart="@tui.pencil"
+                        size="s"
+                        tuiIconButton
+                        [style.border-radius.%]="100"
                         (click)="
                           startEditing(
                             ride.rideId,
@@ -80,7 +95,6 @@
                       >
                         Edit Prices
                       </button>
-
                       @for (
                         pricePair of segment.price
                           | keyvalue;
@@ -100,6 +114,10 @@
                     } @else {
                       <div>
                         <button
+                          size="s"
+                          iconStart="@tui.save"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
                           (click)="
                             saveChanges(
                               ride.rideId,
@@ -111,6 +129,11 @@
                           Save Prices
                         </button>
                         <button
+                          size="s"
+                          appearance="destructive"
+                          iconStart="@tui.circle-x"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
                           (click)="
                             cancelEditing(
                               ride.rideId,
@@ -144,6 +167,7 @@
                                   ]
                                 "
                                 type="number"
+                                style="color: black"
                               />
                             </div>
                           }

@@ -8,7 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiIcon } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/kit';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import { TuiInputNumberModule } from '@taiga-ui/legacy';
@@ -39,6 +39,7 @@ type TempRideData = Record<
     FormsModule,
     TuiAccordion,
     TuiButton,
+    TuiIcon,
     TuiInputNumberModule,
     RouterLink,
     RideComponent,
