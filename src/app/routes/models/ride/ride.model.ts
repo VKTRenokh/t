@@ -14,3 +14,24 @@ export interface Ride {
   carriages: string[];
   schedule: SingleRide[];
 }
+
+export interface UpdateRide {
+  routeId: string;
+  rideId: number;
+  singleRide: SingleRide;
+}
+
+export interface EditingState {
+  time: boolean;
+  price: boolean;
+}
+
+export type TempRideData = Record<
+  number,
+  {
+    segments: {
+      price: Record<string, number>;
+      time: string[];
+    }[];
+  }
+>;

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class RideService {
   private http = inject(HttpClient);
 
-  public getRide(id: number): Observable<Ride> {
+  public getRide(id: string): Observable<Ride> {
     return this.http.get<Ride>(`/api/route/${id}`);
   }
 
@@ -27,21 +27,18 @@ export class RideService {
   }
 
   public updateRide(
-    routeId: number,
+    routeId: string,
     rideId: number,
-    rideData: SingleRide,
-  ): Observable<Ride> {
-    return this.http.put<Ride>(
+    singleRide: SingleRide,
+  ) {
+    return this.http.put(
       `/api/route/${routeId}/ride/${rideId}`,
-      rideData,
+      singleRide,
     );
   }
 
-  public deleteRide(
-    routeId: number,
-    rideId: number,
-  ): Observable<void> {
-    return this.http.delete<void>(
+  public deleteRide(routeId: number, rideId: number) {
+    return this.http.delete(
       `/api/route/${routeId}/ride/${rideId}`,
     );
   }

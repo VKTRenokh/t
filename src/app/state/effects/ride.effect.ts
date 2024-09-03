@@ -26,4 +26,36 @@ export class RideEffects {
       ),
     ),
   );
+
+  public updateRideEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RideActions.updateRide),
+      exhaustMap(({ data }) =>
+        this.rideService
+          .updateRide(
+            data.routeId,
+            data.rideId,
+            data.singleRide,
+          )
+          .pipe(
+            map(() => {
+              return RideActions.updateRideSuccess();
+            }),
+            exhaustMap(() =>
+              this.rideService.getRide(data.routeId).pipe(
+                map(ride =>
+                  RideActions.getRideSuccess({ ride }),
+                ),
+                catchError(error =>
+                  of(RideActions.failure({ error })),
+                ),
+              ),
+            ),
+            catchError(error =>
+              of(RideActions.failure({ error })),
+            ),
+          ),
+      ),
+    ),
+  );
 }
