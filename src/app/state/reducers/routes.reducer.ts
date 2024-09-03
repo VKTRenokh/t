@@ -45,9 +45,14 @@ export const routesReducer = createReducer(
   })),
   on(RoutesActions.updateRoute, (state, { id, route }) => ({
     ...state,
-    routes: state.routes.map(item =>
-      item.id === id ? route : item,
-    ),
+    routes: state.routes.map(item => {
+      if (item.id === id) {
+        const { path, carriages } = route;
+        const newRoute = { id, path, carriages };
+        return newRoute;
+      }
+      return item;
+    }),
   })),
   on(RoutesActions.changePage, (state, { pageNumber }) => ({
     ...state,

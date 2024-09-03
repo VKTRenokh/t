@@ -2,7 +2,7 @@
   @for (route of paginatedRoutes(); track $index) {
     <tra-route
       [routeInput]="route"
-      (updatingData)="handleOutput($event)"
+      (edit)="handleOutput($event)"
     />
   }
   @if (routes()?.length) {

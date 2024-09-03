@@ -14,7 +14,7 @@ export const RoutesActions = createActionGroup({
   events: {
     getRoutes: emptyProps(),
     getRoutesSuccess: props<{ routes: Route[] }>(),
-    updateRoute: props<{ id: number; route: Route }>(),
+    updateRoute: props<{ id: number; route: PostRoute }>(),
     deleteRoute: props<{ id: number }>(),
     deleteRouteSuccess: props<{ id: number }>(),
     createRoute: props<{ route: PostRoute }>(),

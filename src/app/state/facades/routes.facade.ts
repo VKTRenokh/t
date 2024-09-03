@@ -56,7 +56,7 @@ export class RoutesFacade {
     this.store.dispatch(RoutesActions.deleteRoute({ id }));
   }
 
-  public updateRoute(id: number, route: Route) {
+  public updateRoute(id: number, route: PostRoute) {
     this.store.dispatch(
       RoutesActions.updateRoute({ id, route }),
     );

@@ -27,7 +27,7 @@ import { Route } from '../../models/route/route.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutesListComponent {
-  public updatedData = output<Route>();
+  public edit = output<Route | undefined>();
   private routesFacade = inject(RoutesFacade);
   protected store = inject(Store<AppState>);
   protected routes = this.routesFacade.routes;
@@ -37,8 +37,8 @@ export class RoutesListComponent {
   protected totalPages = this.routesFacade.totalPages;
   protected error$ = this.routesFacade.error$;
 
-  protected handleOutput(event: Route) {
-    this.updatedData.emit(event);
+  protected handleOutput(event: Route | undefined) {
+    this.edit.emit(event);
   }
 
   protected goToPage(pageNumber: number) {

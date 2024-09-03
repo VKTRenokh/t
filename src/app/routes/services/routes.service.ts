@@ -16,7 +16,7 @@ export class RoutesService {
     return this.http.post('/api/route', route);
   }
 
-  public update(id: number, route: Route) {
+  public update(id: number, route: PostRoute) {
     return this.http.put(`/api/route/${id}`, route);
   }
 

@@ -66,24 +66,25 @@ export class CreateFormComponent {
   private carriagesFacade = inject(CarriagesFacade);
 
   public create = output();
-  public updateData$ = input.required<Route | undefined>();
-  public updateData = this.updateData$();
+  public edit = input<Route | undefined>();
 
-  private updatingPath = this.updateData
-    ? this.updateData.path
-    : [];
-
-  private updatingCarriages = this.updateData
-    ? this.updateData.carriages
-    : [];
+  private updatingPath = computed(() => {
+    const updateData = this.edit();
+    console.log(updateData);
+    return updateData ? updateData.path : [];
+  });
+  private updatingCarriages = computed(() => {
+    const updateData = this.edit();
+    return updateData ? updateData.carriages : [];
+  });
 
   public form = this.formBuilder.group({
     path: this.formBuilder.control<number[]>(
-      this.updatingPath,
+      this.updatingPath(),
       [requiredArray],
     ),
     carriages: this.formBuilder.control<string[]>(
-      this.updatingCarriages,
+      this.updatingCarriages(),
       [requiredArray],
     ),
   });
@@ -116,14 +117,17 @@ export class CreateFormComponent {
   }
 
   public submit() {
-    if (!this.updateData) {
+    const updateData = this.edit();
+    console.log(updateData);
+    if (!updateData) {
       this.routesFacade.createRoute(
         this.form.getRawValue(),
       );
     } else {
+      console.log(this.form.getRawValue());
       this.routesFacade.updateRoute(
-        this.updateData.id,
-        this.updateData,
+        updateData.id,
+        this.form.getRawValue(),
       );
     }
 

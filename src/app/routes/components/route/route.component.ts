@@ -35,11 +35,15 @@ import { RouterLink } from '@angular/router';
 })
 export class RouteComponent {
   public routeInput = input.required<Route>();
-  public updatingData = output<Route>();
+  public edit = output<Route | undefined>();
 
   private dialogs = inject(TuiDialogService);
   private routesFacade = inject(RoutesFacade);
   private stationsFacade = inject(StationsFacade);
+
+  constructor() {
+    this.edit.emit(undefined);
+  }
 
   protected convertPathToStations() {
     const stations = this.stationsFacade.stations();
@@ -73,6 +77,7 @@ export class RouteComponent {
   }
 
   protected handleUpdate() {
-    this.updatingData.emit(this.routeInput());
+    console.log('fuckkk');
+    this.edit.emit(this.routeInput());
   }
 }

@@ -16,8 +16,8 @@ import { CreateFormComponent } from '../create-form/create-form.component';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { RoutesListComponent } from '../routes-list/routes-list.component';
 import { StationsFacade } from '../../../state/facades/stations.facade';
-import { Route } from '../../models/routes.model';
 import { RoutesFacade } from '../../../state/facades/routes.facade';
+import { Route } from '../../models/route/route.model';
 
 @Component({
   selector: 'tra-routes-page',
@@ -44,7 +44,7 @@ export class RoutesPageComponent {
     TuiExpandComponent,
     { read: ChangeDetectorRef },
   );
-  public updatedData = signal<Route | undefined>(undefined);
+  public edit = signal<Route | undefined>(undefined);
 
   public isFormOpened = signal(false);
   public routes = this.routesFacade.routes;
@@ -55,9 +55,10 @@ export class RoutesPageComponent {
     this.stationsFacade.getStations();
   }
 
-  public handleUpdatedData(event: Route) {
+  public handleEditedData(event: Route | undefined) {
     this.isFormOpened.set(true);
-    this.updatedData.set(event);
+    console.log(event);
+    this.edit.set(event);
   }
 
   public create() {
@@ -66,7 +67,7 @@ export class RoutesPageComponent {
 
   public closeForm() {
     this.isFormOpened.set(false);
-    this.updatedData.set(undefined);
+    this.edit.set(undefined);
   }
 
   public onResize(): void {
