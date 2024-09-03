@@ -86,4 +86,22 @@ export class RideEffects {
       ),
     ),
   );
+
+  public createRideEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RideActions.createRide),
+      exhaustMap(action =>
+        this.rideService
+          .createRide(action.id, action.segments)
+          .pipe(
+            map(() => RideActions.createRideSuccess()),
+            catchError(error =>
+              of(
+                RideActions.failure({ error: error.error }),
+              ),
+            ),
+          ),
+      ),
+    ),
+  );
 }

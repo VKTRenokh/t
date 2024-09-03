@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { selectRide } from '../../../state/selectors/ride.selector';
 import { RideActions } from '../../../state/actions/ride.action';
 import { SingleRide } from '../../models/ride/ride.model';
+import { Segment } from '../../models/ride/ride.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,12 @@ export class RideFacadeService {
     console.log('del fasade called');
     this.store.dispatch(
       RideActions.deleteRide({ routeId, rideId }),
+    );
+  }
+
+  public createRide(id: number, segments: Segment[]) {
+    this.store.dispatch(
+      RideActions.createRide({ id, segments }),
     );
   }
 }

@@ -19,6 +19,9 @@
 </div>
 
 <div class="ride__main">
+  @if (isCreating()) {
+    <tra-create-ride [id]="idNumber()" />
+  }
   <tui-accordion class="container">
     @for (ride of ride()?.schedule; track ride.rideId) {
       <tui-accordion-item>

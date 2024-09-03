@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   Ride,
+  Segment,
   SingleRide,
 } from '../../models/ride/ride.model';
 import { Observable } from 'rxjs';
@@ -18,11 +19,11 @@ export class RideService {
 
   public createRide(
     routeId: number,
-    rideData: SingleRide,
+    data: Segment[],
   ): Observable<Ride> {
     return this.http.post<Ride>(
       `/api/route/${routeId}/ride`,
-      rideData,
+      { segments: data },
     );
   }
 

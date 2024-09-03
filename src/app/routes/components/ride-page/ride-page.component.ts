@@ -6,6 +6,7 @@ import {
   inject,
   input,
   OnInit,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -30,6 +31,7 @@ import {
 import { Ride } from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
 import { switchMap } from 'rxjs';
+import { CreateRideComponent } from '../create-ride/create-ride.component';
 
 interface EditingState {
   time: boolean;
@@ -60,6 +62,7 @@ type TempRideData = Record<
     RideComponent,
     ReactiveFormsModule,
     TuiInputDateTimeModule,
+    CreateRideComponent,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
@@ -68,6 +71,8 @@ type TempRideData = Record<
 })
 export class RidePageComponent implements OnInit {
   public id = input.required<string>();
+  public idNumber = computed(() => Number(this.id()));
+  public isCreating = signal(false);
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
@@ -229,7 +234,7 @@ export class RidePageComponent implements OnInit {
   }
 
   public createRide() {
-    console.log('create');
+    this.isCreating.update(value => !value);
   }
 
   protected deleteRide(event: Event, rideId: number): void {
