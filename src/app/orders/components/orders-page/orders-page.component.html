@@ -1,35 +1,40 @@
-<button (click)="test()">button</button>
-
-<table class="tui-table">
-  <tbody>
-    <tr class="tui-table__tr tui-table__tr_border_none">
-      <th class="tui-table__th tui-table__th_first">
-        Start trip station Start trip time
-      </th>
-      <th class="tui-table__th">
-        End trip station End trip time
-      </th>
-      <th class="tui-table__th">Trip duration</th>
-      <th class="tui-table__th">Carriage type</th>
-      <th class="tui-table__th">Car number</th>
-      <th class="tui-table__th">Seat number</th>
-      <th class="tui-table__th"></th>
-      <th class="tui-table__th tui-table__th_last">
-        Price
-      </th>
-    </tr>
-    @for (order of mockOrder; track order.id) {
+<div class="orders__main">
+  <table class="tui-table">
+    <tbody>
       <tr class="tui-table__tr tui-table__tr_border_none">
-        <td class="tui-table__td tui-table__td_first"></td>
-        <td class="tui-table__td">
-          How to cook RxJS in an Angular app
-        </td>
-        <td class="tui-table__td">Roman Sedov</td>
-        <td class="tui-table__td">20.06.2020</td>
-        <td class="tui-table__td tui-table__td_last">
-          angular.institute
-        </td>
+        <th class="tui-table__th tui-table__th_first">
+          Departure
+        </th>
+        <th class="tui-table__th">Arrivals</th>
+        <th class="tui-table__th">Trip duration</th>
+        <th class="tui-table__th">Carriage type</th>
+        <th class="tui-table__th">Car number</th>
+        <th class="tui-table__th">Seat number</th>
+        <th class="tui-table__th tui-table__th_last">
+          Price
+        </th>
       </tr>
-    }
-  </tbody>
-</table>
+      @for (order of mockOrder; track order.id) {
+        <tr class="tui-table__tr tui-table__tr_border_none">
+          <td class="tui-table__td tui-table__td_first">
+            Station: {{ order.stationStart }}
+            <br />
+            {{ getDepartureTime(order) | date: 'medium' }}
+          </td>
+          <td class="tui-table__td">
+            Station: {{ order.stationEnd }}
+            <br />
+            {{ getArrivalsTime(order) | date: 'medium' }}
+          </td>
+          <td class="tui-table__td">TBD trip time</td>
+          <td class="tui-table__td">TBD calc carriage</td>
+          <td class="tui-table__td">TBD calc car number</td>
+          <td class="tui-table__td">TBD calc place</td>
+          <td class="tui-table__td tui-table__td_last">
+            TBD calc price
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

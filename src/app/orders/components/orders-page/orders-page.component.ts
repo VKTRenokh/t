@@ -6,11 +6,13 @@ import {
 } from '@angular/core';
 import { mockOrderResponse } from '../../models/mock-response';
 import { ProfileFacade } from '../../../profile/services/profile-facade.service';
+import { Order } from '../../models/orders';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'tra-orders-page',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './orders-page.component.html',
   styleUrl: './orders-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,26 +24,18 @@ export class OrdersPageComponent {
 
   private http = inject(HttpClient);
   public mockOrder = mockOrderResponse;
-  public test() {
-    console.log(this.profile());
-    console.log(this.mockOrder);
 
-    this.http.get('/api/order').subscribe({
-      next: response => {
-        console.log('API Response:', response);
-      },
-      error: error => {
-        console.error('API Error:', error);
-      },
-    });
+  public getDepartureTime(journeyData: Order) {
+    const { path, stationStart, schedule } = journeyData;
+    const startIndex = path.indexOf(stationStart);
+    return new Date(schedule.segments[startIndex].time[0]);
+  }
 
-    this.http.get('/api/users').subscribe({
-      next: response => {
-        console.log('API Response:', response);
-      },
-      error: error => {
-        console.error('API Error:', error);
-      },
-    });
+  public getArrivalsTime(journeyData: Order) {
+    const { path, stationEnd, schedule } = journeyData;
+    const endIndex = path.indexOf(stationEnd);
+    return new Date(
+      schedule.segments[endIndex - 1].time[1],
+    );
   }
 }
