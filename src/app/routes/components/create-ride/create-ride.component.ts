@@ -8,6 +8,7 @@ import {
   FormArray,
   FormBuilder,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { TuiButton } from '@taiga-ui/core';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
@@ -38,16 +39,22 @@ export class CreateRideComponent {
     ]),
   });
 
+  public createPriceControl() {
+    return this.formBuilder.control<string | null>(null, [
+      Validators.required,
+    ]);
+  }
+
   public createSegmentFormGroup() {
     return this.formBuilder.group({
       departure: this.formBuilder.control<
         [TuiDay, TuiTime] | null
-      >(null),
+      >(null, [Validators.required]),
       arrival: this.formBuilder.control<
         [TuiDay, TuiTime] | null
-      >(null),
+      >(null, [Validators.required]),
       price: this.formBuilder.array([
-        this.formBuilder.control<string | null>(null),
+        this.createPriceControl(),
       ]),
     });
   }
