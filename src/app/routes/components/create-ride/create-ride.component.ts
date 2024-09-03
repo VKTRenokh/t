@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import {
   TuiButton,
+  TuiError,
   TuiIcon,
   TuiScrollbar,
 } from '@taiga-ui/core';
@@ -24,6 +25,8 @@ import {
 } from '@taiga-ui/legacy';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'tra-create-ride',
@@ -35,7 +38,10 @@ import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-t
     TuiInputModule,
     TuiScrollbar,
     TuiIcon,
+    TuiFieldErrorPipe,
+    TuiError,
     StationIdToNamePipe,
+    AsyncPipe,
   ],
   templateUrl: './create-ride.component.html',
   styleUrl: './create-ride.component.scss',
