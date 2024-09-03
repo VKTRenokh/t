@@ -62,20 +62,92 @@
                   <td
                     class="tui-table__td tui-table__td_last"
                   >
-                    <button>Edit</button>
-                    @for (
-                      pricePair of segment.price | keyvalue;
-                      track pricePair
+                    @if (
+                      !isEditing(
+                        ride.rideId,
+                        index,
+                        'price'
+                      )
                     ) {
+                      <button
+                        (click)="
+                          startEditing(
+                            ride.rideId,
+                            index,
+                            'price'
+                          )
+                        "
+                      >
+                        Edit Prices
+                      </button>
+
+                      @for (
+                        pricePair of segment.price
+                          | keyvalue;
+                        track pricePair
+                      ) {
+                        <div>
+                          {{ pricePair.key }} -
+                          {{
+                            pricePair.value
+                              | currency
+                                : 'EUR'
+                                : 'symbol'
+                                : '1.2-2'
+                          }}
+                        </div>
+                      }
+                    } @else {
                       <div>
-                        {{ pricePair.key }} -
-                        {{
-                          pricePair.value
-                            | currency
-                              : 'EUR'
-                              : 'symbol'
-                              : '1.2-2'
-                        }}
+                        <button
+                          (click)="
+                            saveChanges(
+                              ride.rideId,
+                              index,
+                              'price'
+                            )
+                          "
+                        >
+                          Save Prices
+                        </button>
+                        <button
+                          (click)="
+                            cancelEditing(
+                              ride.rideId,
+                              index,
+                              'price'
+                            )
+                          "
+                        >
+                          Cancel
+                        </button>
+                        @if (
+                          tempData[ride.rideId] &&
+                          tempData[ride.rideId].segments[
+                            index
+                          ]
+                        ) {
+                          @for (
+                            pricePair of tempData[
+                              ride.rideId
+                            ].segments[index].price
+                              | keyvalue;
+                            track pricePair.key
+                          ) {
+                            <div>
+                              {{ pricePair.key }} -
+                              <input
+                                [(ngModel)]="
+                                  tempData[ride.rideId]
+                                    .segments[index].price[
+                                    pricePair.key
+                                  ]
+                                "
+                                type="number"
+                              />
+                            </div>
+                          }
+                        }
                       </div>
                     }
                   </td>
