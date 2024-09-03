@@ -52,22 +52,93 @@
                   </td>
 
                   <td class="tui-table__td">
-                    <button
-                      appearance="outline"
-                      iconStart="@tui.pencil"
-                      size="s"
-                      tuiIconButton
-                      [style.border-radius.%]="100"
-                      disabled="true"
-                    >
-                      Edit
-                    </button>
-                    Arrival:
-                    {{ formatDate(segment.time[0]) }}
+                    @if (
+                      !isEditing(ride.rideId, index, 'time')
+                    ) {
+                      <button
+                        appearance="outline"
+                        iconStart="@tui.pencil"
+                        size="s"
+                        tuiIconButton
+                        [style.border-radius.%]="100"
+                        (click)="
+                          startEditing(
+                            ride.rideId,
+                            index,
+                            'time'
+                          )
+                        "
+                      >
+                        Edit
+                      </button>
+                      <br />
 
-                    <br />
-                    Departure:
-                    {{ formatDate(segment.time[1]) }}
+                      Arrival:
+                      {{ formatDate(segment.time[0]) }}
+                      Departure:
+                      {{ formatDate(segment.time[1]) }}
+                    } @else {
+                      <div>
+                        <button
+                          size="s"
+                          iconStart="@tui.save"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            saveChanges(
+                              ride.rideId,
+                              index,
+                              'time'
+                            )
+                          "
+                        >
+                          Save Time
+                        </button>
+                        <button
+                          size="s"
+                          appearance="destructive"
+                          iconStart="@tui.circle-x"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            cancelEditing(
+                              ride.rideId,
+                              index,
+                              'time'
+                            )
+                          "
+                        >
+                          Cancel
+                        </button>
+                        <br />
+                        @if (
+                          tempData[ride.rideId] &&
+                          tempData[ride.rideId].segments[
+                            index
+                          ]
+                        ) {
+                          Arrival:
+                          <input
+                            type="datetime"
+                            style="color: black"
+                            [(ngModel)]="
+                              tempData[ride.rideId]
+                                .segments[index].time[0]
+                            "
+                          />
+
+                          Departure:
+                          <input
+                            type="datetime"
+                            style="color: black"
+                            [(ngModel)]="
+                              tempData[ride.rideId]
+                                .segments[index].time[1]
+                            "
+                          />
+                        }
+                      </div>
+                    }
                   </td>
                   <td
                     class="tui-table__td tui-table__td_last"
