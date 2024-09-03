@@ -8,8 +8,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
-import { TuiAccordion } from '@taiga-ui/kit';
+import {
+  TuiButton,
+  TuiDialogService,
+  TuiIcon,
+} from '@taiga-ui/core';
+import {
+  TUI_CONFIRM,
+  TuiAccordion,
+  TuiConfirmData,
+} from '@taiga-ui/kit';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
   TuiInputDateTimeModule,
@@ -21,6 +29,7 @@ import {
 } from '@angular/forms';
 import { Ride } from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
+import { switchMap } from 'rxjs';
 
 interface EditingState {
   time: boolean;
@@ -62,6 +71,7 @@ export class RidePageComponent implements OnInit {
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
+  private readonly dialogs = inject(TuiDialogService);
 
   public ride = this.rideFacade.ride;
   public listOfStations = computed(() => {
@@ -233,8 +243,30 @@ export class RidePageComponent implements OnInit {
   public createRide() {
     console.log('create');
   }
-  public deleteRide(event: Event): void {
+
+  protected deleteRide(event: Event, rideId: number): void {
     event.stopPropagation();
-    console.log('delite ride ');
+
+    const data: TuiConfirmData = {
+      yes: 'Yes, pls delete it!',
+      no: 'No, just go back.',
+    };
+
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: `Are you sure you want to delete the Ride ${rideId}?`,
+        size: 's',
+        data,
+      })
+      .pipe(
+        switchMap(result => {
+          if (result) {
+            console.log('Processing deletion here');
+            // Perform deletion logic here
+          }
+          return [];
+        }),
+      )
+      .subscribe();
   }
 }
