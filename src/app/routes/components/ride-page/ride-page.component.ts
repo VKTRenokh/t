@@ -14,6 +14,7 @@ import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import { TuiInputNumberModule } from '@taiga-ui/legacy';
 import { FormsModule } from '@angular/forms';
 import { Ride } from '../../models/ride/ride.model';
+import { RideComponent } from '../ride/ride.component';
 
 interface EditingState {
   time: boolean;
