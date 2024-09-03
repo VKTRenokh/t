@@ -27,6 +27,7 @@ import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
+import { requiredArray } from '../../validators/required-array/required-array.validator';
 
 @Component({
   selector: 'tra-create-ride',
@@ -67,10 +68,10 @@ export class CreateRideComponent implements OnInit {
     return this.formBuilder.group({
       departure: this.formBuilder.control<
         [TuiDay, TuiTime] | null
-      >(null, [Validators.required]),
+      >(null, [requiredArray]),
       arrival: this.formBuilder.control<
         [TuiDay, TuiTime] | null
-      >(null, [Validators.required]),
+      >(null, [requiredArray]),
       price: this.formBuilder.array(
         this.carriages().map(() =>
           this.createPriceControl(),
