@@ -99,8 +99,44 @@ export class CreateRideComponent implements OnInit {
       ?.get('price') as FormArray;
   }
 
+  public calculateTime(tuple: [TuiDay, TuiTime]) {
+    const day = tuple[0];
+    const time = tuple[1];
+
+    return new Date(
+      day.toLocalNativeDate().getTime() +
+        time.toAbsoluteMilliseconds(),
+    ).toISOString();
+  }
+
+  public calculatePrice(prices: number[]) {
+    const carriageNames = this.carriages();
+
+    return Object.fromEntries(
+      prices.map((price, index) => [
+        carriageNames[index],
+        price,
+      ]),
+    );
+  }
+
+  public getValue() {
+    const raw = this.form.getRawValue();
+
+    return raw.segments.map(segment => {
+      return {
+        time: [
+          this.calculateTime(segment.departure),
+          this.calculateTime(segment.arrival),
+        ],
+        price: this.calculatePrice(segment.price),
+      };
+    });
+  }
+
   public submit() {
     console.log(this.form.getRawValue());
+    console.log(this.getValue(), 'not raw');
     //this.rideFacade.createRide(this.id(), []);
   }
 }
