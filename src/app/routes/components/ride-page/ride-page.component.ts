@@ -97,6 +97,22 @@ export class RidePageComponent implements OnInit {
     this.rideFacade.getRide(this.id()!);
   }
 
+  public compareDates(compareDate: string): boolean {
+    const now = new Date();
+    const comparisonDate = new Date(compareDate);
+
+    console.log(comparisonDate > now);
+
+    if (comparisonDate > now) {
+      //'The date is in the future.';
+      return true;
+    } else {
+      //      return 'The date is in the past.';
+
+      return false;
+    }
+  }
+
   public startEditing(
     rideId: number,
     segmentIndex: number,
@@ -164,6 +180,7 @@ export class RidePageComponent implements OnInit {
     const updatedRide: Ride = JSON.parse(
       JSON.stringify(this.ride()),
     );
+
     const targetRide = updatedRide.schedule.find(
       r => r.rideId === rideId,
     );
@@ -191,6 +208,8 @@ export class RidePageComponent implements OnInit {
       }
     }
 
+    console.log(targetRide);
+
     this.rideFacade.updateRide(
       this.id(),
       rideId,
@@ -213,5 +232,9 @@ export class RidePageComponent implements OnInit {
 
   public createRide() {
     console.log('create');
+  }
+  public deleteRide(event: Event): void {
+    event.stopPropagation();
+    console.log('delite ride ');
   }
 }
