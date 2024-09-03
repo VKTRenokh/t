@@ -123,6 +123,7 @@ export class CreateRideComponent implements OnInit {
   public getValue() {
     const raw = this.form.getRawValue();
 
+    // @ts-expect-error 234324
     return raw.segments.map(segment => {
       return {
         time: [
@@ -135,8 +136,6 @@ export class CreateRideComponent implements OnInit {
   }
 
   public submit() {
-    console.log(this.form.getRawValue());
-    console.log(this.getValue(), 'not raw');
-    //this.rideFacade.createRide(this.id(), []);
+    this.rideFacade.createRide(this.id(), this.getValue());
   }
 }
