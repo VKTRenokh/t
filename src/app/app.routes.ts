@@ -78,6 +78,15 @@ export const routes: Routes = [
     canMatch: [authGuard],
   },
   {
+    path: 'orders',
+    loadComponent: () =>
+      import(
+        './orders/components/orders-page/orders-page.component.js'
+      ).then(M => M.OrdersPageComponent),
+    pathMatch: 'full',
+    canMatch: [authGuard],
+  },
+  {
     path: 'admin',
     canMatch: [managerGuard],
     resolve: { profile: profileResolver },
