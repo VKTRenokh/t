@@ -1,4 +1,282 @@
-<p>ride-page works!</p>
-<a tuiButton routerLink="/manager/routes">Go back</a>
+<div class="ride__header">
+  <a
+    size="s"
+    appearance="whiteblock"
+    iconStart="@tui.arrow-left"
+    tuiIconButton
+    routerLink="/admin/routes"
+  >
+  </a>
+  <h2 tuiTitle>Route {{ id() }}</h2>
+  <button
+    tuiButton
+    size="s"
+    type="button"
+    (click)="createRide()"
+  >
+    Create Ride
+  </button>
+</div>
 
-{{ id() }}
+<div class="ride__main">
+  @if (isCreating()) {
+    <div
+      tuiPlatform="web"
+      tuiCardLarge
+      tuiSurface="elevated"
+    >
+      <tra-create-ride
+        [id]="idNumber()"
+        [path]="listOfStations()"
+        [carriages]="carriages()"
+      />
+    </div>
+  }
+  <tui-accordion class="container">
+    @for (ride of ride()?.schedule; track ride.rideId) {
+      <tui-accordion-item>
+        <h3>Ride {{ ride.rideId }}</h3>
+        @if (isThisDateInFuture(ride.segments[0].time[0])) {
+          <button
+            appearance="outline"
+            iconStart="@tui.trash-2"
+            size="s"
+            tuiIconButton
+            [style.border-radius.%]="100"
+            (click)="deleteRide($event, ride.rideId)"
+          >
+            Edit
+          </button>
+        }
+        <ng-template tuiAccordionItemContent>
+          <table class="tui-table">
+            <tbody>
+              <tr
+                class="tui-table__tr tui-table__tr_border_none"
+              >
+                <th class="tui-table__th">Station</th>
+                <th class="tui-table__th">Schedule</th>
+                <th
+                  class="tui-table__th tui-table__th_last"
+                >
+                  Prices
+                </th>
+              </tr>
+              @for (
+                segment of ride.segments;
+                track segment;
+                let index = $index
+              ) {
+                <tr
+                  class="tui-table__tr tui-table__tr_border_none"
+                >
+                  <td
+                    class="tui-table__td tui-table__td_first"
+                  >
+                    {{ listOfStations()[index] }}
+                  </td>
+
+                  <td class="tui-table__td">
+                    @if (
+                      !isEditing(ride.rideId, index, 'time')
+                    ) {
+                      <button
+                        appearance="outline"
+                        iconStart="@tui.pencil"
+                        size="s"
+                        tuiIconButton
+                        [style.border-radius.%]="100"
+                        (click)="
+                          startEditing(
+                            ride.rideId,
+                            index,
+                            'time'
+                          )
+                        "
+                      >
+                        Edit
+                      </button>
+                      <br />
+
+                      Arrival:
+                      {{ formatDate(segment.time[0]) }}
+                      Departure:
+                      {{ formatDate(segment.time[1]) }}
+                    } @else {
+                      <div>
+                        <button
+                          size="s"
+                          iconStart="@tui.save"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            saveChanges(
+                              ride.rideId,
+                              index,
+                              'time'
+                            )
+                          "
+                        >
+                          Save Time
+                        </button>
+                        <button
+                          size="s"
+                          appearance="destructive"
+                          iconStart="@tui.circle-x"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            cancelEditing(
+                              ride.rideId,
+                              index,
+                              'time'
+                            )
+                          "
+                        >
+                          Cancel
+                        </button>
+                        <br />
+                        @if (
+                          tempData[ride.rideId] &&
+                          tempData[ride.rideId].segments[
+                            index
+                          ]
+                        ) {
+                          Arrival:
+                          <input
+                            type="datetime"
+                            style="color: black"
+                            [(ngModel)]="
+                              tempData[ride.rideId]
+                                .segments[index].time[0]
+                            "
+                          />
+
+                          Departure:
+                          <input
+                            type="datetime"
+                            style="color: black"
+                            [(ngModel)]="
+                              tempData[ride.rideId]
+                                .segments[index].time[1]
+                            "
+                          />
+                        }
+                      </div>
+                    }
+                  </td>
+                  <td
+                    class="tui-table__td tui-table__td_last"
+                  >
+                    @if (
+                      !isEditing(
+                        ride.rideId,
+                        index,
+                        'price'
+                      )
+                    ) {
+                      <button
+                        appearance="outline"
+                        iconStart="@tui.pencil"
+                        size="s"
+                        tuiIconButton
+                        [style.border-radius.%]="100"
+                        (click)="
+                          startEditing(
+                            ride.rideId,
+                            index,
+                            'price'
+                          )
+                        "
+                      >
+                        Edit Prices
+                      </button>
+                      @for (
+                        pricePair of segment.price
+                          | keyvalue;
+                        track pricePair
+                      ) {
+                        <div>
+                          {{ pricePair.key }} -
+                          {{
+                            pricePair.value
+                              | currency
+                                : 'EUR'
+                                : 'symbol'
+                                : '1.2-2'
+                          }}
+                        </div>
+                      }
+                    } @else {
+                      <div>
+                        <button
+                          size="s"
+                          iconStart="@tui.save"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            saveChanges(
+                              ride.rideId,
+                              index,
+                              'price'
+                            )
+                          "
+                        >
+                          Save Prices
+                        </button>
+                        <button
+                          size="s"
+                          appearance="destructive"
+                          iconStart="@tui.circle-x"
+                          tuiIconButton
+                          [style.border-radius.%]="100"
+                          (click)="
+                            cancelEditing(
+                              ride.rideId,
+                              index,
+                              'price'
+                            )
+                          "
+                        >
+                          Cancel
+                        </button>
+                        @if (
+                          tempData[ride.rideId] &&
+                          tempData[ride.rideId].segments[
+                            index
+                          ]
+                        ) {
+                          @for (
+                            pricePair of tempData[
+                              ride.rideId
+                            ].segments[index].price
+                              | keyvalue;
+                            track pricePair.key
+                          ) {
+                            <div>
+                              {{ pricePair.key }} -
+                              <input
+                                [(ngModel)]="
+                                  tempData[ride.rideId]
+                                    .segments[index].price[
+                                    pricePair.key
+                                  ]
+                                "
+                                type="number"
+                                style="color: black"
+                              />
+                            </div>
+                          }
+                        }
+                      </div>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </ng-template>
+      </tui-accordion-item>
+    }
+  </tui-accordion>
+</div>
