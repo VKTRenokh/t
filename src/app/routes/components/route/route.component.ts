@@ -77,7 +77,6 @@ export class RouteComponent {
   }
 
   protected handleUpdate() {
-    console.log('fuckkk');
     this.edit.emit(this.routeInput());
   }
 }

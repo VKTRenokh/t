@@ -57,7 +57,6 @@ export class RoutesPageComponent {
 
   public handleEditedData(event: Route | undefined) {
     this.isFormOpened.set(true);
-    console.log(event);
     this.edit.set(event);
   }
 
