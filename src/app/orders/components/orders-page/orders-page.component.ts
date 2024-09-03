@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,8 @@ import { mockOrderResponse } from '../../models/mock-response';
 import { ProfileFacade } from '../../../profile/services/profile-facade.service';
 import { Order } from '../../models/orders';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CarriagesFacade } from '../../../state/facades/carriages.facade';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tra-orders-page',
@@ -18,9 +21,14 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 })
 export class OrdersPageComponent {
   private profileFacade = inject(ProfileFacade);
+  private carriagesFacade = inject(CarriagesFacade);
 
   public profile = this.profileFacade.profile;
+  public carriages = toSignal(
+    this.carriagesFacade.carriages,
+  );
 
+  private http = inject(HttpClient);
   public mockOrder = mockOrderResponse;
 
   public calculateJourneyDetails(journeyData: Order) {
@@ -67,14 +75,41 @@ export class OrdersPageComponent {
     };
   }
   //move to utils
-  public formatDuration(ms: number): string {
-    const seconds = Math.floor(ms / 1000);
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
+  public formatDuration(ms: number) {
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const minutes = Math.floor(
+      (ms % (1000 * 60 * 60)) / (1000 * 60),
+    );
 
-    return [hours, minutes, remainingSeconds]
-      .map(v => v.toString().padStart(2, '0'))
-      .join(':');
+    if (hours === 0) {
+      return `${minutes}m`;
+    } else {
+      return `${hours}h ${minutes}m`;
+    }
+  }
+
+  public needtoremove() {
+    this.carriagesFacade.getCarriages();
+    console.log(this.profile());
+    console.log(this.mockOrder);
+    console.log(this.carriages());
+
+    this.http.get('/api/order').subscribe({
+      next: response => {
+        console.log('API Response:', response);
+      },
+      error: error => {
+        console.error('API Error:', error);
+      },
+    });
+
+    this.http.get('/api/users').subscribe({
+      next: response => {
+        console.log('API Response:', response);
+      },
+      error: error => {
+        console.error('API Error:', error);
+      },
+    });
   }
 }

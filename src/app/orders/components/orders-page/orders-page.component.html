@@ -21,7 +21,7 @@
             <br />
             {{
               calculateJourneyDetails(order).departureTime
-                | date: 'medium'
+                | date: 'MMMM dd hh:mm'
             }}
           </td>
           <td class="tui-table__td">
@@ -29,7 +29,7 @@
             <br />
             {{
               calculateJourneyDetails(order).arrivalTime
-                | date: 'medium'
+                | date: 'MMMM dd hh:mm'
             }}
           </td>
           <td class="tui-table__td">
@@ -53,3 +53,5 @@
     </tbody>
   </table>
 </div>
+
+<button (click)="needtoremove()">needtoremove</button>
