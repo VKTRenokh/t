@@ -8,7 +8,7 @@
       </th>
     </tr>
     @for (
-      segment of ride.segments;
+      segment of ride().segments;
       track segment;
       let index = $index
     ) {
@@ -17,12 +17,10 @@
           {{ listOfStations()[index] }}
         </td>
         <td class="tui-table__td">
-          Arrival:
-          {{ formatDate(segment.time[0]) }}
+          Arrival: {{ segment.time[0] | date: 'medium' }}
           <button>Edit</button>
           <br />
-          Departure:
-          {{ formatDate(segment.time[1]) }}
+          Departure: {{ segment.time[1] | date: 'medium' }}
           <button>Edit</button>
         </td>
         <td class="tui-table__td tui-table__td_last">
@@ -33,10 +31,7 @@
           ) {
             <div>
               {{ pricePair.key }} -
-              {{
-                pricePair.value
-                  | currency: 'EUR' : 'symbol' : '1.2-2'
-              }}
+              {{ pricePair.value | currency: 'EUR' }}
             </div>
           }
         </td>

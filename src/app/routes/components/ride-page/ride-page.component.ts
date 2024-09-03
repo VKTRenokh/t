@@ -12,6 +12,7 @@ import { TuiButton } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/kit';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import { Segment } from '../../models/ride/ride.model';
+import { RideComponent } from '../ride/ride.component';
 
 @Component({
   selector: 'tra-ride-page',
@@ -21,6 +22,7 @@ import { Segment } from '../../models/ride/ride.model';
     TuiAccordion,
     TuiButton,
     RouterLink,
+    RideComponent,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
@@ -28,7 +30,7 @@ import { Segment } from '../../models/ride/ride.model';
   providers: [DatePipe],
 })
 export class RidePageComponent implements OnInit {
-  public id = input.required<string>();
+  public id = input<string>();
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
