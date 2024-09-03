@@ -28,7 +28,7 @@ import { Segment } from '../../models/ride/ride.model';
   providers: [DatePipe],
 })
 export class RidePageComponent implements OnInit {
-  public id = input<string>();
+  public id = input.required<string>();
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);

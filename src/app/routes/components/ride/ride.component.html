@@ -1,0 +1,46 @@
+<table class="tui-table">
+  <tbody>
+    <tr class="tui-table__tr tui-table__tr_border_none">
+      <th class="tui-table__th">Station</th>
+      <th class="tui-table__th">Schedule</th>
+      <th class="tui-table__th tui-table__th_last">
+        Prices
+      </th>
+    </tr>
+    @for (
+      segment of ride.segments;
+      track segment;
+      let index = $index
+    ) {
+      <tr class="tui-table__tr tui-table__tr_border_none">
+        <td class="tui-table__td tui-table__td_first">
+          {{ listOfStations()[index] }}
+        </td>
+        <td class="tui-table__td">
+          Arrival:
+          {{ formatDate(segment.time[0]) }}
+          <button>Edit</button>
+          <br />
+          Departure:
+          {{ formatDate(segment.time[1]) }}
+          <button>Edit</button>
+        </td>
+        <td class="tui-table__td tui-table__td_last">
+          <button>Edit</button>
+          @for (
+            pricePair of segment.price | keyvalue;
+            track pricePair
+          ) {
+            <div>
+              {{ pricePair.key }} -
+              {{
+                pricePair.value
+                  | currency: 'EUR' : 'symbol' : '1.2-2'
+              }}
+            </div>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
