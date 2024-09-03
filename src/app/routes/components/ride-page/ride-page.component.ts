@@ -40,6 +40,7 @@ type TempRideData = Record<
     TuiButton,
     TuiInputNumberModule,
     RouterLink,
+    RideComponent,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
