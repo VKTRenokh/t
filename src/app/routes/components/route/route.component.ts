@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   input,
+  output,
 } from '@angular/core';
 import {
   TuiButton,
@@ -34,6 +35,7 @@ import { RouterLink } from '@angular/router';
 })
 export class RouteComponent {
   public routeInput = input.required<Route>();
+  public updatingData = output<Route>();
 
   private dialogs = inject(TuiDialogService);
   private routesFacade = inject(RoutesFacade);
@@ -71,9 +73,6 @@ export class RouteComponent {
   }
 
   protected handleUpdate() {
-    this.routesFacade.updateRoute(
-      this.routeInput().id,
-      this.routeInput(),
-    );
+    this.updatingData.emit(this.routeInput());
   }
 }

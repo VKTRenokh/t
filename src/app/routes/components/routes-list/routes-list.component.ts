@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  output,
 } from '@angular/core';
 import { RouteComponent } from '../route/route.component';
 import { RoutesFacade } from '../../../state/facades/routes.facade';
@@ -10,6 +11,7 @@ import { AppState } from '../../../state/app.state';
 import { TuiPagination } from '@taiga-ui/kit';
 import { TuiError } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
+import { Route } from '../../models/route/route.model';
 
 @Component({
   selector: 'tra-routes-list',
@@ -25,6 +27,7 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutesListComponent {
+  public updatedData = output<Route>();
   private routesFacade = inject(RoutesFacade);
   protected store = inject(Store<AppState>);
   protected routes = this.routesFacade.routes;
@@ -33,6 +36,10 @@ export class RoutesListComponent {
   protected currentPage = this.routesFacade.currentPage;
   protected totalPages = this.routesFacade.totalPages;
   protected error$ = this.routesFacade.error$;
+
+  protected handleOutput(event: Route) {
+    this.updatedData.emit(event);
+  }
 
   protected goToPage(pageNumber: number) {
     this.routesFacade.changePage(pageNumber);

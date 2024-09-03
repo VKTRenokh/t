@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  input,
   output,
 } from '@angular/core';
 import {
@@ -30,11 +31,12 @@ import type {
 } from '@taiga-ui/cdk';
 import { TuiHeader } from '@taiga-ui/layout';
 import { AsyncPipe } from '@angular/common';
-import { RoutesFacadeService } from '../../services/routes-facade/routes-facade.service';
 import { requiredArray } from '../../validators/required-array/required-array.validator';
 import { CarriagesFacade } from '../../../state/facades/carriages.facade';
 import { map } from 'rxjs';
 import { FilterByConnectionPipe } from '../../pipes/filter-by-connection/filter-by-connection.pipe';
+import { Route } from '../../models/routes.model';
+import { RoutesFacade } from '../../../state/facades/routes.facade';
 
 @Component({
   selector: 'tra-create-form',
@@ -60,18 +62,28 @@ import { FilterByConnectionPipe } from '../../pipes/filter-by-connection/filter-
 export class CreateFormComponent {
   private formBuilder = inject(NonNullableFormBuilder);
   private stationsFacade = inject(StationsFacade);
-  private routesFacade = inject(RoutesFacadeService);
+  private routesFacade = inject(RoutesFacade);
   private carriagesFacade = inject(CarriagesFacade);
 
   public create = output();
+  public updateData$ = input.required<Route | undefined>();
+  public updateData = this.updateData$();
+
+  private updatingPath = this.updateData
+    ? this.updateData.path
+    : [];
+
+  private updatingCarriages = this.updateData
+    ? this.updateData.carriages
+    : [];
 
   public form = this.formBuilder.group({
     path: this.formBuilder.control<number[]>(
-      [],
+      this.updatingPath,
       [requiredArray],
     ),
     carriages: this.formBuilder.control<string[]>(
-      [],
+      this.updatingCarriages,
       [requiredArray],
     ),
   });
@@ -104,7 +116,16 @@ export class CreateFormComponent {
   }
 
   public submit() {
-    this.routesFacade.createRoute(this.form.getRawValue());
+    if (!this.updateData) {
+      this.routesFacade.createRoute(
+        this.form.getRawValue(),
+      );
+    } else {
+      this.routesFacade.updateRoute(
+        this.updateData.id,
+        this.updateData,
+      );
+    }
 
     this.create.emit();
   }

@@ -1,6 +1,9 @@
 <div class="routes__container">
   @for (route of paginatedRoutes(); track $index) {
-    <tra-route [routeInput]="route" />
+    <tra-route
+      [routeInput]="route"
+      (updatingData)="handleOutput($event)"
+    />
   }
   @if (routes()?.length) {
     <tui-pagination
