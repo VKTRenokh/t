@@ -12,7 +12,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiButton, TuiScrollbar } from '@taiga-ui/core';
+import {
+  TuiButton,
+  TuiIcon,
+  TuiScrollbar,
+} from '@taiga-ui/core';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
   TuiInputDateTimeModule,
@@ -30,6 +34,7 @@ import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-t
     TuiInputDateTimeModule,
     TuiInputModule,
     TuiScrollbar,
+    TuiIcon,
     StationIdToNamePipe,
   ],
   templateUrl: './create-ride.component.html',

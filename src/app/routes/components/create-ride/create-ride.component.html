@@ -11,6 +11,11 @@
           <form [formGroupName]="i">
             <h3>
               {{ $any(_path)[i] | stationIdToName }}
+              <tui-icon
+                icon="@tui.move-right"
+                [style.color]="'var(--tui-status-negative)'"
+              />
+              {{ $any(_path)[i + 1] | stationIdToName }}
             </h3>
             <tui-input-date-time
               formControlName="departure"
