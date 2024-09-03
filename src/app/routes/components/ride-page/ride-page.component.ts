@@ -89,6 +89,10 @@ export class RidePageComponent implements OnInit {
     const route = this.ride();
     return route ? route.path : [];
   });
+  public carriages = computed(() => {
+    const route = this.ride();
+    return route ? route.carriages : [];
+  });
 
   public editingState: Record<
     number,

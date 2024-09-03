@@ -3,16 +3,21 @@ import {
   Component,
   inject,
   input,
+  OnInit,
 } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { TuiButton } from '@taiga-ui/core';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
-import { TuiInputDateTimeModule } from '@taiga-ui/legacy';
+import {
+  TuiInputDateTimeModule,
+  TuiInputModule,
+} from '@taiga-ui/legacy';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 
 @Component({
@@ -22,22 +27,21 @@ import { TuiDay, TuiTime } from '@taiga-ui/cdk';
     ReactiveFormsModule,
     TuiButton,
     TuiInputDateTimeModule,
+    TuiInputModule,
   ],
   templateUrl: './create-ride.component.html',
   styleUrl: './create-ride.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateRideComponent {
+export class CreateRideComponent implements OnInit {
   public id = input.required<number>();
+  public path = input.required<number[]>();
+  public carriages = input.required<string[]>();
 
   private formBuilder = inject(FormBuilder);
   private rideFacade = inject(RideFacadeService);
 
-  public form = this.formBuilder.group({
-    segments: this.formBuilder.array([
-      this.createSegmentFormGroup(),
-    ]),
-  });
+  public form!: FormGroup;
 
   public createPriceControl() {
     return this.formBuilder.control<string | null>(null, [
@@ -56,6 +60,16 @@ export class CreateRideComponent {
       price: this.formBuilder.array([
         this.createPriceControl(),
       ]),
+    });
+  }
+
+  public ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      segments: this.formBuilder.array(
+        this.path().map(() =>
+          this.createSegmentFormGroup(),
+        ),
+      ),
     });
   }
 
