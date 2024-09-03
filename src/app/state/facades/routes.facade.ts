@@ -11,10 +11,7 @@ import {
   selectTotalPages,
 } from '../selectors/routes.selector';
 import { RoutesActions } from '../actions/routes.actoin';
-import {
-  PostRoute,
-  Route,
-} from '../../routes/models/routes.model';
+import { PostRoute } from '../../routes/models/routes.model';
 import { isNotNullable } from '../../shared/utils/is-not-nullables';
 import { filter, map } from 'rxjs';
 

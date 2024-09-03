@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 import {
   NonNullableFormBuilder,
@@ -68,15 +70,29 @@ export class CreateFormComponent {
   public create = output();
   public edit = input<Route | undefined>();
 
-  private updatingPath = computed(() => {
-    const updateData = this.edit();
-    console.log(updateData);
-    return updateData ? updateData.path : [];
-  });
-  private updatingCarriages = computed(() => {
-    const updateData = this.edit();
-    return updateData ? updateData.carriages : [];
-  });
+  private updatingPath = signal<number[]>([]);
+  private updatingCarriages = signal<string[]>([]);
+  constructor() {
+    this.stationsFacade.getStations();
+    effect(
+      () => {
+        const updateData = this.edit();
+        this.updatingPath.set(
+          updateData ? updateData.path : [],
+        );
+      },
+      { allowSignalWrites: true },
+    );
+    effect(
+      () => {
+        const updateData = this.edit();
+        this.updatingCarriages.set(
+          updateData ? updateData.carriages : [],
+        );
+      },
+      { allowSignalWrites: true },
+    );
+  }
 
   public form = this.formBuilder.group({
     path: this.formBuilder.control<number[]>(
@@ -112,13 +128,8 @@ export class CreateFormComponent {
       ),
   );
 
-  constructor() {
-    this.stationsFacade.getStations();
-  }
-
   public submit() {
     const updateData = this.edit();
-    console.log(updateData);
     if (!updateData) {
       this.routesFacade.createRoute(
         this.form.getRawValue(),
