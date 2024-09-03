@@ -80,13 +80,11 @@ export class CreateRideComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log(this.carriages());
-
     this.form = this.formBuilder.group({
       segments: this.formBuilder.array(
-        this.path().map(() =>
-          this.createSegmentFormGroup(),
-        ),
+        this.path()
+          .slice(0, -1)
+          .map(() => this.createSegmentFormGroup()),
       ),
     });
   }

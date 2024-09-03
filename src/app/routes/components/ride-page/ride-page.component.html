@@ -20,14 +20,17 @@
 
 <div class="ride__main">
   @if (isCreating()) {
-    <div tuiCardLarge>
+    <div
+      tuiPlatform="web"
+      tuiCardLarge
+      tuiSurface="elevated"
+    >
       <tra-create-ride
         [id]="idNumber()"
         [path]="listOfStations()"
         [carriages]="carriages()"
       />
     </div>
-    />
   }
   <tui-accordion class="container">
     @for (ride of ride()?.schedule; track ride.rideId) {

@@ -2,7 +2,7 @@
   @let _path = path();
   @let _carriages = carriages();
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <form formGroupName="segments">
+    <form formArrayName="segments">
       @for (
         segment of segments.controls;
         let i = $index;
@@ -55,6 +55,12 @@
         </form>
       }
     </form>
-    <button tuiButton type="submit">Submit</button>
+    <button
+      tuiButton
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Submit
+    </button>
   </form>
 }
