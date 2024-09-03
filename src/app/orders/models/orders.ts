@@ -6,7 +6,7 @@ type OrderStatus =
 
 export interface ScheduleSegment {
   time: [string, string];
-  price: Record<number, number>;
+  price: Record<string, number>;
 }
 
 export interface Order {
@@ -21,6 +21,8 @@ export interface Order {
   schedule: {
     segments: ScheduleSegment[];
   };
+  stationStart: number;
+  stationEnd: number;
 }
 
 export type OrdersResponse = Order[];

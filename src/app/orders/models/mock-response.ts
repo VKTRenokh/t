@@ -1,4 +1,6 @@
-export const mockOrderResponse = [
+import { Order } from './orders';
+
+export const mockOrderResponse: Order[] = [
   {
     id: 2,
     userId: 1,
