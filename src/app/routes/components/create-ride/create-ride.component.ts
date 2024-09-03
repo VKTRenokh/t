@@ -16,7 +16,6 @@ import {
   TuiButton,
   TuiError,
   TuiIcon,
-  TuiScrollbar,
 } from '@taiga-ui/core';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
@@ -38,7 +37,6 @@ import { AsyncPipe } from '@angular/common';
     TuiInputDateTimeModule,
     TuiTextfieldControllerModule,
     TuiInputNumberModule,
-    TuiScrollbar,
     TuiIcon,
     TuiFieldErrorPipe,
     TuiError,
@@ -82,6 +80,8 @@ export class CreateRideComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    console.log(this.carriages());
+
     this.form = this.formBuilder.group({
       segments: this.formBuilder.array(
         this.path().map(() =>

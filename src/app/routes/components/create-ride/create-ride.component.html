@@ -1,60 +1,59 @@
 @if (form) {
   @let _path = path();
+  @let _carriages = carriages();
   <form [formGroup]="form" (ngSubmit)="submit()">
     <form formGroupName="segments">
-      <tui-scrollbar>
-        @for (
-          segment of segments.controls;
-          let i = $index;
-          track segment
-        ) {
-          <form [formGroupName]="i">
-            <h3>
-              {{ $any(_path)[i] | stationIdToName }}
-              <tui-icon
-                icon="@tui.move-right"
-                [style.color]="'var(--tui-status-negative)'"
+      @for (
+        segment of segments.controls;
+        let i = $index;
+        track segment
+      ) {
+        <form [formGroupName]="i" class="content">
+          <h3>
+            {{ $any(_path)[i] | stationIdToName }}
+            <tui-icon
+              icon="@tui.move-right"
+              [style.color]="'var(--tui-status-negative)'"
+            />
+            {{ $any(_path)[i + 1] | stationIdToName }}
+          </h3>
+          <tui-input-date-time
+            formControlName="departure"
+            class="tui-space_top-5"
+          >
+            Departure time
+            <input tuiTextfieldLegacy />
+          </tui-input-date-time>
+          <tui-input-date-time
+            formControlName="arrival"
+            class="tui-space_top-5"
+          >
+            Arrival time
+            <input tuiTextfieldLegacy />
+          </tui-input-date-time>
+          <form formArrayName="price">
+            <h4>Prices</h4>
+            @for (
+              price of getSegmentPrices(i).controls;
+              let j = $index;
+              track j
+            ) {
+              <tui-input-number
+                [formControlName]="j"
+                tuiTextfieldPostfix="€"
+                class="tui-space_top-5"
+              >
+                {{ $any(_carriages)[j] }}
+                <input tuiTextfieldLegacy />
+              </tui-input-number>
+              <tui-error
+                [formControlName]="j"
+                [error]="[] | tuiFieldError | async"
               />
-              {{ $any(_path)[i + 1] | stationIdToName }}
-            </h3>
-            <tui-input-date-time
-              formControlName="departure"
-              class="tui-space_top-5"
-            >
-              Departure time
-              <input tuiTextfieldLegacy />
-            </tui-input-date-time>
-            <tui-input-date-time
-              formControlName="arrival"
-              class="tui-space_top-5"
-            >
-              Arrival time
-              <input tuiTextfieldLegacy />
-            </tui-input-date-time>
-            <form formArrayName="price">
-              <h4>Prices</h4>
-              @for (
-                price of getSegmentPrices(i).controls;
-                let j = $index;
-                track j
-              ) {
-                <tui-input-number
-                  [formControlName]="j"
-                  tuiTextfieldPostfix="€"
-                  class="tui-space_top-5"
-                >
-                  Carriage {{ j + 1 }}
-                  <input tuiTextfieldLegacy />
-                </tui-input-number>
-                <tui-error
-                  [formControlName]="j"
-                  [error]="[] | tuiFieldError | async"
-                />
-              }
-            </form>
+            }
           </form>
-        }
-      </tui-scrollbar>
+        </form>
+      }
     </form>
     <button tuiButton type="submit">Submit</button>
   </form>
