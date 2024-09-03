@@ -21,7 +21,8 @@ import {
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
   TuiInputDateTimeModule,
-  TuiInputModule,
+  TuiInputNumberModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
@@ -35,7 +36,8 @@ import { AsyncPipe } from '@angular/common';
     ReactiveFormsModule,
     TuiButton,
     TuiInputDateTimeModule,
-    TuiInputModule,
+    TuiTextfieldControllerModule,
+    TuiInputNumberModule,
     TuiScrollbar,
     TuiIcon,
     TuiFieldErrorPipe,

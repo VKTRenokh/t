@@ -36,6 +36,7 @@ import { RideComponent } from '../ride/ride.component';
 import { switchMap } from 'rxjs';
 import { CreateRideComponent } from '../create-ride/create-ride.component';
 import { StationsFacade } from '../../../state/facades/stations.facade';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 interface EditingState {
   time: boolean;
@@ -67,6 +68,7 @@ type TempRideData = Record<
     ReactiveFormsModule,
     TuiInputDateTimeModule,
     CreateRideComponent,
+    TuiCardLarge,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',

@@ -38,13 +38,14 @@
                 let j = $index;
                 track j
               ) {
-                <tui-input
+                <tui-input-number
                   [formControlName]="j"
+                  tuiTextfieldPostfix="€"
                   class="tui-space_top-5"
                 >
                   Carriage {{ j + 1 }}
                   <input tuiTextfieldLegacy />
-                </tui-input>
+                </tui-input-number>
                 <tui-error
                   [formControlName]="j"
                   [error]="[] | tuiFieldError | async"

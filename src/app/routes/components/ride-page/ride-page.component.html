@@ -20,10 +20,13 @@
 
 <div class="ride__main">
   @if (isCreating()) {
-    <tra-create-ride
-      [id]="idNumber()"
-      [path]="listOfStations()"
-      [carriages]="carriages()"
+    <div tuiCardLarge>
+      <tra-create-ride
+        [id]="idNumber()"
+        [path]="listOfStations()"
+        [carriages]="carriages()"
+      />
+    </div>
     />
   }
   <tui-accordion class="container">
