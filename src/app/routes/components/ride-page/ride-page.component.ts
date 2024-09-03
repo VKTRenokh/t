@@ -6,6 +6,7 @@ import {
   inject,
   input,
   OnInit,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -27,9 +28,15 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Ride } from '../../models/ride/ride.model';
+import {
+  Ride,
+  Segment,
+} from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
 import { switchMap } from 'rxjs';
+import { CreateRideComponent } from '../create-ride/create-ride.component';
+import { StationsFacade } from '../../../state/facades/stations.facade';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 interface EditingState {
   time: boolean;
@@ -60,6 +67,8 @@ type TempRideData = Record<
     RideComponent,
     ReactiveFormsModule,
     TuiInputDateTimeModule,
+    CreateRideComponent,
+    TuiCardLarge,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
@@ -68,15 +77,23 @@ type TempRideData = Record<
 })
 export class RidePageComponent implements OnInit {
   public id = input.required<string>();
+  public idNumber = computed(() => Number(this.id()));
+  public isCreating = signal(false);
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
+
   private readonly dialogs = inject(TuiDialogService);
+  private stationsFacade = inject(StationsFacade);
 
   public ride = this.rideFacade.ride;
   public listOfStations = computed(() => {
     const route = this.ride();
     return route ? route.path : [];
+  });
+  public carriages = computed(() => {
+    const route = this.ride();
+    return route ? route.carriages : [];
   });
 
   public editingState: Record<
@@ -101,6 +118,16 @@ export class RidePageComponent implements OnInit {
       console.error('Error formatting date:', date, error);
       return 'Invalid Date';
     }
+  }
+
+  constructor() {
+    this.stationsFacade.getStations();
+  }
+
+  public getPriceEntries(
+    segment: Segment,
+  ): [string, number][] {
+    return Object.entries(segment.price);
   }
 
   public ngOnInit() {
@@ -229,7 +256,7 @@ export class RidePageComponent implements OnInit {
   }
 
   public createRide() {
-    console.log('create');
+    this.isCreating.update(value => !value);
   }
 
   protected deleteRide(event: Event, rideId: number): void {

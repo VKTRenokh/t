@@ -7,6 +7,7 @@ import { ApiError } from '../../shared/models/api-error.model';
 import {
   Ride,
   UpdateRide,
+  Segment,
 } from '../../routes/models/ride/ride.model';
 
 export const RideActions = createActionGroup({
@@ -22,5 +23,10 @@ export const RideActions = createActionGroup({
     }>(),
     deleteRideSuccess: emptyProps(),
     failure: props<{ error: ApiError }>(),
+    createRide: props<{
+      segments: Segment[];
+      id: number;
+    }>(),
+    createRideSuccess: emptyProps(),
   },
 });

@@ -45,4 +45,12 @@ export const rideReducer = createReducer(
     loading: false,
     error,
   })),
+  on(RideActions.createRide, state => ({
+    ...state,
+    loading: true,
+  })),
+  on(RideActions.createRideSuccess, state => ({
+    ...state,
+    loading: false,
+  })),
 );

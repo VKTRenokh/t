@@ -14,7 +14,7 @@
     ) {
       <tr class="tui-table__tr tui-table__tr_border_none">
         <td class="tui-table__td tui-table__td_first">
-          {{ listOfStations()[index] }}
+          {{ listOfStations()[index] | stationIdToName }}
         </td>
         <td class="tui-table__td">
           Arrival: {{ segment.time[0] | date: 'medium' }}

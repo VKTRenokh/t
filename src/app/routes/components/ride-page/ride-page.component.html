@@ -7,7 +7,7 @@
     routerLink="/admin/routes"
   >
   </a>
-  <h2 tuititle>Route {{ id() }}</h2>
+  <h2 tuiTitle>Route {{ id() }}</h2>
   <button
     tuiButton
     size="s"
@@ -19,6 +19,19 @@
 </div>
 
 <div class="ride__main">
+  @if (isCreating()) {
+    <div
+      tuiPlatform="web"
+      tuiCardLarge
+      tuiSurface="elevated"
+    >
+      <tra-create-ride
+        [id]="idNumber()"
+        [path]="listOfStations()"
+        [carriages]="carriages()"
+      />
+    </div>
+  }
   <tui-accordion class="container">
     @for (ride of ride()?.schedule; track ride.rideId) {
       <tui-accordion-item>

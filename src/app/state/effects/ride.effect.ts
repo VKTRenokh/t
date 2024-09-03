@@ -4,7 +4,13 @@ import {
   createEffect,
   ofType,
 } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { RideActions } from '../actions/ride.action';
 import { RideService } from '../../routes/services/ride/ride.service';
 
@@ -81,6 +87,31 @@ export class RideEffects {
             ),
             catchError(error =>
               of(RideActions.failure({ error })),
+            ),
+          ),
+      ),
+    ),
+  );
+
+  public createRideEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RideActions.createRide),
+      exhaustMap(action =>
+        this.rideService
+          .createRide(action.id, action.segments)
+          .pipe(
+            switchMap(() =>
+              of(
+                RideActions.createRideSuccess(),
+                RideActions.getRide({
+                  id: action.id.toString(),
+                }),
+              ),
+            ),
+            catchError(error =>
+              of(
+                RideActions.failure({ error: error.error }),
+              ),
             ),
           ),
       ),
