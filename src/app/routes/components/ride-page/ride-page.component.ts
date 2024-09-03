@@ -11,8 +11,14 @@ import { RouterLink } from '@angular/router';
 import { TuiButton, TuiIcon } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/kit';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
-import { TuiInputNumberModule } from '@taiga-ui/legacy';
-import { FormsModule } from '@angular/forms';
+import {
+  TuiInputDateTimeModule,
+  TuiInputNumberModule,
+} from '@taiga-ui/legacy';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Ride } from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
 
@@ -43,6 +49,8 @@ type TempRideData = Record<
     TuiInputNumberModule,
     RouterLink,
     RideComponent,
+    ReactiveFormsModule,
+    TuiInputDateTimeModule,
   ],
   templateUrl: './ride-page.component.html',
   styleUrl: './ride-page.component.scss',
@@ -68,7 +76,21 @@ export class RidePageComponent implements OnInit {
   public tempData: TempRideData = {};
 
   public formatDate(date: string): string {
-    return this.datePipe.transform(date, 'medium') || '';
+    try {
+      const formattedDate = this.datePipe.transform(
+        date,
+        'medium',
+      );
+      if (formattedDate === null) {
+        throw new Error(
+          'Date transformation returned null',
+        );
+      }
+      return formattedDate;
+    } catch (error) {
+      console.error('Error formatting date:', date, error);
+      return 'Invalid Date';
+    }
   }
 
   public ngOnInit() {
