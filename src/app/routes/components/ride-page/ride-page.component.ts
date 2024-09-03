@@ -119,6 +119,7 @@ export class RidePageComponent implements OnInit {
   }
 
   constructor() {
+    effect(() => console.log(this.ride()));
     this.stationsFacade.getStations();
   }
 

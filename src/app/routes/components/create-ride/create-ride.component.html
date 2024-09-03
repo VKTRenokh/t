@@ -1,29 +1,42 @@
 @if (form) {
+  @let _path = path();
   <form [formGroup]="form" (ngSubmit)="submit()">
     <form formGroupName="segments">
-      @for (
-        segment of segments.controls;
-        let i = $index;
-        track i
-      ) {
-        <form [formGroupName]="i">
-          <tui-input-date-time formControlName="departure">
-            Departure time
-            <input tuiTextfieldLegacy />
-          </tui-input-date-time>
-          <tui-input-date-time formControlName="arrival">
-            Arrival time
-            <input tuiTextfieldLegacy />
-          </tui-input-date-time>
-          @for (
-            price of getSegmentPrices(i).controls;
-            let j = $index;
-            track j
-          ) {
-            {{ j }}
-          }
-        </form>
-      }
+      <tui-scrollbar>
+        @for (
+          segment of segments.controls;
+          let i = $index;
+          track segment
+        ) {
+          <form [formGroupName]="i">
+            <h3>
+              {{ $any(_path)[i] | stationIdToName }}
+            </h3>
+            <tui-input-date-time
+              formControlName="departure"
+            >
+              Departure time
+              <input tuiTextfieldLegacy />
+            </tui-input-date-time>
+            <tui-input-date-time formControlName="arrival">
+              Arrival time
+              <input tuiTextfieldLegacy />
+            </tui-input-date-time>
+            <form formArrayName="price">
+              @for (
+                price of getSegmentPrices(i).controls;
+                let j = $index;
+                track j
+              ) {
+                <tui-input [formControlName]="j">
+                  Price
+                  <input tuiTextfieldLegacy />
+                </tui-input>
+              }
+            </form>
+          </form>
+        }
+      </tui-scrollbar>
     </form>
     <button tuiButton type="submit">Submit</button>
   </form>

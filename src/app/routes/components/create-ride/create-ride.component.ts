@@ -12,13 +12,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiScrollbar } from '@taiga-ui/core';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
   TuiInputDateTimeModule,
   TuiInputModule,
 } from '@taiga-ui/legacy';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
+import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
 
 @Component({
   selector: 'tra-create-ride',
@@ -28,6 +29,8 @@ import { TuiDay, TuiTime } from '@taiga-ui/cdk';
     TuiButton,
     TuiInputDateTimeModule,
     TuiInputModule,
+    TuiScrollbar,
+    StationIdToNamePipe,
   ],
   templateUrl: './create-ride.component.html',
   styleUrl: './create-ride.component.scss',
@@ -57,9 +60,11 @@ export class CreateRideComponent implements OnInit {
       arrival: this.formBuilder.control<
         [TuiDay, TuiTime] | null
       >(null, [Validators.required]),
-      price: this.formBuilder.array([
-        this.createPriceControl(),
-      ]),
+      price: this.formBuilder.array(
+        this.carriages().map(() =>
+          this.createPriceControl(),
+        ),
+      ),
     });
   }
 
