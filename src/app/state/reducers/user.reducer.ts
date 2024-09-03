@@ -18,13 +18,15 @@ export const userReducer = createReducer(
   initialState,
   on(UserActions.loadProfileSuccess, (state, { user }) => ({
     ...state,
-    loading: false,
+    error: undefined,
     user,
+    loading: false,
   })),
   on(
     UserActions.updateProfileSuccess,
     (state, { user }) => ({
       ...state,
+      error: undefined,
       user,
       loading: false,
     }),
