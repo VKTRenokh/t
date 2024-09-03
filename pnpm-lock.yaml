@@ -90,7 +90,7 @@ importers:
         specifier: ~0.14.10
         version: 0.14.10
       '{cdk,core,kit,icons}':
-        specifier: link:@taiga-ui/{cdk,core,kit,icons}
+        specifier: link:@taiga-ui\{cdk,core,kit,icons}
         version: link:@taiga-ui/{cdk,core,kit,icons}
     devDependencies:
       '@angular-devkit/build-angular':

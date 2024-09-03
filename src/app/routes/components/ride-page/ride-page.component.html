@@ -23,6 +23,18 @@
     @for (ride of ride()?.schedule; track ride.rideId) {
       <tui-accordion-item>
         <h3>Ride {{ ride.rideId }}</h3>
+        @if (isThisDateInFuture(ride.segments[0].time[0])) {
+          <button
+            appearance="outline"
+            iconStart="@tui.trash-2"
+            size="s"
+            tuiIconButton
+            [style.border-radius.%]="100"
+            (click)="deleteRide($event, ride.rideId)"
+          >
+            Edit
+          </button>
+        }
         <ng-template tuiAccordionItemContent>
           <table class="tui-table">
             <tbody>

@@ -8,8 +8,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
-import { TuiAccordion } from '@taiga-ui/kit';
+import {
+  TuiButton,
+  TuiDialogService,
+  TuiIcon,
+} from '@taiga-ui/core';
+import {
+  TUI_CONFIRM,
+  TuiAccordion,
+  TuiConfirmData,
+} from '@taiga-ui/kit';
 import { RideFacadeService } from '../../services/ride/ride-facade.service';
 import {
   TuiInputDateTimeModule,
@@ -21,6 +29,7 @@ import {
 } from '@angular/forms';
 import { Ride } from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
+import { switchMap } from 'rxjs';
 
 interface EditingState {
   time: boolean;
@@ -62,6 +71,7 @@ export class RidePageComponent implements OnInit {
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
+  private readonly dialogs = inject(TuiDialogService);
 
   public ride = this.rideFacade.ride;
   public listOfStations = computed(() => {
@@ -95,6 +105,12 @@ export class RidePageComponent implements OnInit {
 
   public ngOnInit() {
     this.rideFacade.getRide(this.id()!);
+  }
+
+  public isThisDateInFuture(compareDate: string): boolean {
+    const now = new Date();
+    const comparisonDate = new Date(compareDate);
+    return comparisonDate > now;
   }
 
   public startEditing(
@@ -164,6 +180,7 @@ export class RidePageComponent implements OnInit {
     const updatedRide: Ride = JSON.parse(
       JSON.stringify(this.ride()),
     );
+
     const targetRide = updatedRide.schedule.find(
       r => r.rideId === rideId,
     );
@@ -213,5 +230,33 @@ export class RidePageComponent implements OnInit {
 
   public createRide() {
     console.log('create');
+  }
+
+  protected deleteRide(event: Event, rideId: number): void {
+    event.stopPropagation();
+
+    const data: TuiConfirmData = {
+      yes: 'Yes, pls delete it!',
+      no: 'No, just go back.',
+    };
+
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: `Are you sure you want to delete the Ride ${rideId}?`,
+        size: 's',
+        data,
+      })
+      .pipe(
+        switchMap(result => {
+          if (result) {
+            console.log('Processing deletion here');
+            console.log(this.id(), rideId);
+
+            this.rideFacade.deleteRide(this.id(), rideId);
+          }
+          return [];
+        }),
+      )
+      .subscribe();
   }
 }
