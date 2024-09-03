@@ -123,6 +123,22 @@ export class RidePageComponent implements OnInit {
     }
   }
 
+  public compareDates(compareDate: string): boolean {
+    const now = new Date();
+    const comparisonDate = new Date(compareDate);
+
+    console.log(comparisonDate > now);
+
+    if (comparisonDate > now) {
+      //'The date is in the future.';
+      return true;
+    } else {
+      //      return 'The date is in the past.';
+
+      return false;
+    }
+  }
+
   public startEditing(
     rideId: number,
     segmentIndex: number,
@@ -217,6 +233,8 @@ export class RidePageComponent implements OnInit {
           ].price;
       }
     }
+
+    console.log(targetRide);
 
     console.log(targetRide);
 
