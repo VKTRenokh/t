@@ -107,14 +107,10 @@ export class RidePageComponent implements OnInit {
     this.rideFacade.getRide(this.id()!);
   }
 
-  public isthisDateInFuture(compareDate: string): boolean {
+  public isThisDateInFuture(compareDate: string): boolean {
     const now = new Date();
     const comparisonDate = new Date(compareDate);
-    if (comparisonDate > now) {
-      return true;
-    } else {
-      return false;
-    }
+    return comparisonDate > now;
   }
 
   public startEditing(

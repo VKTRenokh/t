@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 
-const isFuture = (date: Date) =>
+export const isFuture = (date: Date) =>
   date.getTime() > Date.now();
 
 export const futureDateValidator = (
