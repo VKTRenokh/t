@@ -55,12 +55,14 @@
         </form>
       }
     </form>
-    <button
-      tuiButton
-      type="submit"
-      [disabled]="form.invalid"
-    >
-      Submit
-    </button>
+    <div class="tui-form__buttons">
+      <button
+        tuiButton
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Submit
+      </button>
+    </div>
   </form>
 }
