@@ -30,6 +30,10 @@ export const rideReducer = createReducer(
     ride,
     loading: false,
   })),
+  on(RideActions.deleteRideSuccess, state => ({
+    ...state,
+    loading: true,
+  })),
   on(RideActions.updateRideSuccess, state => {
     return {
       ...state,

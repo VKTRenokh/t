@@ -107,34 +107,12 @@ export class RidePageComponent implements OnInit {
     this.rideFacade.getRide(this.id()!);
   }
 
-  public compareDates(compareDate: string): boolean {
+  public isthisDateInFuture(compareDate: string): boolean {
     const now = new Date();
     const comparisonDate = new Date(compareDate);
-
-    console.log(comparisonDate > now);
-
     if (comparisonDate > now) {
-      //'The date is in the future.';
       return true;
     } else {
-      //      return 'The date is in the past.';
-
-      return false;
-    }
-  }
-
-  public compareDates(compareDate: string): boolean {
-    const now = new Date();
-    const comparisonDate = new Date(compareDate);
-
-    console.log(comparisonDate > now);
-
-    if (comparisonDate > now) {
-      //'The date is in the future.';
-      return true;
-    } else {
-      //      return 'The date is in the past.';
-
       return false;
     }
   }
@@ -234,10 +212,6 @@ export class RidePageComponent implements OnInit {
       }
     }
 
-    console.log(targetRide);
-
-    console.log(targetRide);
-
     this.rideFacade.updateRide(
       this.id(),
       rideId,
@@ -280,7 +254,9 @@ export class RidePageComponent implements OnInit {
         switchMap(result => {
           if (result) {
             console.log('Processing deletion here');
-            // Perform deletion logic here
+            console.log(this.id(), rideId);
+
+            this.rideFacade.deleteRide(this.id(), rideId);
           }
           return [];
         }),

@@ -16,6 +16,11 @@ export const RideActions = createActionGroup({
     getRideSuccess: props<{ ride: Ride }>(),
     updateRide: props<{ data: UpdateRide }>(),
     updateRideSuccess: emptyProps(),
+    deleteRide: props<{
+      routeId: string;
+      rideId: number;
+    }>(),
+    deleteRideSuccess: emptyProps(),
     failure: props<{ error: ApiError }>(),
   },
 });

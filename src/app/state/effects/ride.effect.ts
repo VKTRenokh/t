@@ -58,4 +58,32 @@ export class RideEffects {
       ),
     ),
   );
+
+  public deleteRideEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RideActions.deleteRide),
+      exhaustMap(data =>
+        this.rideService
+          .deleteRide(data.routeId, data.rideId)
+          .pipe(
+            map(() => {
+              return RideActions.deleteRideSuccess();
+            }),
+            exhaustMap(() =>
+              this.rideService.getRide(data.routeId).pipe(
+                map(ride =>
+                  RideActions.getRideSuccess({ ride }),
+                ),
+                catchError(error =>
+                  of(RideActions.failure({ error })),
+                ),
+              ),
+            ),
+            catchError(error =>
+              of(RideActions.failure({ error })),
+            ),
+          ),
+      ),
+    ),
+  );
 }

@@ -37,7 +37,7 @@ export class RideService {
     );
   }
 
-  public deleteRide(routeId: number, rideId: number) {
+  public deleteRide(routeId: string, rideId: number) {
     return this.http.delete(
       `/api/route/${routeId}/ride/${rideId}`,
     );

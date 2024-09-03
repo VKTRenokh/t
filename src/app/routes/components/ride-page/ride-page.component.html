@@ -23,7 +23,7 @@
     @for (ride of ride()?.schedule; track ride.rideId) {
       <tui-accordion-item>
         <h3>Ride {{ ride.rideId }}</h3>
-        @if (compareDates(ride.segments[0].time[0])) {
+        @if (isthisDateInFuture(ride.segments[0].time[0])) {
           <button
             appearance="outline"
             iconStart="@tui.trash-2"
