@@ -28,10 +28,14 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Ride } from '../../models/ride/ride.model';
+import {
+  Ride,
+  Segment,
+} from '../../models/ride/ride.model';
 import { RideComponent } from '../ride/ride.component';
 import { switchMap } from 'rxjs';
 import { CreateRideComponent } from '../create-ride/create-ride.component';
+import { StationsFacade } from '../../../state/facades/stations.facade';
 
 interface EditingState {
   time: boolean;
@@ -76,7 +80,9 @@ export class RidePageComponent implements OnInit {
 
   private datePipe = inject(DatePipe);
   private rideFacade = inject(RideFacadeService);
+
   private readonly dialogs = inject(TuiDialogService);
+  private stationsFacade = inject(StationsFacade);
 
   public ride = this.rideFacade.ride;
   public listOfStations = computed(() => {
@@ -106,6 +112,16 @@ export class RidePageComponent implements OnInit {
       console.error('Error formatting date:', date, error);
       return 'Invalid Date';
     }
+  }
+
+  constructor() {
+    this.stationsFacade.getStations();
+  }
+
+  public getPriceEntries(
+    segment: Segment,
+  ): [string, number][] {
+    return Object.entries(segment.price);
   }
 
   public ngOnInit() {

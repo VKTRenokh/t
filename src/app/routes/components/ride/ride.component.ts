@@ -10,6 +10,7 @@ import {
   DatePipe,
   KeyValuePipe,
 } from '@angular/common';
+import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
 
 @Component({
   selector: 'tra-ride',
@@ -19,6 +20,7 @@ import {
     DatePipe,
     KeyValuePipe,
     CurrencyPipe,
+    StationIdToNamePipe,
   ],
   templateUrl: './ride.component.html',
   styleUrl: './ride.component.scss',
