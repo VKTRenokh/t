@@ -1,0 +1,10 @@
+.route__container {
+  border-radius: 0.75rem;
+  border: 2px solid var(--tui-border-normal);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

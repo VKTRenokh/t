@@ -3,18 +3,18 @@ import {
   TestBed,
 } from '@angular/core/testing';
 
-import { CarriageComponent } from './carriage.component';
+import { RouteComponent } from './route.component';
 
-describe('CarriageComponent', () => {
-  let component: CarriageComponent;
-  let fixture: ComponentFixture<CarriageComponent>;
+describe('RouteComponent', () => {
+  let component: RouteComponent;
+  let fixture: ComponentFixture<RouteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CarriageComponent],
+      imports: [RouteComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CarriageComponent);
+    fixture = TestBed.createComponent(RouteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

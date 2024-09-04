@@ -1,0 +1,52 @@
+@let route = routeInput();
+
+<div
+  class="route__container"
+  tuiSurface="elevated"
+  tuiCardLarge
+>
+  <div class="header" tuiHeader="l">
+    <h3>Route {{ route.id }}</h3>
+    <div>
+      <button
+        class="button-update"
+        iconStart="@tui.square-pen"
+        appearance="flat"
+        (click)="handleUpdate()"
+        tuiButton
+      >
+        Update
+      </button>
+      <a
+        class="button-assign-ride"
+        iconStart="@tui.bus-front"
+        appearance="flat"
+        [routerLink]="['/admin/routes', route.id]"
+        tuiButton
+      >
+        Assign ride
+      </a>
+      <button
+        (click)="handleDelete()"
+        class="button-trash"
+        iconStart="@tui.trash"
+        appearance="flat"
+        tuiButton
+      ></button>
+    </div>
+  </div>
+  <div class="route-information">
+    <div class="cities__container">
+      <p>Cities:</p>
+      <tra-route-information
+        [routeInput]="convertPathToStations()"
+      />
+    </div>
+    <div class="carriages__container">
+      <p>Carriage Types:</p>
+      <tra-route-information
+        [routeInput]="route.carriages"
+      />
+    </div>
+  </div>
+</div>

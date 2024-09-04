@@ -11,7 +11,7 @@ export interface AppState {
   stations: StationsState;
   user: UserState;
   carriages: CarriagesState;
-  routes: RoutesState;
   ride: RideState;
   orders: OrdersState;
+  routes: RoutesState;
 }

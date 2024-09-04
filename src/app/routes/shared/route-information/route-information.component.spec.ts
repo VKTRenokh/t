@@ -3,19 +3,19 @@ import {
   TestBed,
 } from '@angular/core/testing';
 
-import { CarriagesPageComponent } from './carriages-page.component';
+import { RouteInformationComponent } from './route-information.component';
 
-describe('CarriagesPageComponent', () => {
-  let component: CarriagesPageComponent;
-  let fixture: ComponentFixture<CarriagesPageComponent>;
+describe('RouteInformationComponent', () => {
+  let component: RouteInformationComponent;
+  let fixture: ComponentFixture<RouteInformationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CarriagesPageComponent],
+      imports: [RouteInformationComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(
-      CarriagesPageComponent,
+      RouteInformationComponent,
     );
     component = fixture.componentInstance;
     fixture.detectChanges();

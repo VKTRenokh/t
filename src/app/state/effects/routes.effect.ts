@@ -4,27 +4,57 @@ import {
   createEffect,
   ofType,
 } from '@ngrx/effects';
-import { RoutesService } from '../../routes/services/routes/routes.service';
 import { RoutesActions } from '../actions/routes.action';
 import { catchError, exhaustMap, map, of } from 'rxjs';
+import { RoutesService } from '../../routes/services/routes.service';
 
 @Injectable()
 export class RoutesEffects {
   private actions = inject(Actions);
   private routesService = inject(RoutesService);
 
-  public getEffect = createEffect(() =>
+  public getRoutesEffect = createEffect(() =>
     this.actions.pipe(
       ofType(RoutesActions.getRoutes),
       exhaustMap(() =>
         this.routesService.get().pipe(
           map(routes =>
-            RoutesActions.getRoutesSuccess({ routes }),
+            RoutesActions.getRoutesSuccess({
+              routes,
+            }),
           ),
-          catchError(error =>
+          catchError(response =>
             of(
-              RoutesActions.failure({ error: error.error }),
+              RoutesActions.failure({
+                error: response.error,
+              }),
             ),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  public updateRouteEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RoutesActions.updateRoute),
+      exhaustMap(({ id, route }) =>
+        this.routesService
+          .update(id, route)
+          .pipe(map(() => RoutesActions.getRoutes())),
+      ),
+    ),
+  );
+
+  public deleteRouteEffect = createEffect(() =>
+    this.actions.pipe(
+      ofType(RoutesActions.deleteRoute),
+      exhaustMap(data =>
+        this.routesService.delete(data.id).pipe(
+          map(() =>
+            RoutesActions.deleteRouteSuccess({
+              id: data.id,
+            }),
           ),
         ),
       ),
@@ -34,12 +64,10 @@ export class RoutesEffects {
   public createRouteEffect = createEffect(() =>
     this.actions.pipe(
       ofType(RoutesActions.createRoute),
-      exhaustMap(({ data }) =>
+      exhaustMap(({ route }) =>
         this.routesService
-          .create(data)
-          .pipe(
-            map(() => RoutesActions.createRouteSuccess()),
-          ),
+          .create(route)
+          .pipe(map(() => RoutesActions.getRoutes())),
       ),
     ),
   );

@@ -33,7 +33,6 @@ export class RideFacadeService {
   }
 
   public deleteRide(routeId: string, rideId: number) {
-    console.log('del fasade called');
     this.store.dispatch(
       RideActions.deleteRide({ routeId, rideId }),
     );

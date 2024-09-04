@@ -18,7 +18,6 @@ const adminRoutes: Routes = [
       import(
         './routes/components/routes-page/routes-page.component.js'
       ).then(M => M.RoutesPageComponent),
-    children: [],
   },
   {
     path: 'carriages',
@@ -44,7 +43,6 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    pathMatch: 'full',
     loadComponent: () =>
       import(
         './search/components/search-page/search-page.component.js'
@@ -56,7 +54,6 @@ export const routes: Routes = [
       import(
         './auth/components/login/login.component.js'
       ).then(M => M.LoginComponent),
-    pathMatch: 'full',
     canMatch: [guestGuard],
   },
   {
@@ -65,7 +62,6 @@ export const routes: Routes = [
       import(
         './auth/components/registration/registration.component.js'
       ).then(M => M.RegistrationComponent),
-    pathMatch: 'full',
     canMatch: [guestGuard],
   },
   {
@@ -74,7 +70,6 @@ export const routes: Routes = [
       import(
         './profile/components/profile/profile.component.js'
       ).then(M => M.ProfileComponent),
-    pathMatch: 'full',
     canMatch: [authGuard],
   },
   {
@@ -92,7 +87,6 @@ export const routes: Routes = [
     resolve: { profile: profileResolver },
     children: adminRoutes,
   },
-
   {
     path: '**',
     loadComponent: () =>
