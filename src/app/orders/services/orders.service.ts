@@ -9,6 +9,9 @@ import { Order } from '../models/orders';
 export class OrdersService {
   private http = inject(HttpClient);
 
+  // TBD Request (application/json)
+  // Attributes: (object)
+  // all: true (boolean, optional) - allows manager to retrieve all orders
   public getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>('/api/order');
   }

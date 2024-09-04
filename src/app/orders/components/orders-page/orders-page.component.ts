@@ -46,6 +46,10 @@ export class OrdersPageComponent {
   private readonly dialogs = inject(TuiDialogService);
 
   private http = inject(HttpClient);
+
+  // TBD Update with data from store !!
+  // need to check request with api/orders?all-true api/orders?all=false
+
   public mockOrder = mockOrderResponse;
 
   public calculateJourneyDetails(journeyData: Order) {
@@ -76,7 +80,9 @@ export class OrdersPageComponent {
     const totalTimeMs =
       arrivalTime.getTime() - departureTime.getTime();
 
-    const carriageType = carriages[0]; // need to update
+    // TBD
+    //// need to update with actual carriages
+    const carriageType = carriages[0];
     let totalPrice = 0;
 
     for (let i = startIndex; i < endIndex; i++) {
@@ -91,6 +97,7 @@ export class OrdersPageComponent {
       totalPrice,
     };
   }
+  // TBD
   //move to utils
   public formatDuration(ms: number) {
     const hours = Math.floor(ms / (1000 * 60 * 60));
@@ -104,7 +111,8 @@ export class OrdersPageComponent {
       return `${hours}h ${minutes}m`;
     }
   }
-
+  //TBD
+  // remuve
   public needtoremove() {
     this.carriagesFacade.getCarriages();
     console.log(this.profile());
@@ -151,7 +159,6 @@ export class OrdersPageComponent {
       .pipe(
         switchMap(result => {
           if (result) {
-            console.log('Processing deletion here');
             this.ordersFacade.deleteOrder(orderId);
           }
           return [];
