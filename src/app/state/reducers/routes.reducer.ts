@@ -32,6 +32,9 @@ export const routesReducer = createReducer(
       ...state,
       routes,
       loading: false,
+      totalPages: Math.ceil(
+        routes.length / state.itemsPerPage,
+      ),
     }),
   ),
   on(RoutesActions.failure, (state, { error }) => ({

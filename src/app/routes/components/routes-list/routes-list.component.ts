@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   output,
 } from '@angular/core';
@@ -27,8 +28,9 @@ import { Route } from '../../models/route/route.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutesListComponent {
-  public edit = output<Route | undefined>();
   private routesFacade = inject(RoutesFacade);
+
+  public edit = output<Route | undefined>();
   protected store = inject(Store<AppState>);
   protected routes = this.routesFacade.routes;
   protected paginatedRoutes =
@@ -36,6 +38,12 @@ export class RoutesListComponent {
   protected currentPage = this.routesFacade.currentPage;
   protected totalPages = this.routesFacade.totalPages;
   protected error$ = this.routesFacade.error$;
+
+  constructor() {
+    effect(() =>
+      console.log(this.totalPages(), this.currentPage()),
+    );
+  }
 
   protected handleOutput(event: Route | undefined) {
     this.edit.emit(event);
