@@ -10,7 +10,7 @@ import {
   DatePipe,
   KeyValuePipe,
 } from '@angular/common';
-import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
+import { StationIdToNamePipe } from '../../../shared/pipes/station-id-to-name/station-id-to-name.pipe';
 
 @Component({
   selector: 'tra-ride',

@@ -24,7 +24,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { StationIdToNamePipe } from '../../pipes/station-id-to-name/station-id-to-name.pipe';
+import { StationIdToNamePipe } from '../../../shared/pipes/station-id-to-name/station-id-to-name.pipe';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
 import { requiredArray } from '../../validators/required-array/required-array.validator';

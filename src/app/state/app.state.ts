@@ -1,5 +1,6 @@
 import { AuthState } from './reducers/auth.reducer';
 import { CarriagesState } from './reducers/carriages.reducer';
+import { OrdersState } from './reducers/orders.reducer';
 import { RideState } from './reducers/rides.reducer';
 import { RoutesState } from './reducers/routes.reducer';
 import { StationsState } from './reducers/stations.reducer';
@@ -12,4 +13,5 @@ export interface AppState {
   carriages: CarriagesState;
   routes: RoutesState;
   ride: RideState;
+  orders: OrdersState;
 }
