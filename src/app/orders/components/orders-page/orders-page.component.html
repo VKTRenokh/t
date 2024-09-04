@@ -13,6 +13,9 @@
         <th class="tui-table__th tui-table__th_last">
           Price
         </th>
+        @if (isAdmin()) {
+          <th class="tui-table__th">Order Status</th>
+        }
       </tr>
       @for (order of mockOrder; track order.id) {
         <tr class="tui-table__tr tui-table__tr_border_none">
@@ -48,6 +51,27 @@
                 | currency: 'EUR'
             }}
           </td>
+          @if (isAdmin() && order.status === 'active') {
+            <td class="tui-table__td">
+              {{ order.status }}
+              <button
+                appearance="destructive"
+                iconStart="@tui.circle-x"
+                size="s"
+                tuiIconButton
+                [style.border-radius.%]="100"
+                (click)="
+                  deleteOrder(
+                    $event,
+                    order.id,
+                    order.userId
+                  )
+                "
+              >
+                Delete
+              </button>
+            </td>
+          }
         </tr>
       }
     </tbody>

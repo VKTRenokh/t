@@ -7,7 +7,7 @@ import { selectOrders } from '../../state/selectors/orders.selector';
 @Injectable({
   providedIn: 'root',
 })
-export class RideFacadeService {
+export class OrdersFacadeService {
   private store = inject(Store);
 
   public orders = toSignal(this.store.select(selectOrders));
