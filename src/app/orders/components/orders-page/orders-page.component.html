@@ -20,7 +20,10 @@
       @for (order of mockOrder; track order.id) {
         <tr class="tui-table__tr tui-table__tr_border_none">
           <td class="tui-table__td tui-table__td_first">
+            <!-- TBD
+            need to make pipe work - there is no stations on init -->
             Station: {{ order.stationStart }}
+            {{ order.stationStart | stationIdToName }}
             <br />
             {{
               calculateJourneyDetails(order).departureTime
@@ -29,6 +32,8 @@
           </td>
           <td class="tui-table__td">
             Station: {{ order.stationEnd }}
+            {{ order.stationEnd | stationIdToName }}
+
             <br />
             {{
               calculateJourneyDetails(order).arrivalTime

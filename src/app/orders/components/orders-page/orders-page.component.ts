@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   inject,
+  OnInit,
   Signal,
 } from '@angular/core';
 import { mockOrderResponse } from '../../models/mock-response';
@@ -20,19 +21,27 @@ import {
 } from '@taiga-ui/core';
 import { Roles } from '../../../core/enums/role/role.enum';
 import { OrdersFacadeService } from '../../services/orders-facade.service';
+import { StationIdToNamePipe } from '../../../shared/pipes/station-id-to-name/station-id-to-name.pipe';
+import { StationsFacade } from '../../../state/facades/stations.facade';
 
 @Component({
   selector: 'tra-orders-page',
   standalone: true,
-  imports: [DatePipe, CurrencyPipe, TuiButton],
+  imports: [
+    StationIdToNamePipe,
+    DatePipe,
+    CurrencyPipe,
+    TuiButton,
+  ],
   templateUrl: './orders-page.component.html',
   styleUrl: './orders-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrdersPageComponent {
+export class OrdersPageComponent implements OnInit {
   private profileFacade = inject(ProfileFacade);
   private ordersFacade = inject(OrdersFacadeService);
   private carriagesFacade = inject(CarriagesFacade);
+  private stationsFacade = inject(StationsFacade);
 
   public profile = this.profileFacade.profile;
   public carriages = toSignal(
@@ -51,6 +60,19 @@ export class OrdersPageComponent {
   // need to check request with api/orders?all-true api/orders?all=false
 
   public mockOrder = mockOrderResponse;
+
+  constructor() {
+    this.stationsFacade.getStations();
+    // its empty after init
+    console.log(this.stationsFacade.stations());
+  }
+
+  public ngOnInit(): void {
+    this.stationsFacade.getStations();
+    // its empty after init
+    console.log('stations in init ');
+    console.log(this.stationsFacade.stations());
+  }
 
   public calculateJourneyDetails(journeyData: Order) {
     const {
@@ -150,6 +172,8 @@ export class OrdersPageComponent {
       no: 'No, just go back.',
     };
 
+    // TBD
+    // USer id to user name PIPE
     this.dialogs
       .open<boolean>(TUI_CONFIRM, {
         label: `Are you sure you want to delete the Order № - ${orderId} of User - ${userId}?`,
