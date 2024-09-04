@@ -1,0 +1,28 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .registration-form-wrapper {
+    max-width: 900px;
+    margin: 0 60px;
+    width: 100%;
+
+    .tui-form {
+      &__loader {
+        display: flex;
+        width: fit-content;
+        margin: 1rem 0;
+      }
+
+      &__buttons {
+        align-items: center;
+        flex-direction: row;
+        justify-content: end;
+        gap: 2rem;
+      }
+    }
+  }
+}

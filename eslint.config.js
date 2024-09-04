@@ -1,7 +1,7 @@
 // @ts-check
-const eslint = require('@eslint/js')
-const tseslint = require('typescript-eslint')
-const angular = require('angular-eslint')
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
 
 module.exports = tseslint.config(
   {
@@ -30,7 +30,20 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
-      semi: ['error', 'never'],
+      semi: ['error', 'always'],
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        {
+          accessibility: 'explicit',
+          overrides: {
+            accessors: 'off',
+            constructors: 'off',
+            methods: 'explicit',
+            properties: 'explicit',
+            parameterProperties: 'explicit',
+          },
+        },
+      ],
     },
   },
   {
@@ -41,4 +54,4 @@ module.exports = tseslint.config(
     ],
     rules: {},
   },
-)
+);

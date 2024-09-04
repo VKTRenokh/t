@@ -1,0 +1,10 @@
+:host {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.orders {
+  &__main {
+    padding-inline: 1rem;
+  }
+}

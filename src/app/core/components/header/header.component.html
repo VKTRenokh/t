@@ -1,0 +1,53 @@
+<header class="header-content-wrapper">
+  <nav tuiNavigationNav [style.position]="'sticky'">
+    <tui-tabs tuiFade>
+      <a tuiTab routerLink="/search" routerLinkActive>
+        Home
+      </a>
+      @if (isLoggedIn()) {
+        <a tuiTab routerLink="/profile" routerLinkActive>
+          Profile
+        </a>
+        <a tuiTab routerLink="/orders" routerLinkActive>
+          My Orders
+        </a>
+      } @else {
+        <a
+          tuiTab
+          routerLink="/login"
+          routerLinkActive
+          style="margin-left: auto"
+        >
+          Sign In
+        </a>
+        <a
+          tuiTab
+          routerLink="/registration"
+          routerLinkActive
+          style="margin-left: 2rem"
+        >
+          Sign Up
+        </a>
+      }
+      @if (isAdmin()) {
+        <a
+          tuiTab
+          routerLink="/admin/stations"
+          routerLinkActive
+          style="margin-left: auto"
+        >
+          Stations
+        </a>
+        <a
+          tuiTab
+          routerLink="/admin/routes"
+          routerLinkActive
+          >Routes</a
+        >
+        <a tuiTab routerLink="/profile" routerLinkActive>
+          Profile
+        </a>
+      }
+    </tui-tabs>
+  </nav>
+</header>

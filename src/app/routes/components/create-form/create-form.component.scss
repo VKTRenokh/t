@@ -1,0 +1,26 @@
+.tui-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+
+  &__sections {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+  }
+
+  &__submit {
+    align-self: center;
+  }
+}

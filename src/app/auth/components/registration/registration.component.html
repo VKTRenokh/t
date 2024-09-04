@@ -1,0 +1,79 @@
+@let isLoading = isLoading$ | async;
+
+<main class="main">
+  <div class="registration-form-wrapper">
+    <form
+      [formGroup]="registrationForm"
+      (ngSubmit)="onSubmit()"
+      class="tui-form"
+    >
+      <h3 class="tui-form__header">Registration</h3>
+
+      @if (email.value | tuiEmails; as emails) {
+        <div class="tui-form__row">
+          <tui-input formControlName="email">
+            Email
+            @if (emails.length) {
+              <ng-template tuiDataList>
+                <tui-data-list-wrapper [items]="emails" />
+              </ng-template>
+            }
+          </tui-input>
+          <tui-error
+            formControlName="email"
+            [error]="[] | tuiFieldError | async"
+          />
+        </div>
+      }
+
+      <div class="tui-form__row">
+        <tui-input-password
+          tuiTextfieldSize="s"
+          formControlName="password"
+        >
+          Password
+          <input tuiTextfieldLegacy type="password" />
+        </tui-input-password>
+        <tui-error
+          formControlName="password"
+          [error]="[] | tuiFieldError | async"
+        />
+      </div>
+
+      <div class="tui-form__row">
+        <tui-input-password
+          tuiTextfieldSize="s"
+          formControlName="passwordRepeat"
+        >
+          Repeat Password
+          <input tuiTextfieldLegacy type="password" />
+        </tui-input-password>
+        <tui-error
+          formControlName="passwordRepeat"
+          [error]="[] | tuiFieldError | async"
+        />
+      </div>
+
+      <div class="tui-form__row">
+        <tui-error [error]="error$ | async" />
+        <div class="tui-form__buttons">
+          <tui-loader
+            class="tui-form__loader"
+            [overlay]="true"
+            [showLoader]="!!isLoading"
+          >
+            <button
+              type="submit"
+              [disabled]="registrationForm.invalid"
+              tuiButton
+            >
+              Register
+            </button>
+          </tui-loader>
+
+          <a tuiLink routerLink="/login">Sign In</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

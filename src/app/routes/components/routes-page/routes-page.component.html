@@ -1,0 +1,7 @@
+<button tuiButton (click)="create()">Create</button>
+
+<tui-expand [expanded]="isFormOpened()">
+  <tra-create-form (create)="closeForm()" [edit]="edit()" />
+</tui-expand>
+
+<tra-routes-list (edit)="handleEditedData($event)" />

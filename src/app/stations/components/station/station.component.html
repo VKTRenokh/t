@@ -1,0 +1,36 @@
+@let station = stationInput();
+<div
+  class="station__container"
+  tuiCardLarge
+  tuiSurface="elevated"
+>
+  <header tuiHeader>
+    <h3 tuiTitle>{{ station.city }}</h3>
+  </header>
+  <div class="coordinates">
+    <span
+      >{{ station.latitude }}, {{ station.longitude }}</span
+    >
+  </div>
+  <div class="connections">
+    <h2>Connected to:</h2>
+    @if (station.connectedTo.length) {
+      <p>
+        {{ station | connectedNames }}
+      </p>
+    } @else {
+      <p>There are no connected stations</p>
+    }
+  </div>
+  <aside tuiAccessories>
+    <button
+      tuiButton
+      title="Delete"
+      size="s"
+      appearance="secondary"
+      (click)="handleDelete()"
+    >
+      <tui-icon icon="@tui.trash" />
+    </button>
+  </aside>
+</div>

@@ -1,0 +1,18 @@
+<div class="routes__container">
+  @for (route of paginatedRoutes(); track $index) {
+    <tra-route
+      [routeInput]="route"
+      (edit)="handleOutput($event)"
+    />
+  }
+  @if (routes()?.length) {
+    <tui-pagination
+      [length]="totalPages()!"
+      [index]="currentPage()!"
+      (indexChange)="goToPage($event)"
+    >
+    </tui-pagination>
+  }
+</div>
+
+<tui-error [error]="error$ | async" />

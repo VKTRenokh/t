@@ -1,0 +1,63 @@
+@let isLoading = isLoading$ | async;
+<main class="main">
+  <div class="login-form-wrapper">
+    <form
+      [formGroup]="loginForm"
+      class="tui-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <h3 class="tui-form__header">Login</h3>
+      <div class="tui-form__row">
+        <tui-input formControlName="email">
+          Email
+          <input
+            type="text"
+            formControlName="email"
+            placeholder="Enter email here"
+            tuiTextfieldLegacy
+          />
+          <span class="tui-required"></span>
+        </tui-input>
+        <tui-error
+          formControlName="email"
+          [error]="[] | tuiFieldError | async"
+        />
+      </div>
+      <div class="tui-form__row">
+        <tui-input-password formControlName="password">
+          Password
+          <input
+            type="text"
+            formControlName="password"
+            tuiTextfieldLegacy
+          />
+          <span class="tui-required"></span>
+        </tui-input-password>
+        <tui-error
+          formControlName="password"
+          [error]="[] | tuiFieldError | async"
+        />
+      </div>
+      <div class="tui-form__row">
+        <tui-error [error]="error$ | async" />
+        <div class="tui-form__buttons">
+          <tui-loader
+            class="tui-form__loader"
+            [overlay]="true"
+            [showLoader]="!!isLoading"
+          >
+            <button
+              tuiButton
+              type="submit"
+              class="tui-form__button"
+              [disabled]="loginForm.invalid"
+            >
+              Submit
+            </button>
+          </tui-loader>
+          <a tuiLink routerLink="/registration">Signup</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

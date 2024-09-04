@@ -1,0 +1,56 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  [tuiNumberFormat]="numberFormat"
+  class="tui-form"
+>
+  @defer {
+    <tra-map
+      formControlName="latLng"
+      [stations]="stations()"
+    />
+  }
+  <tui-input formControlName="city" class="tui-space_top-5">
+    Station name
+    <input
+      type="text"
+      tuiTextfieldLegacy
+      formControlName="city"
+    />
+  </tui-input>
+  <tui-error
+    [error]="[] | tuiFieldError | async"
+    formControlName="city"
+  />
+  <tui-input-number formControlName="lat">
+    Latitude
+  </tui-input-number>
+  <tui-input-number formControlName="lng">
+    Longitude
+  </tui-input-number>
+  <form formGroupName="relations">
+    @for (
+      control of relations.controls;
+      let i = $index;
+      track i
+    ) {
+      <tui-combo-box [formControlName]="i">
+        Connection {{ i + 1 }}
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="cities() | tuiFilterByInput"
+          [disabledItemHandler]="disabledItemHandler"
+        ></tui-data-list-wrapper>
+        <input type="text" tuiTextfieldLegacy />
+      </tui-combo-box>
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        [formControlName]="i"
+      />
+    }
+  </form>
+  <button tuiButton type="submit" [disabled]="form.invalid">
+    Save
+  </button>
+</form>
+<tra-stations-list />
