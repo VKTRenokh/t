@@ -63,15 +63,10 @@ export class OrdersPageComponent implements OnInit {
 
   constructor() {
     this.stationsFacade.getStations();
-    // its empty after init
-    console.log(this.stationsFacade.stations());
   }
 
   public ngOnInit(): void {
     this.stationsFacade.getStations();
-    // its empty after init
-    console.log('stations in init ');
-    console.log(this.stationsFacade.stations());
   }
 
   public calculateJourneyDetails(journeyData: Order) {
@@ -137,9 +132,6 @@ export class OrdersPageComponent implements OnInit {
   // remuve
   public needtoremove() {
     this.carriagesFacade.getCarriages();
-    console.log(this.profile());
-    console.log(this.mockOrder);
-    console.log(this.carriages());
 
     this.http.get('/api/order').subscribe({
       next: response => {

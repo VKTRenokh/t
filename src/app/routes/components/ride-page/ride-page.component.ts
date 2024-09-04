@@ -276,9 +276,6 @@ export class RidePageComponent implements OnInit {
       .pipe(
         switchMap(result => {
           if (result) {
-            console.log('Processing deletion here');
-            console.log(this.id(), rideId);
-
             this.rideFacade.deleteRide(this.id(), rideId);
           }
           return [];
