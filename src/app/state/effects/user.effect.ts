@@ -6,16 +6,14 @@ import {
   ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
 import { UserService } from '../../core/services/user/user.service';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { UserActions } from '../actions/user.action';
-import { TuiAlertService } from '@taiga-ui/core';
 import { AuthActions } from '../actions/auth.action';
 
 @Injectable()
 export class UserEffects {
   private actions = inject(Actions);
   private userService = inject(UserService);
-  private alertService = inject(TuiAlertService);
 
   public initEffect = createEffect(() =>
     this.actions.pipe(
@@ -76,43 +74,4 @@ export class UserEffects {
       ),
     ),
   );
-
-  public showSuccessToast = createEffect(
-    () =>
-      this.actions.pipe(
-        ofType(
-          UserActions.updateProfileSuccess,
-          UserActions.updatePasswordSuccess,
-        ),
-        tap(() =>
-          this.showToast(
-            'Success',
-            'Operation completed successfully',
-            'success',
-          ),
-        ),
-      ),
-    { dispatch: false },
-  );
-
-  public showErrorToast = createEffect(
-    () =>
-      this.actions.pipe(
-        ofType(UserActions.failure),
-        tap(({ error }) =>
-          this.showToast('Error', error.message, 'error'),
-        ),
-      ),
-    { dispatch: false },
-  );
-
-  private showToast(
-    label: string,
-    message: string,
-    appearance: 'success' | 'error',
-  ): void {
-    this.alertService
-      .open(message, { label, appearance })
-      .subscribe();
-  }
 }

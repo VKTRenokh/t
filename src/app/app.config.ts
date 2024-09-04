@@ -32,6 +32,7 @@ import { rideReducer } from './state/reducers/rides.reducer';
 import { RideEffects } from './state/effects/ride.effect';
 import { ordersReducer } from './state/reducers/orders.reducer';
 import { OrdersEffects } from './state/effects/orders.effect';
+import { ToastsEffects } from './state/effects/toasts.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -49,6 +50,7 @@ export const appConfig: ApplicationConfig = {
       orders: ordersReducer,
     }),
     provideEffects(
+      ToastsEffects,
       AuthEffects,
       UserEffects,
       StationsEffects,
