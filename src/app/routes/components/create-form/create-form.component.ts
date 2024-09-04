@@ -70,37 +70,13 @@ export class CreateFormComponent {
   public create = output();
   public edit = input<Route | undefined>();
 
-  private updatingPath = signal<number[]>([]);
-  private updatingCarriages = signal<string[]>([]);
-  constructor() {
-    this.stationsFacade.getStations();
-    effect(
-      () => {
-        const updateData = this.edit();
-        this.updatingPath.set(
-          updateData ? updateData.path : [],
-        );
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        const updateData = this.edit();
-        this.updatingCarriages.set(
-          updateData ? updateData.carriages : [],
-        );
-      },
-      { allowSignalWrites: true },
-    );
-  }
-
   public form = this.formBuilder.group({
     path: this.formBuilder.control<number[]>(
-      this.updatingPath(),
+      [],
       [requiredArray],
     ),
     carriages: this.formBuilder.control<string[]>(
-      this.updatingCarriages(),
+      [],
       [requiredArray],
     ),
   });
@@ -128,19 +104,40 @@ export class CreateFormComponent {
       ),
   );
 
+  constructor() {
+    this.stationsFacade.getStations();
+
+    effect(() => {
+      this.updateForm();
+    });
+  }
+
+  private updateForm() {
+    const route = this.edit();
+
+    if (!route) {
+      return;
+    }
+
+    this.form.patchValue({
+      path: route.path,
+      carriages: route.carriages,
+    });
+  }
+
   public submit() {
     const updateData = this.edit();
     if (!updateData) {
       this.routesFacade.createRoute(
         this.form.getRawValue(),
       );
-    } else {
-      console.log(this.form.getRawValue());
-      this.routesFacade.updateRoute(
-        updateData.id,
-        this.form.getRawValue(),
-      );
+      return;
     }
+
+    this.routesFacade.updateRoute(
+      updateData.id,
+      this.form.getRawValue(),
+    );
 
     this.create.emit();
   }

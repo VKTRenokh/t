@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   output,
 } from '@angular/core';
@@ -38,12 +37,6 @@ export class RoutesListComponent {
   protected currentPage = this.routesFacade.currentPage;
   protected totalPages = this.routesFacade.totalPages;
   protected error$ = this.routesFacade.error$;
-
-  constructor() {
-    effect(() =>
-      console.log(this.totalPages(), this.currentPage()),
-    );
-  }
 
   protected handleOutput(event: Route | undefined) {
     this.edit.emit(event);
